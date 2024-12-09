@@ -1,3 +1,4 @@
+import Footer from "./Footer";
 import Header from "./Header";
 
 function PageContent({children}) {
@@ -6,6 +7,7 @@ function PageContent({children}) {
         <div>
             <Header />
             <main>{children}</main>
+            <Footer />
         </div>
     )
 }
