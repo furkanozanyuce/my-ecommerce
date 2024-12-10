@@ -39,17 +39,17 @@ function Slider({ slides }) {
                 }}
               >
                 <div className="absolute inset-0 flex flex-col items-center md:items-start justify-center md:ml-[100px] text-center px-4 lg:px-12">
-                  <h3 className="text-xs sm:text-sm uppercase text-white mb-2">
+                  <h3 className="text-xs sm:text-sm uppercase text-white mb-2 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     {slide.title}
                   </h3>
-                  <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4">
+                  <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     {slide.subtitle}
                   </h1>
-                  <p className="text-sm sm:text-lg text-white mb-6 px-8 md:px-0">
+                  <p className="text-sm sm:text-lg text-white mb-6 px-8 md:px-0 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     {slide.description}
                   </p>
                   <div className="md:flex gap-3">
-                    <p className="text-2xl sm:text-4xl font-bold text-white">
+                    <p className="text-2xl sm:text-4xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                       {slide.price}
                     </p>
                     <button className="px-5 py-2 font-bold bg-green-500 text-white rounded-md shadow-lg hover:bg-green-600 transition">
