@@ -1,10 +1,13 @@
+import Slider from "../components/Slider";
 import PageContent from "../layout/PageContent";
 
 function HomePage() {
 
     return (
         <div>
-            <PageContent />
+            <PageContent>
+                <Slider />
+            </PageContent>
         </div>
     )
 }

@@ -9,12 +9,12 @@ function Header() {
     };
 
     return (
-        <div className="font-monts min-h-dvh">
-            <div className="flex justify-between mt-[40px] mx-[30px]">
+        <div className="font-monts">
+            <div className="flex justify-between mt-[40px] mx-[30px] mb-[25px]">
                 <div>
                     <h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42]">Bandage</h3>
                 </div>
-                <nav className="hidden md:flex justify-between items-center px-[30px] mt-6">
+                <nav className="hidden md:flex justify-between items-center px-[30px]">
                     <ul className="flex gap-8 text-gray-500">
                         <li><a href="#home" className="hover:text-black">Home</a></li>
                         <li><a href="#product" className="hover:text-black">Product</a></li>
@@ -22,7 +22,7 @@ function Header() {
                         <li><a href="#contact" className="hover:text-black">Contact</a></li>
                     </ul>
                 </nav>
-                <div className="text-[#3C403D] flex gap-[20px] self-center">
+                <div className="text-[#3C403D] flex gap-[20px] items-center">
                     <UserRound />
                     <Search />
                     <ShoppingCart />
