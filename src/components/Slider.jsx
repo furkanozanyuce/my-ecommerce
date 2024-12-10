@@ -33,10 +33,9 @@ function Slider({ slides }) {
               className="w-full flex-shrink-0"
             >
               <div
-                className="relative h-192 bg-[#23856D]"
+                className="relative h-192 bg-cover bg-center"
                 style={{
                   backgroundImage: `url(${slide.image})`,
-                  ...slide.bgStyle,
                 }}
               >
                 <div className="absolute inset-0 flex flex-col items-center md:items-start justify-center md:ml-[100px] text-center px-4 lg:px-12">
