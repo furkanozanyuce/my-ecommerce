@@ -1,4 +1,3 @@
-// src/components/Slider.jsx
 import React, { useState, useEffect } from "react";
 
 function Slider() {
@@ -45,9 +44,7 @@ function Slider() {
 
   return (
     <div className="relative w-full font-monts">
-      {/* Slider Wrapper */}
       <div className="overflow-hidden">
-        {/* Slides Container */}
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -57,14 +54,12 @@ function Slider() {
               key={slide.id}
               className="w-full flex-shrink-0"
             >
-              {/* Slide Image */}
               <div
                 className="relative h-192 bg-center bg-cover"
                 style={{
                   backgroundImage: `url(${slide.image})`,
                 }}
               >
-                {/* Overlay Content */}
                 <div className="absolute inset-0 flex flex-col items-center md:items-start justify-center text-center px-4 lg:px-12">
                   <h3 className="text-xs sm:text-sm uppercase text-white mb-2">
                     {slide.title}
@@ -85,7 +80,6 @@ function Slider() {
         </div>
       </div>
 
-      {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
         className="absolute top-1/2 left-5 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition"
@@ -101,7 +95,6 @@ function Slider() {
         &#10095;
       </button>
 
-      {/* Indicators */}
       <div className="absolute bottom-5 w-full flex justify-center gap-2">
         {slides.map((_, index) => (
           <button
