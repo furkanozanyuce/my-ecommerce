@@ -60,17 +60,17 @@ function Slider() {
                   backgroundImage: `url(${slide.image})`,
                 }}
               >
-                <div className="absolute inset-0 flex flex-col items-center md:items-start justify-center text-center px-4 lg:px-12">
+                <div className="absolute inset-0 flex flex-col items-center md:items-start justify-center md:ml-[100px] text-center px-4 lg:px-12">
                   <h3 className="text-xs sm:text-sm uppercase text-white mb-2">
                     {slide.title}
                   </h3>
                   <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4">
                     {slide.subtitle}
                   </h1>
-                  <p className="text-sm sm:text-lg text-white mb-6">
+                  <p className="text-sm sm:text-lg text-white mb-6 px-8 md:px-0">
                     {slide.description}
                   </p>
-                  <button className="px-5 py-2 bg-green-500 text-white rounded-md shadow-lg hover:bg-green-600 transition">
+                  <button className="px-5 py-2 font-bold bg-green-500 text-white rounded-md shadow-lg hover:bg-green-600 transition">
                     {slide.buttonText}
                   </button>
                 </div>
@@ -82,14 +82,14 @@ function Slider() {
 
       <button
         onClick={prevSlide}
-        className="absolute top-1/2 left-5 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition"
+        className="absolute top-1/2 left-5 transform -translate-y-1/2 bg-black bg-opacity-20 text-white md:text-[30px] p-2 rounded-full hover:bg-opacity-50 transition"
         aria-label="Previous Slide"
       >
         &#10094;
       </button>
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-5 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition"
+        className="absolute top-1/2 right-5 transform -translate-y-1/2 bg-black bg-opacity-20 text-white md:text-[30px] p-2 rounded-full hover:bg-opacity-50 transition"
         aria-label="Next Slide"
       >
         &#10095;
