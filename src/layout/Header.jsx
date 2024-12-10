@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, Search, ShoppingCart, UserRound } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,7 +28,7 @@ function Header() {
                     <Search />
                     <ShoppingCart />
                     <button
-                        className="md:hidden"
+                        className="md:hidden hover:text-gray-500"
                         onClick={toggleMobileMenu}
                         aria-label="Toggle Menu"
                     >
@@ -36,11 +37,11 @@ function Header() {
                 </div>
             </div>
             {isMobileMenuOpen && (
-                <div className="flex flex-col items-center space-y-4 mt-6 text-gray-500 md:hidden">
-                    <a href="#home" className="hover:text-black">Home</a>
-                    <a href="#product" className="hover:text-black">Product</a>
-                    <a href="#pricing" className="hover:text-black">Pricing</a>
-                    <a href="#contact" className="hover:text-black">Contact</a>
+                <div className="flex flex-col items-center space-y-6 my-16 text-[30px] text-gray-500 md:hidden">
+                    <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
+                    <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Product</NavLink>
+                    <NavLink to="/pricing" activeClassName="selected" className="hover:text-black">Pricing</NavLink>
+                    <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
                 </div>
             )}
         </div>
