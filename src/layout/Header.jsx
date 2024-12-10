@@ -34,7 +34,7 @@ function Header() {
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
                     <button className="hover:text-gray-500 flex gap-2 font-semibold">
                         <UserRound />
-                        <p className="hidden md:block">Login / Register</p>
+                        <p className="hidden lg:block">Login / Register</p>
                     </button>
                     <button className="hover:text-gray-500">
                         <Search />
