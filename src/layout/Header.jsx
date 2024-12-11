@@ -21,7 +21,7 @@ function Header() {
                 <div>
                     <h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42]">Bandage</h3>
                 </div>
-                <nav className="hidden md:flex justify-between items-center px-[30px] font-semibold">
+                <nav className="hidden md:flex justify-between items-center px-[30px] font-semibold relative">
                     <ul className="flex gap-8 text-gray-500">
                         <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
                         <button onClick={toggleShopMenu} className="hover:text-black">Shop↓</button>
@@ -30,6 +30,26 @@ function Header() {
                         <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
                         <NavLink to="/pages" activeClassName="selected" className="hover:text-black">Pages</NavLink>
                     </ul>
+                    {isShopMenuOpen && (
+                        <div className="gap-24 absolute top-[20px] left-[100px] p-6 pr-[150px] bg-white z-50 justify-center my-8 text-l text-gray-500 hidden md:flex">
+                            <div className="flex flex-col gap-3">
+                                <p className="text-black font-semibold pb-4">Women</p>
+                                <a href="#" className="hover:text-black">Bags</a>
+                                <a href="#" className="hover:text-black">Belts</a>
+                                <a href="#" className="hover:text-black">Cosmetics</a>
+                                <a href="#" className="hover:text-black">Bags</a>
+                                <a href="#" className="hover:text-black">Hats</a>
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                <p className="text-black font-semibold pb-4">Men</p>
+                                <a href="/" className="hover:text-black">Bags</a>
+                                <a href="#" className="hover:text-black">Belts</a>
+                                <a href="#" className="hover:text-black">Bags</a>
+                                <a href="#" className="hover:text-black">Contact</a>
+                                <a href="#" className="hover:text-black">Hats</a>
+                            </div>
+                        </div>
+                    )}
                 </nav>
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
                     <button className="hover:text-gray-500 flex gap-2 font-semibold">
@@ -60,26 +80,6 @@ function Header() {
                     <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Product</NavLink>
                     <NavLink to="/pricing" activeClassName="selected" className="hover:text-black">Pricing</NavLink>
                     <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
-                </div>
-            )}
-            {isShopMenuOpen && (
-                <div className="gap-24 justify-center my-8 text-xl text-gray-500 hidden md:flex">
-                    <div className="flex flex-col gap-2">
-                        <p className="text-black font-semibold">Women</p>
-                        <a href="#" className="hover:text-black">Bags</a>
-                        <a href="#" className="hover:text-black">Belts</a>
-                        <a href="#" className="hover:text-black">Cosmetics</a>
-                        <a href="#" className="hover:text-black">Bags</a>
-                        <a href="#" className="hover:text-black">Hats</a>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <p className="text-black font-semibold">Men</p>
-                        <a href="/" className="hover:text-black">Bags</a>
-                        <a href="#" className="hover:text-black">Belts</a>
-                        <a href="#" className="hover:text-black">Bags</a>
-                        <a href="#" className="hover:text-black">Contact</a>
-                        <a href="#" className="hover:text-black">Hats</a>
-                    </div>
                 </div>
             )}
         </div>
