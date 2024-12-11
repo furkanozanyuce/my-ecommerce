@@ -62,7 +62,6 @@ function Slider({ slides }) {
           ))}
         </div>
       </div>
-
       <button
         onClick={prevSlide}
         className="absolute top-1/2 left-5 transform -translate-y-1/2 bg-black bg-opacity-20 text-white md:text-[30px] p-2 rounded-full hover:bg-opacity-50 transition"
@@ -77,7 +76,6 @@ function Slider({ slides }) {
       >
         &#10095;
       </button>
-
       <div className="absolute bottom-5 w-full flex justify-center gap-2">
         {slides.map((_, index) => (
           <button
