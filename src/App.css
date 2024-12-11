@@ -2,3 +2,7 @@
 .selected {
     @apply text-black font-semibold;
 }
+
+/* *{
+    border: solid 1px red;
+} */
