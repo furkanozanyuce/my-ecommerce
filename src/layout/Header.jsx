@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { Heart, Menu, Search, ShoppingCart, UserRound } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useHistory} from 'react-router-dom';
 
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
+    const history = useHistory();
 
+
+    const signUpHandle = () => {
+        history.push("/signup");
+    }
+    const mainPageHandle = () => {
+        history.push("/");
+    }
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -19,7 +28,7 @@ function Header() {
         <div className="font-monts">
             <div className="flex justify-between mt-[40px] mx-[30px] mb-[25px]">
                 <div>
-                    <h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42]">Bandage</h3>
+                    <button onClick={mainPageHandle}><h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42]">Bandage</h3></button>
                 </div>
                 <nav className="hidden md:flex justify-between items-center px-[30px] font-semibold relative">
                     <ul className="flex gap-8 text-gray-500">
@@ -28,10 +37,10 @@ function Header() {
                         <NavLink to="/about" activeClassName="selected" className="hover:text-black">About</NavLink>
                         <NavLink to="/blog" activeClassName="selected" className="hover:text-black">Blog</NavLink>
                         <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
-                        <NavLink to="/pages" activeClassName="selected" className="hover:text-black">Pages</NavLink>
+                        <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Pages</NavLink>
                     </ul>
                     {isShopMenuOpen && (
-                        <div className="gap-24 absolute top-[20px] left-[100px] p-6 pr-[150px] bg-white z-50 justify-center my-8 text-l text-gray-500 hidden md:flex">
+                        <div className="gap-24 shadow-lg absolute top-[20px] left-[100px] p-6 pr-[150px] bg-white z-50 justify-center my-8 text-l text-gray-500 hidden md:flex">
                             <div className="flex flex-col gap-3">
                                 <p className="text-black font-semibold pb-4">Women</p>
                                 <a href="#" className="hover:text-black">Bags</a>
@@ -52,7 +61,7 @@ function Header() {
                     )}
                 </nav>
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
-                    <button className="hover:text-gray-500 flex gap-2 font-semibold">
+                    <button onClick={signUpHandle} className="hover:text-gray-500 flex gap-2 font-semibold">
                         <UserRound />
                         <p className="hidden lg:block">Login / Register</p>
                     </button>
