@@ -68,7 +68,6 @@ const SignupForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white w-full max-w-md p-6 rounded shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
         
-        {/* Name */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Name *</label>
           <input
@@ -79,7 +78,6 @@ const SignupForm = () => {
           {errors.name && <span className="text-red-500 text-sm">Name is required and must be at least 3 characters.</span>}
         </div>
 
-        {/* Email */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Email *</label>
           <input
@@ -90,7 +88,6 @@ const SignupForm = () => {
           {errors.email && <span className="text-red-500 text-sm">Email is required and must be valid.</span>}
         </div>
 
-        {/* Password */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Password *</label>
           <input
@@ -110,7 +107,6 @@ const SignupForm = () => {
           )}
         </div>
 
-        {/* Confirm Password */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Confirm Password *</label>
           <input
@@ -124,7 +120,6 @@ const SignupForm = () => {
           {errors.confirmPassword && <span className="text-red-500 text-sm">{errors.confirmPassword.message}</span>}
         </div>
 
-        {/* Role */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Role *</label>
           <select
@@ -142,7 +137,6 @@ const SignupForm = () => {
 
         {storeFieldsVisible && (
           <>
-            {/* Store Name */}
             <div className="mb-4">
               <label className="block mb-2 font-semibold">Store Name *</label>
               <input
@@ -153,7 +147,6 @@ const SignupForm = () => {
               {errors.storeName && <span className="text-red-500 text-sm">Store Name is required and must be at least 3 characters.</span>}
             </div>
 
-            {/* Store Phone */}
             <div className="mb-4">
               <label className="block mb-2 font-semibold">Store Phone *</label>
               <input
@@ -164,7 +157,6 @@ const SignupForm = () => {
               {errors.storePhone && <span className="text-red-500 text-sm">Store Phone is required and must be a valid Türkiye phone number.</span>}
             </div>
 
-            {/* Store Tax ID */}
             <div className="mb-4">
               <label className="block mb-2 font-semibold">Store Tax ID *</label>
               <input
@@ -175,7 +167,6 @@ const SignupForm = () => {
               {errors.storeTaxNo && <span className="text-red-500 text-sm">Store Tax ID is required and must match the pattern "TXXXXVXXXXXX".</span>}
             </div>
 
-            {/* Store Bank Account */}
             <div className="mb-4">
               <label className="block mb-2 font-semibold">Store Bank Account *</label>
               <input
