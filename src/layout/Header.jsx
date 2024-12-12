@@ -5,6 +5,7 @@ import { NavLink, useHistory, Link } from "react-router-dom";
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
     const history = useHistory();
 
 
@@ -20,13 +21,17 @@ function Header() {
         setIsShopMenuOpen(!isShopMenuOpen);
     };
 
+    const toggleLoginMenu = () => {
+        setIsLoginOpen(!isLoginOpen);
+    };
+
     return (
         <div className="font-monts">
             <div className="flex justify-between mt-[40px] mx-[30px] mb-[25px]">
                 <div>
                     <button onClick={mainPageHandle}><h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42]">Bandage</h3></button>
                 </div>
-                <nav className="hidden md:flex justify-between items-center px-[30px] font-semibold relative">
+                <nav className="hidden lg:flex justify-between items-center px-[30px] font-semibold relative">
                     <ul className="flex gap-8 text-gray-500">
                         <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
                         <button onClick={toggleShopMenu} className="hover:text-black">Shop↓</button>
@@ -56,14 +61,14 @@ function Header() {
                         </div>
                     )}
                 </nav>
-                <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
+                <div className="text-[#3C403D] sm:text-[#23A6F0] flex gap-[20px] items-center">
                     <div className="flex gap-2">
-                        <button className="hover:text-gray-500 font-semibold">
+                        <button onClick={toggleLoginMenu} className="hover:text-gray-500 font-semibold">
                             <UserRound />
                         </button>
-                        <div className="flex gap-2">
+                        <div className="hidden gap-2 md:flex">
                             <Link to="/login" className="hover:text-gray-500 font-semibold">Login</Link>
-                            <p>/</p>
+                            <p>|</p>
                             <Link to="/signup" className="hover:text-gray-500 font-semibold">Register</Link>
                         </div>
                     </div>
@@ -77,7 +82,7 @@ function Header() {
                         <Heart />
                     </button>
                     <button
-                        className="md:hidden hover:text-gray-500"
+                        className="lg:hidden hover:text-gray-500"
                         onClick={toggleMobileMenu}
                         aria-label="Toggle Menu"
                     >
@@ -86,11 +91,17 @@ function Header() {
                 </div>
             </div>
             {isMobileMenuOpen && (
-                <div className="flex flex-col items-center space-y-6 my-16 text-[30px] text-gray-500 md:hidden">
+                <div className="flex flex-col items-center space-y-6 my-16 text-[30px] text-gray-500 lg:hidden">
                     <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
                     <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Product</NavLink>
                     <NavLink to="/pricing" activeClassName="selected" className="hover:text-black">Pricing</NavLink>
                     <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
+                </div>
+            )}
+            {isLoginOpen && (
+                <div className="flex flex-col items-center space-y-6 my-12 text-[30px] text-gray-500 md:hidden">
+                    <NavLink exact to="/login" activeClassName="selected" className="hover:text-black">Login</NavLink>
+                    <NavLink to="/signup" activeClassName="selected" className="hover:text-black">Register</NavLink>
                 </div>
             )}
         </div>
