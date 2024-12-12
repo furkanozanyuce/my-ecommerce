@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useHistory, Link } from 'react-router-dom';
 import PageContent from '../layout/PageContent';
+import { toast } from 'react-toastify';
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -48,11 +49,11 @@ const SignupForm = () => {
       }
 
       await axiosInstance.post('/signup', postData);
-      alert('You need to click link in email to activate your account!');
+      toast.success('You need to click link in email to activate your account!');
       history.goBack();
     } catch (error) {
       console.error('Error during signup:', error);
-      alert('Signup failed. Please try again.');
+      toast.error('Signup failed. Please try again.');
     }
   };
 

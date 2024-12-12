@@ -4,6 +4,9 @@ import "./index.css"
 import HomePage from "./pages/HomePage"
 import ShopPage from './pages/ShopPage'
 import SignupForm from './pages/SignupForm'
+import LoginForm from './pages/LoginForm'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -19,7 +22,11 @@ function App() {
         <Route path="/signup">
           <SignupForm />
         </Route>
+        <Route path="/login">
+          <LoginForm />
+        </Route>
       </Switch>
+      <ToastContainer />
     </div>
   )
 }

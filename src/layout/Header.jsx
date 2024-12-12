@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Heart, Menu, Search, ShoppingCart, UserRound } from "lucide-react";
-import { NavLink } from "react-router-dom";
-import { useHistory} from 'react-router-dom';
+import { NavLink, useHistory, Link } from "react-router-dom";
 
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,9 +8,6 @@ function Header() {
     const history = useHistory();
 
 
-    const signUpHandle = () => {
-        history.push("/signup");
-    }
     const mainPageHandle = () => {
         history.push("/");
     }
@@ -61,10 +57,16 @@ function Header() {
                     )}
                 </nav>
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
-                    <button onClick={signUpHandle} className="hover:text-gray-500 flex gap-2 font-semibold">
-                        <UserRound />
-                        <p className="hidden lg:block">Login / Register</p>
-                    </button>
+                    <div className="flex gap-2">
+                        <button className="hover:text-gray-500 font-semibold">
+                            <UserRound />
+                        </button>
+                        <div className="flex gap-2">
+                            <Link to="/login" className="hover:text-gray-500 font-semibold">Login</Link>
+                            <p>/</p>
+                            <Link to="/signup" className="hover:text-gray-500 font-semibold">Register</Link>
+                        </div>
+                    </div>
                     <button className="hover:text-gray-500">
                         <Search />
                     </button>
