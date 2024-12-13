@@ -95,7 +95,7 @@ const LoginForm = () => {
               ></path>
             </svg>
           )}
-          {isSubmitting ? 'Submitting...' : 'Sign Up'}
+          {isSubmitting ? 'Submitting...' : 'Log In'}
         </button>
 
         <div className="mt-4 text-center">
