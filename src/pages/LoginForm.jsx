@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useHistory, Link } from 'react-router-dom';
 import PageContent from '../layout/PageContent';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/userActions';
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
 });
 
 const LoginForm = () => {
-  const { register, handleSubmit, watch, setValue, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     try {
@@ -20,7 +22,11 @@ const LoginForm = () => {
         password: data.password,
       };
 
-      await axiosInstance.post('/login', postData);
+      const response = await axiosInstance.post('/login', postData);
+
+      const userData = response.data;
+      dispatch(setUser(userData));
+
       toast.success('Login successful!');
       history.push("/");
     } catch (error) {

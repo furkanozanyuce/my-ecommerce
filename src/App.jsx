@@ -7,11 +7,14 @@ import SignupForm from './pages/SignupForm'
 import LoginForm from './pages/LoginForm'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux'
+import store from "./redux/store"
 
 function App() {
 
   return (
     <div>
+      <Provider store={store}>
       <Switch>
         <Route path="/" exact>
           <HomePage />
@@ -27,6 +30,7 @@ function App() {
         </Route>
       </Switch>
       <ToastContainer />
+      </Provider>
     </div>
   )
 }
