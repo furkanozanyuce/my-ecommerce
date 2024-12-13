@@ -31,7 +31,7 @@ const LoginForm = () => {
 
   return (
     <PageContent>
-    <div className="flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat p-4" style={{ backgroundImage: `url('/images/signup-img.jpg')` }}>
+    <div className="flex font-monts items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat p-4" style={{ backgroundImage: `url('/images/signup-img.jpg')` }}>
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white w-full max-w-md p-6 rounded shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Log In</h2>
 
