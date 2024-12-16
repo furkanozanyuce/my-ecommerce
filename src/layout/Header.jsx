@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Heart, Menu, Search, ShoppingCart, UserRound } from "lucide-react";
 import { NavLink, useHistory, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Gravatar from 'react-gravatar';
 
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -64,18 +65,29 @@ function Header() {
                     )}
                 </nav>
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
-                    <div className="flex gap-2">
-                        <button onClick={toggleLoginMenu} className="hover:text-gray-500 font-semibold">
-                            <UserRound />
-                        </button>
+                    <div className="flex gap-2 items-center">
+                        {user && user.email ? (
+                            <Gravatar
+                                email={user.email}
+                                size={40}
+                                default="identicon" // You can choose other default images like 'monsterid', 'retro', etc.
+                                className="rounded-full cursor-pointer"
+                                onClick={toggleLoginMenu}
+                                alt="User Avatar"
+                            />
+                        ) : (
+                            <button onClick={toggleLoginMenu} className="hover:text-gray-500 font-semibold">
+                                <UserRound />
+                            </button>
+                        )}
                         <div className="hidden gap-2 md:flex">
                             {user ? (
                                 <p className="font-semibold hover:text-gray-500 cursor-pointer">{user.name}</p>
                             ) : (
                                 <>
-                                <Link to="/login" className="hover:text-gray-500 font-semibold">Login</Link>
-                                <p>|</p>
-                                <Link to="/signup" className="hover:text-gray-500 font-semibold">Register</Link>
+                                    <Link to="/login" className="hover:text-gray-500 font-semibold">Login</Link>
+                                    <p>|</p>
+                                    <Link to="/signup" className="hover:text-gray-500 font-semibold">Register</Link>
                                 </>
                             )}
                         </div>
@@ -112,10 +124,10 @@ function Header() {
                         <p className="hover:text-black">{user.name}</p>
                     </div>
                 ) :
-                <div className="flex flex-col items-center space-y-6 my-12 text-[30px] text-gray-500 md:hidden">
-                    <NavLink exact to="/login" activeClassName="selected" className="hover:text-black">Login</NavLink>
-                    <NavLink to="/signup" activeClassName="selected" className="hover:text-black">Register</NavLink>
-                </div>
+                    <div className="flex flex-col items-center space-y-6 my-12 text-[30px] text-gray-500 md:hidden">
+                        <NavLink exact to="/login" activeClassName="selected" className="hover:text-black">Login</NavLink>
+                        <NavLink to="/signup" activeClassName="selected" className="hover:text-black">Register</NavLink>
+                    </div>
             )}
         </div>
     )
