@@ -174,9 +174,17 @@ function ShopPage() {
 
     const goToPage = (pageNum) => {
         if (pageNum >= 1 && pageNum <= totalPages) {
-            setCurrentPage(pageNum);
+          setCurrentPage(pageNum);
         }
-    };
+      };
+
+    const goToPreviousPage = () => {
+        goToPage(currentPage - 1);
+      };
+    
+      const goToNextPage = () => {
+        goToPage(currentPage + 1);
+      };
 
     return (
         <div>
@@ -265,11 +273,11 @@ function ShopPage() {
                     {totalPages > 1 && (
                         <div className="flex items-center justify-center mt-8 space-x-2 text-sm">
                             <button
-                                onClick={() => goToPage(1)}
+                                onClick={goToPreviousPage}
                                 disabled={currentPage === 1}
                                 className={`px-3 py-1 border border-gray-300 rounded ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`}
                             >
-                                First
+                                Previous
                             </button>
 
                             {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
@@ -289,7 +297,7 @@ function ShopPage() {
                             })}
 
                             <button
-                                onClick={() => goToPage(currentPage + 1)}
+                                onClick={goToNextPage}
                                 disabled={currentPage === totalPages}
                                 className={`px-3 py-1 border border-gray-300 rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`}
                             >
