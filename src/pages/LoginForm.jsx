@@ -27,6 +27,10 @@ const LoginForm = () => {
       const userData = response.data;
       dispatch(setUser(userData));
 
+      if (data.rememberMe && userData.token) {
+        localStorage.setItem('token', userData.token);
+      }
+
       toast.success('Login successful!');
       history.push("/");
     } catch (error) {
@@ -67,6 +71,15 @@ const LoginForm = () => {
             </span>
           )}
         </div>
+
+        <div className="mb-4 flex items-center">
+            <input 
+              type="checkbox" 
+              {...register('rememberMe')} 
+              className="mr-2 h-4 w-4 rounded border-gray-300" 
+            />
+            <label className="font-semibold text-sm">Remember Me</label>
+          </div>
 
         <button
           type="submit"
