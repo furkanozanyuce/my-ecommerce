@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { setUser } from './redux/userActions'
+import { setUser } from './redux/actions/clientActions'
 import axios from 'axios'
 
 const axiosInstance = axios.create({

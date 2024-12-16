@@ -4,8 +4,7 @@ import { useHistory, Link } from 'react-router-dom';
 import PageContent from '../layout/PageContent';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../redux/userActions';
-
+import { setUser } from '../redux/actions/clientActions';
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
 });

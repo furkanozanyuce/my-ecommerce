@@ -9,7 +9,7 @@ function Header() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const history = useHistory();
 
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.client.user);
 
     const mainPageHandle = () => {
         history.push("/");
