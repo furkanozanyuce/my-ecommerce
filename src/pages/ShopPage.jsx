@@ -9,7 +9,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250', // Replace with actual image
+        imageUrl: '/images/shop1.jpg', // Replace with actual image
     },
     {
         id: 2,
@@ -18,7 +18,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop2.jpg',
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop3.jpg',
     },
     {
         id: 4,
@@ -36,7 +36,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop4.jpg',
     },
     {
         id: 5,
@@ -45,7 +45,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop5.jpg',
     },
     {
         id: 6,
@@ -54,7 +54,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop6.jpg',
     },
     {
         id: 7,
@@ -63,7 +63,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop7.jpg',
     },
     {
         id: 8,
@@ -72,7 +72,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop8.jpg',
     },
     {
         id: 9,
@@ -81,7 +81,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop9.jpg',
     },
     {
         id: 10,
@@ -90,7 +90,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop10.jpg',
     },
     {
         id: 11,
@@ -99,7 +99,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop11.jpg',
     },
     {
         id: 12,
@@ -108,7 +108,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop12.jpg',
     },
     {
         id: 13,
@@ -117,7 +117,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop12.jpg',
     },
     {
         id: 14,
@@ -126,7 +126,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop12.jpg',
     },
     {
         id: 15,
@@ -135,7 +135,7 @@ const products = [
         price: '$16.48',
         salePrice: '$6.48',
         colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: 'https://via.placeholder.com/200x250',
+        imageUrl: '/images/shop12.jpg',
     },
     // ... Add as many products as needed
 ];
@@ -181,7 +181,7 @@ function ShopPage() {
     return (
         <div>
             <PageContent>
-                <div className="px-4 py-6 md:px-8 lg:px-12">
+                <div className="px-4 py-6 lg:px-12 font-monts">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 space-y-4 md:space-y-0">
                         <div>
                             <p className="text-gray-700 text-sm">Showing all {totalProducts} results</p>
@@ -234,14 +234,14 @@ function ShopPage() {
                             <div
                                 key={product.id}
                                 className={`border border-gray-200 rounded p-4 flex ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
-                                    } items-start`}
+                                    } text-center`}
                             >
                                 <img
                                     src={product.imageUrl}
                                     alt={product.title}
                                     className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded`}
                                 />
-                                <div className="flex-1">
+                                <div className={`${view === 'grid' ? 'gap-1' : 'gap-2 justify-center'} flex flex-col items-center`}>
                                     <h3 className="text-sm font-semibold text-gray-800 mb-1">{product.title}</h3>
                                     <p className="text-xs text-gray-500 mb-2">{product.department}</p>
                                     <div className="flex items-center space-x-2 mb-2">
