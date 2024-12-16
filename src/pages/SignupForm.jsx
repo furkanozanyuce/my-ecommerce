@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useHistory, Link } from 'react-router-dom';
 import PageContent from '../layout/PageContent';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRoles } from '../redux/actions/clientActions';
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -15,7 +17,10 @@ const SignupForm = () => {
       role_id: "3"
     }
   });
-  const [roles, setRoles] = useState([]);
+
+  const roles = useSelector(state => state.client.roles);
+  const dispatch = useDispatch();
+
   const [storeFieldsVisible, setStoreFieldsVisible] = useState(false);
   const history = useHistory();
 
@@ -23,14 +28,15 @@ const SignupForm = () => {
     const fetchRoles = async () => {
       try {
         const response = await axiosInstance.get('/roles');
-        setRoles(response.data)
+        dispatch(setRoles(response.data));
       } catch (error) {
         console.error('Error fetching roles:', error);
       }
     };
-
-    fetchRoles();
-  }, []);
+    if (roles.length === 0) {
+      fetchRoles();
+    }
+  }, [dispatch, roles.length]);
 
   const onSubmit = async (data) => {
     try {
