@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageContent from "../layout/PageContent";
+import Categories from '../components/Categories';
 
 const products = [
     {
@@ -190,6 +191,7 @@ function ShopPage() {
         <div>
             <PageContent>
                 <div className="px-4 py-6 lg:px-12 font-monts">
+                    <Categories />
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 space-y-4 md:space-y-0">
                         <div>
                             <p className="text-gray-700 text-sm">Showing all {totalProducts} results</p>
