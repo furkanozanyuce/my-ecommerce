@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from './redux/actions/clientActions'
 import { fetchCategories } from './redux/actions/productActions';
 import axios from 'axios'
+import ProductDetailPage from './pages/ProductDetailPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -62,6 +63,9 @@ function App() {
         </Route>
         <Route path="/login">
           <LoginForm />
+        </Route>
+        <Route path="/product/:id">
+          <ProductDetailPage />
         </Route>
       </Switch>
       <ToastContainer />
