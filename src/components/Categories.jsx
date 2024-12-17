@@ -9,7 +9,7 @@ const Categories = () => {
   const topCategories = [...categories].sort((a, b) => b.rating - a.rating).slice(0, 5);
 
   return (
-    <div className="p-4">
+    <div className="py-4  font-monts">
       <h2 className="text-2xl font-bold mb-4">Top Categories</h2>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         {topCategories.map((category) => (

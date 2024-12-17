@@ -6,7 +6,6 @@ import Gravatar from 'react-gravatar';
 
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const history = useHistory();
 
@@ -19,10 +18,6 @@ function Header() {
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
-    };
-
-    const toggleShopMenu = () => {
-        setIsShopMenuOpen(!isShopMenuOpen);
     };
 
     const toggleLoginMenu = () => {
@@ -146,7 +141,8 @@ function Header() {
             {isMobileMenuOpen && (
                 <div className="flex flex-col items-center space-y-6 my-16 text-[30px] text-gray-500 lg:hidden">
                     <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
-                    <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Product</NavLink>
+                    <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Shop</NavLink>
+                    <NavLink to="/product" activeClassName="selected" className="hover:text-black">Product</NavLink>
                     <NavLink to="/pricing" activeClassName="selected" className="hover:text-black">Pricing</NavLink>
                     <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
                 </div>
