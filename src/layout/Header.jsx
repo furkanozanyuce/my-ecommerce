@@ -11,6 +11,7 @@ function Header() {
     const history = useHistory();
 
     const user = useSelector((state) => state.client.user);
+    const categories = useSelector((state) => state.product.categories);
 
     const mainPageHandle = () => {
         history.push("/");
@@ -37,32 +38,64 @@ function Header() {
                 <nav className="hidden lg:flex justify-between items-center px-[30px] font-semibold relative">
                     <ul className="flex gap-8 text-gray-500">
                         <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
-                        <button onClick={toggleShopMenu} className="hover:text-black">Shop↓</button>
+                        <div className="relative group">
+                            {/* Shop Link */}
+                            <NavLink to="/shop" activeClassName="selected" className="hover:text-black">
+                                Shop↓
+                            </NavLink>
+
+                            {/* Shop Menu Opens on Hover */}
+                            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity absolute top-[20px] left-0 bg-white shadow-lg p-8 grid  gap-8 z-50">
+                                <div className="flex gap-12">
+                                    {/* Women Categories */}
+                                <div>
+                                    <Link to="/shop/k" className="text-black font-semibold pb-4 block hover:text-gray-600">
+                                        Women
+                                    </Link>
+                                    <ul className="space-y-2">
+                                        {categories
+                                            .filter((category) => category.gender === "k")
+                                            .map((category) => (
+                                                <li key={category.id}>
+                                                    <Link
+                                                        to={`/shop/${category.gender}/${category.code.split(":")[1]}`}
+                                                        className="text-gray-500 hover:text-black"
+                                                    >
+                                                        {category.title}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </div>
+
+                                {/* Men Categories */}
+                                <div>
+                                    <Link to="/shop/e" className="text-black font-semibold pb-4 block hover:text-gray-600">
+                                        Men
+                                    </Link>
+                                    <ul className="space-y-2">
+                                        {categories
+                                            .filter((category) => category.gender === "e")
+                                            .map((category) => (
+                                                <li key={category.id}>
+                                                    <Link
+                                                        to={`/shop/${category.gender}/${category.code.split(":")[1]}`}
+                                                        className="text-gray-500 hover:text-black"
+                                                    >
+                                                        {category.title}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                         <NavLink to="/about" activeClassName="selected" className="hover:text-black">About</NavLink>
                         <NavLink to="/blog" activeClassName="selected" className="hover:text-black">Blog</NavLink>
                         <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
-                        <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Pages</NavLink>
+                        <NavLink to="/pages" activeClassName="selected" className="hover:text-black">Pages</NavLink>
                     </ul>
-                    {isShopMenuOpen && (
-                        <div className="gap-24 shadow-lg absolute top-[20px] left-[100px] p-6 pr-[150px] bg-white z-50 justify-center my-8 text-l text-gray-500 hidden md:flex">
-                            <div className="flex flex-col gap-3">
-                                <p className="text-black font-semibold pb-4">Women</p>
-                                <a href="#" className="hover:text-black">Bags</a>
-                                <a href="#" className="hover:text-black">Belts</a>
-                                <a href="#" className="hover:text-black">Cosmetics</a>
-                                <a href="#" className="hover:text-black">Bags</a>
-                                <a href="#" className="hover:text-black">Hats</a>
-                            </div>
-                            <div className="flex flex-col gap-3">
-                                <p className="text-black font-semibold pb-4">Men</p>
-                                <a href="/" className="hover:text-black">Bags</a>
-                                <a href="#" className="hover:text-black">Belts</a>
-                                <a href="#" className="hover:text-black">Bags</a>
-                                <a href="#" className="hover:text-black">Contact</a>
-                                <a href="#" className="hover:text-black">Hats</a>
-                            </div>
-                        </div>
-                    )}
                 </nav>
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
                     <div className="flex gap-2 items-center">

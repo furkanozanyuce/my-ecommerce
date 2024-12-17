@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { setUser } from './redux/actions/clientActions'
+import { fetchCategories } from './redux/actions/productActions';
 import axios from 'axios'
 
 const axiosInstance = axios.create({
@@ -44,6 +45,7 @@ function App() {
     };
 
     verifyToken();
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   return (
