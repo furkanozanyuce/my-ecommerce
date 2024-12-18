@@ -1,11 +1,156 @@
 import PageContent from "../layout/PageContent";
+import { useParams } from "react-router-dom";
+
+
+const mockProducts = [
+    {
+        id: 1,
+        name: "Siyah %100 Pamuk",
+        description:
+            "Siyah %100 Pamuk Regular/Normal Kalıp Basic V Yaka Uzun Kollu Örme T-Shirt TWOAW21TS0099",
+        price: 145.99,
+        stock: 84,
+        store_id: 1,
+        category_id: 1,
+        rating: 4.5,
+        sell_count: 923,
+        images: [
+            {
+                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
+                index: 0,
+            },
+            {
+                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
+                index: 1,
+            },
+        ],
+    },
+    {
+        id: 2,
+        name: "Siyah %100 Pamuk",
+        description:
+            "Siyah %100 Pamuk Regular/Normal Kalıp Basic V Yaka Uzun Kollu Örme T-Shirt TWOAW21TS0099",
+        price: 145.99,
+        stock: 84,
+        store_id: 1,
+        category_id: 1,
+        rating: 4.5,
+        sell_count: 923,
+        images: [
+            {
+                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
+                index: 0,
+            },
+            {
+                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
+                index: 1,
+            },
+        ],
+    },
+    {
+        id: 3,
+        name: "Siyah %100 Pamuk",
+        description:
+            "Siyah %100 Pamuk Regular/Normal Kalıp Basic V Yaka Uzun Kollu Örme T-Shirt TWOAW21TS0099",
+        price: 145.99,
+        stock: 84,
+        store_id: 1,
+        category_id: 1,
+        rating: 4.5,
+        sell_count: 923,
+        images: [
+            {
+                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
+                index: 0,
+            },
+            {
+                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
+                index: 1,
+            },
+        ],
+    },
+];
 
 function ProductDetailPage() {
-    
+
+    const { id } = useParams(); // Get the product ID from the URL
+    const product = mockProducts.find((p) => p.id === Number(id));
+
 
     return (
         <div>
             <PageContent>
+                <div className="container mx-auto p-4 lg:p-8 font-monts">
+                    {/* Product Top Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Product Images */}
+                        <div>
+                            <img
+                                src={product.images[0]?.url}
+                                alt={product.name}
+                                className="w-full h-[400px] object-cover rounded-lg"
+                            />
+                            {/* Thumbnails */}
+                            <div className="flex gap-2 mt-4">
+                                {product.images.map((img, index) => (
+                                    <img
+                                        key={index}
+                                        src={img.url}
+                                        alt={`Thumbnail ${index}`}
+                                        className="w-16 h-16 object-cover rounded-lg cursor-pointer border hover:border-blue-500"
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Product Details */}
+                        <div>
+                            <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+                            <div className="flex items-center mb-4">
+                                <span className="text-yellow-500">
+                                    {"★".repeat(Math.round(product.rating))}
+                                    {"☆".repeat(5 - Math.round(product.rating))}
+                                </span>
+                                <span className="ml-2 text-gray-500">
+                                    ({product.sell_count} reviews)
+                                </span>
+                            </div>
+                            <p className="text-2xl font-semibold text-blue-500 mb-2">
+                                ${product.price}
+                            </p>
+                            <p className="text-gray-500 mb-2">
+                                Availability:{" "}
+                                <span className="text-green-500">
+                                    {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                                </span>
+                            </p>
+                            <p className="text-gray-600 mb-4">{product.description}</p>
+                            <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
+                                Select Options
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Tabs Section */}
+                    <div className="mt-8 border-t pt-6">
+                        <div className="flex space-x-8 mb-4">
+                            <button className="text-blue-500 border-b-2 border-blue-500 pb-2">
+                                Description
+                            </button>
+                            <button className="text-gray-500 hover:text-blue-500">
+                                Additional Information
+                            </button>
+                            <button className="text-gray-500 hover:text-blue-500">
+                                Reviews (0)
+                            </button>
+                        </div>
+                        <p className="text-gray-600">
+                            {product.description} <br />
+                            {product.description} <br />
+                            {product.description}
+                        </p>
+                    </div>
+                </div>
             </PageContent>
         </div>
     )
