@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 
 function ShopPage() {
-    const products = useSelector((state) => state.product.productList.products);
+    const products = useSelector((state) => state.product.productList.products) || [];
 
     const [view, setView] = useState('grid');
     const [currentPage, setCurrentPage] = useState(1);
@@ -106,11 +106,11 @@ function ShopPage() {
                                 : 'space-y-6'
                         }
                     >
-                        {currentProducts.map((product) => (
-                            <Link to={`/product/${product.id}`}>
+                        {currentProducts.map((product, ind) => (
+                            <Link key={ind} to={`/product/${product.id}`}>
                                 <div
                                     key={product.id}
-                                    className={`border border-gray-200 rounded group p-4 flex min-h-full ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
+                                    className={`border border-gray-200 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-blue-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
                                         } text-center`}
                                 >
                                     {product.images.map((image, index) => (
@@ -118,7 +118,7 @@ function ShopPage() {
                                             key={index}
                                             src={image.url}
                                             alt={`Product Image ${index}`}
-                                            className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded group-hover:scale-105`}
+                                            className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded`}
                                         />
                                     ))}
                                     <div className={`${view === 'grid' ? 'gap-1 items-center' : 'gap-2 justify-center items-start text-left'} flex flex-col`}>
