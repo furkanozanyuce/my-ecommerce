@@ -25,7 +25,7 @@ function Header() {
     };
 
     return (
-        <div className="font-monts">
+        <div className="px-4 font-monts">
             <div className="flex justify-between mt-[40px] mx-[30px] mb-[25px]">
                 <div>
                     <button onClick={mainPageHandle}><h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42]">Bandage</h3></button>
@@ -89,7 +89,7 @@ function Header() {
                         <NavLink to="/about" activeClassName="selected" className="hover:text-black">About</NavLink>
                         <NavLink to="/blog" activeClassName="selected" className="hover:text-black">Blog</NavLink>
                         <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
-                        <NavLink to="/pages" activeClassName="selected" className="hover:text-black">Pages</NavLink>
+                        <NavLink to="/product" activeClassName="selected" className="hover:text-black">Product</NavLink>
                     </ul>
                 </nav>
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">

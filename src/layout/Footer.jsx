@@ -3,8 +3,8 @@ import { Facebook, Instagram, Twitter } from "lucide-react";
 function Footer() {
 
     return (
-        <div className="font-monts">
-            <div className="flex flex-col py-[40px] px-[30px] bg-[#FAFAFA] gap-[20px] md:flex-row justify-between">
+        <div className="font-monts px-4 bg-[#FAFAFA] ">
+            <div className="flex flex-col py-[40px] px-[30px]  gap-[20px] md:flex-row justify-between border-b-2">
                 <div>
                     <h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42] ml-[3px]">Bandage</h3>
                 </div>
@@ -68,7 +68,7 @@ function Footer() {
                     <p className="font-normal text-xs leading-7	tracking-[0.2px] text-[#737373]">Lore imp sum dolor Amit</p>
                 </div>
             </div>
-            <div className="flex flex-col py-[40px] px-[30px] font-bold text-[#737373] text-sm leading-6 tracking-[0.2px] text-center bg-[#FAFAFA] md:flex-row gap-[5px]">
+            <div className="border-t-2 flex flex-col py-[40px] px-[30px] font-bold text-[#737373] text-sm leading-6 tracking-[0.2px] text-center md:flex-row gap-[5px]">
                 <p>Made With Love By</p>
                 <p>Finland All Right Reserved</p>
             </div>
