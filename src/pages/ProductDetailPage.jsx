@@ -1,80 +1,13 @@
 import PageContent from "../layout/PageContent";
 import { useParams } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 
-const mockProducts = [
-    {
-        id: 1,
-        name: "Siyah %100 Pamuk",
-        description:
-            "Siyah %100 Pamuk Regular/Normal Kalıp Basic V Yaka Uzun Kollu Örme T-Shirt TWOAW21TS0099",
-        price: 145.99,
-        stock: 84,
-        store_id: 1,
-        category_id: 1,
-        rating: 4.5,
-        sell_count: 923,
-        images: [
-            {
-                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
-                index: 0,
-            },
-            {
-                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
-                index: 1,
-            },
-        ],
-    },
-    {
-        id: 2,
-        name: "Siyah %100 Pamuk",
-        description:
-            "Siyah %100 Pamuk Regular/Normal Kalıp Basic V Yaka Uzun Kollu Örme T-Shirt TWOAW21TS0099",
-        price: 145.99,
-        stock: 84,
-        store_id: 1,
-        category_id: 1,
-        rating: 4.5,
-        sell_count: 923,
-        images: [
-            {
-                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
-                index: 0,
-            },
-            {
-                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
-                index: 1,
-            },
-        ],
-    },
-    {
-        id: 3,
-        name: "Siyah %100 Pamuk",
-        description:
-            "Siyah %100 Pamuk Regular/Normal Kalıp Basic V Yaka Uzun Kollu Örme T-Shirt TWOAW21TS0099",
-        price: 145.99,
-        stock: 84,
-        store_id: 1,
-        category_id: 1,
-        rating: 4.5,
-        sell_count: 923,
-        images: [
-            {
-                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
-                index: 0,
-            },
-            {
-                url: "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
-                index: 1,
-            },
-        ],
-    },
-];
 
 function ProductDetailPage() {
-
+    const products = useSelector((state) => state.product.productList.products);
     const { id } = useParams(); // Get the product ID from the URL
-    const product = mockProducts.find((p) => p.id === Number(id));
+    const product = products.find((p) => p.id === Number(id));
 
 
     return (

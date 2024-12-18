@@ -1,147 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PageContent from "../layout/PageContent";
 import Categories from '../components/Categories';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-const products = [
-    {
-        id: 1,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop1.jpg', // Replace with actual image
-    },
-    {
-        id: 2,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop2.jpg',
-    },
-    {
-        id: 3,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop3.jpg',
-    },
-    {
-        id: 4,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop4.jpg',
-    },
-    {
-        id: 5,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop5.jpg',
-    },
-    {
-        id: 6,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop6.jpg',
-    },
-    {
-        id: 7,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop7.jpg',
-    },
-    {
-        id: 8,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop8.jpg',
-    },
-    {
-        id: 9,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop9.jpg',
-    },
-    {
-        id: 10,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop10.jpg',
-    },
-    {
-        id: 11,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop11.jpg',
-    },
-    {
-        id: 12,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop12.jpg',
-    },
-    {
-        id: 13,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop12.jpg',
-    },
-    {
-        id: 14,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop12.jpg',
-    },
-    {
-        id: 15,
-        title: 'Graphic Design',
-        department: 'English Department',
-        price: '$16.48',
-        salePrice: '$6.48',
-        colors: ['blue', 'green', 'orange', 'red'],
-        imageUrl: '/images/shop12.jpg',
-    },
-    // ... Add as many products as needed
-];
 
 function ShopPage() {
+    const products = useSelector((state) => state.product.productList.products);
+
     const [view, setView] = useState('grid');
     const [currentPage, setCurrentPage] = useState(1);
     const [productsPerPage, setProductsPerPage] = useState(12);
@@ -171,21 +37,21 @@ function ShopPage() {
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = Array.isArray(products) ? products.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
     const goToPage = (pageNum) => {
         if (pageNum >= 1 && pageNum <= totalPages) {
-          setCurrentPage(pageNum);
+            setCurrentPage(pageNum);
         }
-      };
+    };
 
     const goToPreviousPage = () => {
         goToPage(currentPage - 1);
-      };
-    
-      const goToNextPage = () => {
+    };
+
+    const goToNextPage = () => {
         goToPage(currentPage + 1);
-      };
+    };
 
     return (
         <div>
@@ -241,34 +107,33 @@ function ShopPage() {
                         }
                     >
                         {currentProducts.map((product) => (
-                            <div
-                                key={product.id}
-                                className={`border border-gray-200 rounded p-4 flex ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
-                                    } text-center`}
-                            >
-                                <img
-                                    src={product.imageUrl}
-                                    alt={product.title}
-                                    className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded`}
-                                />
-                                <div className={`${view === 'grid' ? 'gap-1' : 'gap-2 justify-center'} flex flex-col items-center`}>
-                                    <h3 className="text-sm font-semibold text-gray-800 mb-1">{product.title}</h3>
-                                    <p className="text-xs text-gray-500 mb-2">{product.department}</p>
-                                    <div className="flex items-center space-x-2 mb-2">
-                                        <span className="text-xs line-through text-gray-400">{product.price}</span>
-                                        <span className="text-sm text-green-600 font-semibold">{product.salePrice}</span>
-                                    </div>
-                                    <div className="flex space-x-1">
-                                        {product.colors.map((color, idx) => (
-                                            <span
-                                                key={idx}
-                                                className="w-4 h-4 rounded-full border border-gray-300"
-                                                style={{ backgroundColor: color }}
-                                            ></span>
-                                        ))}
+                            <Link to={`/product/${product.id}`}>
+                                <div
+                                    key={product.id}
+                                    className={`border border-gray-200 rounded group p-4 flex min-h-full ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
+                                        } text-center`}
+                                >
+                                    {product.images.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image.url}
+                                            alt={`Product Image ${index}`}
+                                            className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded group-hover:scale-105`}
+                                        />
+                                    ))}
+                                    <div className={`${view === 'grid' ? 'gap-1 items-center' : 'gap-2 justify-center items-start text-left'} flex flex-col`}>
+                                        <h3 className="text-sm font-semibold text-gray-800 mb-1">{product.name}</h3>
+                                        <p className="text-xs text-gray-500 mb-2">{product.description}</p>
+                                        <div className="flex items-center space-x-2 mb-2">
+                                            <span className="text-sm text-green-600 font-semibold">{product.price}</span>
+                                            <span className="text-xs text-gray-400">Stok: {product.stock}</span>
+                                        </div>
+                                        <div className="flex space-x-1">
+                                            {product.rating}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
 
@@ -289,8 +154,8 @@ function ShopPage() {
                                         key={pageNum}
                                         onClick={() => goToPage(pageNum)}
                                         className={`px-3 py-1 border border-gray-300 rounded ${isSelected
-                                                ? 'bg-blue-600 text-white'
-                                                : 'hover:bg-gray-100'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'hover:bg-gray-100'
                                             }`}
                                     >
                                         {pageNum}
