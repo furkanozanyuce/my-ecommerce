@@ -53,7 +53,7 @@ function Header() {
                                             .map((category) => (
                                                 <li key={category.id}>
                                                     <Link
-                                                        to={`/shop/${category.gender}/${category.code.split(":")[1]}`}
+                                                        to={`/shop/kadin/${category.code.split(":")[1]}/${category.id}`}
                                                         className="text-gray-500 hover:text-black"
                                                     >
                                                         {category.title}
@@ -74,7 +74,7 @@ function Header() {
                                             .map((category) => (
                                                 <li key={category.id}>
                                                     <Link
-                                                        to={`/shop/${category.gender}/${category.code.split(":")[1]}`}
+                                                        to={`/shop/erkek/${category.code.split(":")[1]}/${category.id}`}
                                                         className="text-gray-500 hover:text-black"
                                                     >
                                                         {category.title}
