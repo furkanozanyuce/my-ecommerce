@@ -14,7 +14,7 @@ function createSlug(name) {
 
 function ShopPage() {
   const dispatch = useDispatch();
-  
+
   const { productList, fetchState, total, limit, offset } = useSelector((state) => state.product);
   const products = productList || [];
   const { gender, categoryName, categoryId } = useParams();
@@ -270,56 +270,59 @@ function ShopPage() {
             <div>
               <p className="text-gray-700 text-sm">Showing {products.length} of {totalProducts} results</p>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => setView('grid')}
-                  className={`p-2 border rounded ${view === 'grid' ? 'border-blue-600' : 'border-gray-300'} hover:border-blue-600`}
-                  aria-label="Grid View"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M3 3h8v8H3zM3 13h8v8H3zM13 3h8v8h-8zM13 13h8v8h-8z" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setView('list')}
-                  className={`p-2 border rounded ${view === 'list' ? 'border-blue-600' : 'border-gray-300'} hover:border-blue-600`}
-                  aria-label="List View"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-                  </svg>
-                </button>
-              </div>
+            <div className="flex flex-col sm:flex-row items-center space-x-2 space-y-4 sm:space-y-0">
+              <div className='flex items-center space-x-2'>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setView('grid')}
+                    className={`p-2 border rounded ${view === 'grid' ? 'border-blue-600' : 'border-gray-300'} hover:border-blue-600`}
+                    aria-label="Grid View"
+                  >
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M3 3h8v8H3zM3 13h8v8H3zM13 3h8v8h-8zM13 13h8v8h-8z" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setView('list')}
+                    className={`p-2 border rounded ${view === 'list' ? 'border-blue-600' : 'border-gray-300'} hover:border-blue-600`}
+                    aria-label="List View"
+                  >
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+                    </svg>
+                  </button>
+                </div>
 
-              <div className="relative">
-                <select
+                <div className="relative">
+                  <select
+                    className="border border-gray-300 rounded text-sm px-2 py-1"
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value)}
+                  >
+                    <option value="">Select Sort</option>
+                    <option value="price:asc">Price: Low to High</option>
+                    <option value="price:desc">Price: High to Low</option>
+                    <option value="rating:asc">Rating: Low to High</option>
+                    <option value="rating:desc">Rating: High to Low</option>
+                  </select>
+                </div>
+              </div>
+              <div className='flex items-center space-x-2'>
+                <input
+                  type="text"
+                  placeholder="Filter..."
                   className="border border-gray-300 rounded text-sm px-2 py-1"
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value)}
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                />
+
+                <button
+                  className="px-3 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded text-sm"
+                  onClick={() => { setAppliedFilter(filter); }}
                 >
-                  <option value="">Select Sort</option>
-                  <option value="price:asc">Price: Low to High</option>
-                  <option value="price:desc">Price: High to Low</option>
-                  <option value="rating:asc">Rating: Low to High</option>
-                  <option value="rating:desc">Rating: High to Low</option>
-                </select>
+                  Filter
+                </button>
               </div>
-
-              <input
-                type="text"
-                placeholder="Filter..."
-                className="border border-gray-300 rounded text-sm px-2 py-1"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-              />
-
-              <button
-                className="px-3 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded text-sm"
-                onClick={() => { setAppliedFilter(filter); }}
-              >
-                Filter
-              </button>
             </div>
           </div>
 
