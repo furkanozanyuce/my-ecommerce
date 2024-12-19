@@ -34,15 +34,12 @@ function Header() {
                     <ul className="flex gap-8 text-gray-500">
                         <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
                         <div className="relative group">
-                            {/* Shop Link */}
                             <NavLink to="/shop" activeClassName="selected" className="hover:text-black">
                                 Shop↓
                             </NavLink>
 
-                            {/* Shop Menu Opens on Hover */}
                             <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity absolute top-[20px] left-0 bg-white shadow-lg p-8 grid  gap-8 z-50">
                                 <div className="flex gap-12">
-                                    {/* Women Categories */}
                                 <div>
                                     <Link to="/shop/k" className="text-black font-semibold pb-4 block hover:text-gray-600">
                                         Women
@@ -63,7 +60,6 @@ function Header() {
                                     </ul>
                                 </div>
 
-                                {/* Men Categories */}
                                 <div>
                                     <Link to="/shop/e" className="text-black font-semibold pb-4 block hover:text-gray-600">
                                         Men
@@ -98,7 +94,7 @@ function Header() {
                             <Gravatar
                                 email={user.email}
                                 size={40}
-                                default="identicon" // You can choose other default images like 'monsterid', 'retro', etc.
+                                default="identicon"
                                 className="rounded-full cursor-pointer"
                                 onClick={toggleLoginMenu}
                                 alt="User Avatar"

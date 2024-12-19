@@ -58,7 +58,7 @@ export const fetchProductList = ({ category, sort, filter, limit = 24, offset = 
       const response = await fetch(url);
       const data = await response.json();
       dispatch(setProductList(data.products));
-      dispatch(setTotal(data.total)); // Use data.total if the API provides it
+      dispatch(setTotal(data.total));
       dispatch(setFetchState("FETCHED"));
     } catch (error) {
       console.error("Error fetching products:", error);

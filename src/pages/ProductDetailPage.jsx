@@ -41,7 +41,7 @@ function ProductDetailPage() {
     );
   }
 
-  const product = selectedProduct; // now we have product details
+  const product = selectedProduct;
   return (
     <PageContent>
       <div className="container mx-auto p-4 lg:p-8 font-monts">
@@ -52,7 +52,6 @@ function ProductDetailPage() {
           Back
         </button>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Product Images */}
           <div>
             <img
               src={product.images[0]?.url}
@@ -71,7 +70,6 @@ function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Product Details */}
           <div>
             <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
             <div className="flex items-center mb-4">
@@ -99,7 +97,6 @@ function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Tabs Section */}
         <div className="mt-8 border-t pt-6">
           <div className="flex space-x-8 mb-4">
             <button className="text-blue-500 border-b-2 border-blue-500 pb-2">

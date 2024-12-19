@@ -27,7 +27,6 @@ function ShopPage() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Handle screen size changes: 24 per page desktop, 5 per page mobile
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         dispatch(setLimit(24));
@@ -43,9 +42,7 @@ function ShopPage() {
   }, [dispatch]);
 
   useEffect(() => {
-    // Reset offset and clear filter when category changes to avoid stuck "no results" scenario
     dispatch(setOffset(0));
-    // Clear filter on category change
     setFilter('');
     setAppliedFilter('');
   }, [dispatch, categoryId, categoryName, gender, sort]);
@@ -77,10 +74,7 @@ function ShopPage() {
 
     const buttons = [];
 
-    // On mobile, we show fewer pages:
     if (isMobile) {
-      // Mobile pattern: First - Prev - currentPage-1 - currentPage - currentPage+1 - Next - Last
-      // Adjust for edges:
       const firstPage = 1;
       const lastPage = totalPages;
 
@@ -104,11 +98,8 @@ function ShopPage() {
       );
 
       const pagesToShow = [];
-      // currentPage-1
       if (currentPage - 1 > firstPage) pagesToShow.push(currentPage - 1);
-      // currentPage
       pagesToShow.push(currentPage);
-      // currentPage+1
       if (currentPage + 1 < lastPage) pagesToShow.push(currentPage + 1);
 
       pagesToShow.forEach((p) => {
@@ -147,7 +138,6 @@ function ShopPage() {
       return buttons;
     }
 
-    // Desktop logic (unchanged from previous solution)
     if (totalPages <= 5) {
       const buttonsAll = [];
       if (currentPage > 1) {
@@ -178,7 +168,6 @@ function ShopPage() {
       return buttonsAll;
     }
 
-    // More than 5 pages on desktop
     const desktopButtons = [];
 
     if (currentPage > 3) {

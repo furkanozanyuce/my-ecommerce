@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 const Categories = () => {
   const categories = useSelector((state) => state.product.categories);
 
-  // Get top 5 categories sorted by rating
   const topCategories = [...categories].sort((a, b) => b.rating - a.rating).slice(0, 5);
 
   return (
