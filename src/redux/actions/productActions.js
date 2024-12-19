@@ -5,6 +5,7 @@ export const setFetchState = (fetchState) => ({ type: 'SET_FETCH_STATE', payload
 export const setLimit = (limit) => ({ type: 'SET_LIMIT', payload: limit });
 export const setOffset = (offset) => ({ type: 'SET_OFFSET', payload: offset });
 export const setFilter = (filter) => ({ type: 'SET_FILTER', payload: filter });
+export const setSelectedProduct = (product) => ({ type: 'SET_SELECTED_PRODUCT', payload: product });
 
 
 export const fetchCategories = () => {
@@ -22,16 +23,45 @@ export const fetchCategories = () => {
   };
 };
 
-export const fetchProductList = () => {
+export const fetchProduct = (productId) => {
   return async (dispatch) => {
     dispatch(setFetchState("FETCHING"));
     try {
-      const response = await fetch("https://workintech-fe-ecommerce.onrender.com/products");
+      const response = await fetch(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
       const data = await response.json();
-      dispatch(setProductList(data));
+      dispatch(setSelectedProduct(data));
       dispatch(setFetchState("FETCHED"));
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching single product:", error);
+      dispatch(setFetchState("ERROR"));
+    }
+  };
+};
+
+export const fetchProductList = ({ category, sort, filter, limit = 24, offset = 0 } = {}) => {
+  return async (dispatch) => {
+    dispatch(setFetchState("FETCHING"));
+    
+    let url = "https://workintech-fe-ecommerce.onrender.com/products";
+    const queryParams = [];
+    if (category) queryParams.push(`category=${category}`);
+    if (sort) queryParams.push(`sort=${sort}`);
+    if (filter) queryParams.push(`filter=${filter}`);
+    if (limit) queryParams.push(`limit=${limit}`);
+    if (offset) queryParams.push(`offset=${offset}`);
+    
+    if (queryParams.length > 0) {
+      url += `?${queryParams.join('&')}`;
+    }
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      dispatch(setProductList(data.products));
+      dispatch(setTotal(data.total)); // Use data.total if the API provides it
+      dispatch(setFetchState("FETCHED"));
+    } catch (error) {
+      console.error("Error fetching products:", error);
       dispatch(setFetchState("ERROR"));
     }
   };
