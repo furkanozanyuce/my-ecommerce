@@ -15,7 +15,7 @@ const Categories = () => {
         {topCategories.map((category) => (
           <Link
             key={category.id}
-            to={`/shop/${category.gender}/${category.code.split(":")[1]}`}
+            to={`/shop/${category.gender === "e" ? "erkek" : "kadin"}/${category.code.split(":")[1]}/${category.id}`}
             className="relative group"
           >
             <img
