@@ -52,7 +52,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchProductList());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -60,7 +60,19 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/shop">
+        <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId">
+          <ProductDetailPage />
+        </Route>
+        <Route path="/shop/:gender/:categoryName/:categoryId">
+          <ShopPage />
+        </Route>
+        <Route path="/shop/:gender/:categoryName">
+          <ShopPage />
+        </Route>
+        <Route path="/shop/:gender">
+          <ShopPage />
+        </Route>
+        <Route path="/shop" exact>
           <ShopPage />
         </Route>
         <Route path="/signup">
@@ -68,9 +80,6 @@ function App() {
         </Route>
         <Route path="/login">
           <LoginForm />
-        </Route>
-        <Route path="/product/:id">
-          <ProductDetailPage />
         </Route>
       </Switch>
       <ToastContainer />
