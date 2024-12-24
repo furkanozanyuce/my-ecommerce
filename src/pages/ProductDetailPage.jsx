@@ -3,6 +3,13 @@ import PageContent from "../layout/PageContent";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProduct } from '../redux/actions/productActions';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 function ProductDetailPage() {
   const dispatch = useDispatch();
@@ -42,34 +49,58 @@ function ProductDetailPage() {
   }
 
   const product = selectedProduct;
+  let productImages = product.images || [];
+  if (productImages.length === 1) {
+    productImages = Array(3).fill(productImages[0]);
+  }
+
   return (
     <PageContent>
       <div className="container mx-auto p-4 lg:p-8 font-monts">
+        {/* Back Button */}
         <button
           onClick={() => history.goBack()}
           className="mb-4 bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
         >
           Back
         </button>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Carousel Section */}
           <div>
-            <img
-              src={product.images[0]?.url}
-              alt={product.name}
-              className="w-full h-[400px] object-cover rounded-lg"
-            />
-            <div className="flex gap-2 mt-4">
-              {product.images.map((img, index) => (
-                <img
-                  key={index}
-                  src={img.url}
-                  alt={`Thumbnail ${index}`}
-                  className="w-16 h-16 object-cover rounded-lg cursor-pointer border hover:border-blue-500"
-                />
-              ))}
-            </div>
+            {productImages && productImages.length > 0 ? (
+              <Carousel className="relative w-full rounded-lg overflow-hidden border">
+                <CarouselContent className="flex">
+                  {productImages.map((img, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="relative w-full flex-shrink-0 "
+                    >
+                      <img
+                        src={img.url}
+                        alt={`Product Slide ${index}`}
+                        className="w-full max-h-[800px] object-cover rounded-lg"
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+
+                {/* Optional Prev/Next Buttons */}
+                <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-200 rounded-full p-1 hover:bg-gray-300">
+                  Prev
+                </CarouselPrevious>
+                <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-200 rounded-full p-1 hover:bg-gray-300">
+                  Next
+                </CarouselNext>
+              </Carousel>
+            ) : (
+              <div className="w-full h-[400px] bg-gray-200 flex items-center justify-center rounded-lg">
+                <span>No Images</span>
+              </div>
+            )}
           </div>
 
+          {/* Product Details Section */}
           <div>
             <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
             <div className="flex items-center mb-4">
@@ -97,6 +128,7 @@ function ProductDetailPage() {
           </div>
         </div>
 
+        {/* Tabs Section */}
         <div className="mt-8 border-t pt-6">
           <div className="flex space-x-8 mb-4">
             <button className="text-blue-500 border-b-2 border-blue-500 pb-2">
