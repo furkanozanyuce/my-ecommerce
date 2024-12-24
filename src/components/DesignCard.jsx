@@ -21,7 +21,7 @@ const DesignCard = () => {
                         <p className="text-sm sm:text-lg text-white mb-6 px-8 md:px-0 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                             We know how large objects will act, but things on a small scale.
                         </p>
-                        <div className="md:flex gap-6">
+                        <div className="flex flex-col sm:flex-row gap-6">
                             <Button variant="mine" size="mine">
                                 BUY NOW
                             </Button>
