@@ -266,7 +266,7 @@ function ShopPage() {
       <PageContent>
         <div className="px-4 py-6 lg:px-12 font-monts">
           <Categories />
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 space-y-4 md:space-y-0">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 mt-2 space-y-4 md:space-y-0">
             <div>
               <p className="text-gray-700 text-sm">Showing {products.length} of {totalProducts} results</p>
             </div>
@@ -339,7 +339,7 @@ function ShopPage() {
               return (
                 <Link key={ind} to={productUrl}>
                   <div
-                    className={`border border-gray-200 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-blue-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
+                    className={`border border-gray-200 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-gray-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
                       } text-center cursor-pointer`}
                   >
                     {product.images.map((image, index) => (
@@ -354,11 +354,17 @@ function ShopPage() {
                       <h3 className="text-sm font-semibold text-gray-800 mb-1">{product.name}</h3>
                       <p className="text-xs text-gray-500 mb-2">{product.description}</p>
                       <div className="flex items-center space-x-2 mb-2">
-                        <span className="text-sm text-green-600 font-semibold">{product.price}</span>
+                        <span className="text-sm text-green-600 font-semibold">₺{product.price}</span>
                         <span className="text-xs text-gray-400">Stock: {product.stock}</span>
                       </div>
-                      <div className="flex space-x-1">
-                        {product.rating}
+                      <div className="flex space-x-1 gap-2">
+                        <span className="text-yellow-500">
+                          {"★".repeat(Math.round(product.rating))}
+                          {"☆".repeat(5 - Math.round(product.rating))}
+                        </span>
+                        <span className='text-gray-700 font-semibold'>
+                          {product.rating}
+                        </span>
                       </div>
                     </div>
                   </div>

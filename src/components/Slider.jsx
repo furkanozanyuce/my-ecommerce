@@ -49,13 +49,13 @@ function Slider({ slides }) {
                   <p className="text-sm sm:text-lg text-white mb-6 px-8 md:px-0 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     {slide.description}
                   </p>
-                  <div className="md:flex gap-3">
-                    <p className="text-2xl sm:text-4xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
-                      {slide.price}
-                    </p>
+                  <div className="md:flex gap-6">
                     <Button variant="mine">
                       {slide.buttonText}
                     </Button>
+                    <p className="text-2xl sm:text-4xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                      {slide.price}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -82,8 +82,8 @@ function Slider({ slides }) {
           <button
             key={index}
             className={`w-3 h-3 rounded-full ${currentSlide === index
-                ? "bg-white"
-                : "bg-white bg-opacity-50 hover:bg-opacity-75"
+              ? "bg-white"
+              : "bg-white bg-opacity-50 hover:bg-opacity-75"
               }`}
             onClick={() => setCurrentSlide(index)}
             aria-label={`Go to slide ${index + 1}`}

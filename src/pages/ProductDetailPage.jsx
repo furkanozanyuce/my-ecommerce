@@ -7,7 +7,7 @@ import { fetchProduct } from '../redux/actions/productActions';
 function ProductDetailPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-  
+
   const { selectedProduct, fetchState } = useSelector((state) => state.product);
   const { productId, gender, categoryName, categoryId } = useParams();
 
@@ -82,7 +82,7 @@ function ProductDetailPage() {
               </span>
             </div>
             <p className="text-2xl font-semibold text-blue-500 mb-2">
-              ${product.price}
+              ₺{product.price}
             </p>
             <p className="text-gray-500 mb-2">
               Availability:{" "}
