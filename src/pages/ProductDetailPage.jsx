@@ -60,7 +60,7 @@ function ProductDetailPage() {
         {/* Back Button */}
         <button
           onClick={() => history.goBack()}
-          className="mb-4 bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
+          className="mb-4 bg-gray-100 border px-3 py-1 rounded hover:bg-gray-200"
         >
           Back
         </button>
