@@ -50,7 +50,7 @@ function Slider({ slides }) {
                     {slide.description}
                   </p>
                   <div className="md:flex gap-6">
-                    <Button variant="mine">
+                    <Button variant="mine" size="mine">
                       {slide.buttonText}
                     </Button>
                     <p className="text-2xl sm:text-4xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">

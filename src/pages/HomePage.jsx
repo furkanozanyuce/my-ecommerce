@@ -1,3 +1,4 @@
+import DesignCard from "../components/DesignCard";
 import EditorsPick from "../components/EditorsPick";
 import ProductCard from "../components/ProductCard";
 import Slider from "../components/Slider";
@@ -57,6 +58,7 @@ function HomePage() {
                 <EditorsPick />
                 <ProductCard />
                 <Slider slides={secondSlides} />
+                <DesignCard />
             </PageContent>
         </div>
     )
