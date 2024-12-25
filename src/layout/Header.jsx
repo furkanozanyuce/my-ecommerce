@@ -7,10 +7,12 @@ import Gravatar from 'react-gravatar';
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isCartOpen, setIsCartOpen] = useState(false);
     const history = useHistory();
 
     const user = useSelector((state) => state.client.user);
     const categories = useSelector((state) => state.product.categories);
+    const cart = useSelector((state) => state.shoppingCart.cart);
 
     const mainPageHandle = () => {
         history.push("/");
@@ -40,45 +42,45 @@ function Header() {
 
                             <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity absolute top-[20px] left-0 bg-white shadow-lg p-8 grid  gap-8 z-50">
                                 <div className="flex gap-12">
-                                <div>
-                                    <Link to="/shop/k" className="text-black font-semibold pb-4 block hover:text-gray-600">
-                                        Women
-                                    </Link>
-                                    <ul className="space-y-2">
-                                        {categories
-                                            .filter((category) => category.gender === "k")
-                                            .map((category) => (
-                                                <li key={category.id}>
-                                                    <Link
-                                                        to={`/shop/kadin/${category.code.split(":")[1]}/${category.id}`}
-                                                        className="text-gray-500 hover:text-black"
-                                                    >
-                                                        {category.title}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                </div>
+                                    <div>
+                                        <Link to="/shop/k" className="text-black font-semibold pb-4 block hover:text-gray-600">
+                                            Women
+                                        </Link>
+                                        <ul className="space-y-2">
+                                            {categories
+                                                .filter((category) => category.gender === "k")
+                                                .map((category) => (
+                                                    <li key={category.id}>
+                                                        <Link
+                                                            to={`/shop/kadin/${category.code.split(":")[1]}/${category.id}`}
+                                                            className="text-gray-500 hover:text-black"
+                                                        >
+                                                            {category.title}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
 
-                                <div>
-                                    <Link to="/shop/e" className="text-black font-semibold pb-4 block hover:text-gray-600">
-                                        Men
-                                    </Link>
-                                    <ul className="space-y-2">
-                                        {categories
-                                            .filter((category) => category.gender === "e")
-                                            .map((category) => (
-                                                <li key={category.id}>
-                                                    <Link
-                                                        to={`/shop/erkek/${category.code.split(":")[1]}/${category.id}`}
-                                                        className="text-gray-500 hover:text-black"
-                                                    >
-                                                        {category.title}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                </div>
+                                    <div>
+                                        <Link to="/shop/e" className="text-black font-semibold pb-4 block hover:text-gray-600">
+                                            Men
+                                        </Link>
+                                        <ul className="space-y-2">
+                                            {categories
+                                                .filter((category) => category.gender === "e")
+                                                .map((category) => (
+                                                    <li key={category.id}>
+                                                        <Link
+                                                            to={`/shop/erkek/${category.code.split(":")[1]}/${category.id}`}
+                                                            className="text-gray-500 hover:text-black"
+                                                        >
+                                                            {category.title}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -119,9 +121,51 @@ function Header() {
                     <button className="hover:text-gray-500">
                         <Search />
                     </button>
-                    <button className="hover:text-gray-500">
-                        <ShoppingCart />
-                    </button>
+                    <div className="relative group">
+                        <button className="hover:text-gray-500 relative">
+                            <ShoppingCart />
+                            {cart.length > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full px-1">
+                                    {cart.length}
+                                </span>
+                            )}
+                        </button>
+
+                        <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 
+                           transition-opacity absolute top-[20px] right-0 bg-white shadow-lg p-4 w-64 z-50">
+                            {cart.length === 0 ? (
+                                <p className="text-sm text-gray-600">Your cart is empty.</p>
+                            ) : (
+                                <>
+                                    <h4 className="font-semibold mb-2">My Cart ({cart.length} items)</h4>
+                                    <ul className="space-y-2 max-h-72 overflow-y-auto">
+                                        {cart.map((item, index) => (
+                                            <li key={index} className="flex items-center gap-2">
+                                                <img
+                                                    src={item.product.images[0]?.url}
+                                                    alt={item.product.name}
+                                                    className="w-12 h-12 object-cover rounded"
+                                                />
+                                                <div className="flex-1">
+                                                    <p className="font-semibold text-sm">{item.product.name}</p>
+                                                    <p className="text-xs text-gray-500">Count: {item.count}</p>
+                                                    <p className="text-xs text-gray-500">₺{item.product.price}</p>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <div className="flex justify-between mt-4">
+                                        <button className="bg-gray-300 text-white px-3 py-1 rounded text-sm hover:bg-gray-400 ">
+                                            View Cart
+                                        </button>
+                                        <button className="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600">
+                                            Checkout
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
                     <button className="hidden md:block hover:text-gray-500">
                         <Heart />
                     </button>

@@ -3,6 +3,7 @@ import PageContent from "../layout/PageContent";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProduct } from '../redux/actions/productActions';
+import { addToCart } from '@/redux/actions/shoppingCartActions';
 import {
   Carousel,
   CarouselContent,
@@ -54,10 +55,13 @@ function ProductDetailPage() {
     productImages = Array(3).fill(productImages[0]);
   }
 
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <PageContent>
       <div className="container mx-auto p-4 lg:p-8 font-monts">
-        {/* Back Button */}
         <button
           onClick={() => history.goBack()}
           className="mb-4 bg-gray-100 border px-3 py-1 rounded hover:bg-gray-200"
@@ -66,7 +70,6 @@ function ProductDetailPage() {
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Carousel Section */}
           <div>
             {productImages && productImages.length > 0 ? (
               <Carousel className="relative w-full rounded-lg overflow-hidden border">
@@ -85,7 +88,6 @@ function ProductDetailPage() {
                   ))}
                 </CarouselContent>
 
-                {/* Optional Prev/Next Buttons */}
                 <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-200 rounded-full p-1 hover:bg-gray-300">
                   Prev
                 </CarouselPrevious>
@@ -100,7 +102,6 @@ function ProductDetailPage() {
             )}
           </div>
 
-          {/* Product Details Section */}
           <div>
             <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
             <div className="flex items-center mb-4">
@@ -122,13 +123,12 @@ function ProductDetailPage() {
               </span>
             </p>
             <p className="text-gray-600 mb-4">{product.description}</p>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
-              Select Options
+            <button onClick={handleAddToCart} className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
+              Add to Cart
             </button>
           </div>
         </div>
 
-        {/* Tabs Section */}
         <div className="mt-8 border-t pt-6">
           <div className="flex space-x-8 mb-4">
             <button className="text-blue-500 border-b-2 border-blue-500 pb-2">
