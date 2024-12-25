@@ -7,7 +7,6 @@ import Gravatar from 'react-gravatar';
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const [isCartOpen, setIsCartOpen] = useState(false);
     const history = useHistory();
 
     const user = useSelector((state) => state.client.user);
