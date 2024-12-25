@@ -275,7 +275,7 @@ function ShopPage() {
             <div>
               <p className="text-gray-700 text-sm">Showing {products.length} of {totalProducts} results</p>
             </div>
-            <div className="flex flex-col sm:flex-row items-center space-x-2 space-y-4 sm:space-y-0">
+            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0">
               <div className='flex items-center space-x-2'>
                 <div className="flex items-center space-x-2">
                   <button
