@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button"
 
 function Slider({ slides }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -48,13 +49,13 @@ function Slider({ slides }) {
                   <p className="text-sm sm:text-lg text-white mb-6 px-8 md:px-0 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     {slide.description}
                   </p>
-                  <div className="md:flex gap-3">
+                  <div className="md:flex gap-6">
+                    <Button variant="mine" size="mine">
+                      {slide.buttonText}
+                    </Button>
                     <p className="text-2xl sm:text-4xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                       {slide.price}
                     </p>
-                    <button className="px-5 py-2 font-bold bg-green-500 text-white rounded-md shadow-lg hover:bg-green-600 transition">
-                      {slide.buttonText}
-                    </button>
                   </div>
                 </div>
               </div>
@@ -81,8 +82,8 @@ function Slider({ slides }) {
           <button
             key={index}
             className={`w-3 h-3 rounded-full ${currentSlide === index
-                ? "bg-white"
-                : "bg-white bg-opacity-50 hover:bg-opacity-75"
+              ? "bg-white"
+              : "bg-white bg-opacity-50 hover:bg-opacity-75"
               }`}
             onClick={() => setCurrentSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
