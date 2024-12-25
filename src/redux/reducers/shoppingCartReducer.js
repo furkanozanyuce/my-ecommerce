@@ -14,31 +14,28 @@ const shoppingCartReducer = (state = initialState, action) => {
       return { ...state, payment: action.payload };
     case 'SET_ADDRESS':
       return { ...state, address: action.payload };
-    case ADD_TO_CART:
-      {
-        const product = action.payload;
-        const existingItemIndex = state.cart.findIndex(
-          (item) => item.product.id === product.id
-        );
+    case ADD_TO_CART: {
+      const { product, increment } = action.payload;
+      const existingItemIndex = state.cart.findIndex(
+        (item) => item.product.id === product.id
+      );
 
-        if (existingItemIndex !== -1) {
-          // Product already in cart, increase count
-          const updatedCart = [...state.cart];
-          updatedCart[existingItemIndex] = {
-            ...updatedCart[existingItemIndex],
-            count: updatedCart[existingItemIndex].count + 1,
-          };
-          return { ...state, cart: updatedCart };
-        } else {
-          // Add new product to cart
-          const newCartItem = {
-            count: 1,
-            checked: true, // or default to whatever you want
-            product: product,
-          };
-          return { ...state, cart: [...state.cart, newCartItem] };
-        }
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...state.cart];
+        updatedCart[existingItemIndex] = {
+          ...updatedCart[existingItemIndex],
+          count: updatedCart[existingItemIndex].count + 1,
+        };
+        return { ...state, cart: updatedCart };
+      } else {
+        const newItem = {
+          count: 1,
+          checked: true,
+          product: product,
+        };
+        return { ...state, cart: [...state.cart, newItem] };
       }
+    }
     default:
       return state;
   }
