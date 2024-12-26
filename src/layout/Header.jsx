@@ -6,10 +6,10 @@ import Gravatar from 'react-gravatar';
 
 function createSlug(name) {
     return name.toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/-+/g, '-');
-  }
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-+/g, '-');
+}
 
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -38,7 +38,7 @@ function Header() {
         const categoryName = 'category';
         const categoryId = product.category_id || '0';
         return `/shop/${genderParam}/${categoryName}/${categoryId}/${slug}/${product.id}`;
-      }
+    }
 
     return (
         <div className="px-4 font-monts">
@@ -135,7 +135,7 @@ function Header() {
                     <button className="hover:text-gray-500">
                         <Search />
                     </button>
-                    <div className="relative group">
+                    <div className="relative group flex ">
                         <button className="hover:text-gray-500 relative">
                             <ShoppingCart />
                             {cart.length > 0 && (
@@ -156,29 +156,32 @@ function Header() {
                                         {cart.map((item, index) => {
                                             const productDetailUrl = getProductDetailUrl(item.product);
                                             return (
-                                            <li key={index} className="flex items-center gap-2 hover:bg-slate-100">
-                                                <Link to={productDetailUrl}>
-                                                <img
-                                                    src={item.product.images[0]?.url}
-                                                    alt={item.product.name}
-                                                    className="w-12 h-12 object-cover rounded"
-                                                />
-                                                </Link>
-                                                <div className="flex-1">
-                                                <   Link to={productDetailUrl}>
-                                                        <p className="font-semibold text-sm">{item.product.name}</p>
+                                                <li key={index} className="flex items-center gap-2 hover:bg-slate-100">
+                                                    <Link to={productDetailUrl}>
+                                                        <img
+                                                            src={item.product.images[0]?.url}
+                                                            alt={item.product.name}
+                                                            className="w-12 h-12 object-cover rounded"
+                                                        />
                                                     </Link>
-                                                    <p className="text-xs text-gray-500">Count: {item.count}</p>
-                                                    <p className="text-xs text-gray-500">₺{item.product.price}</p>
-                                                </div>
-                                            </li>
-                                        );
+                                                    <div className="flex-1">
+                                                        <   Link to={productDetailUrl}>
+                                                            <p className="font-semibold text-sm">{item.product.name}</p>
+                                                        </Link>
+                                                        <p className="text-xs text-gray-500">Count: {item.count}</p>
+                                                        <p className="text-xs text-gray-500">₺{item.product.price}</p>
+                                                    </div>
+                                                </li>
+                                            );
                                         })}
                                     </ul>
                                     <div className="flex justify-between mt-4">
-                                        <button className="bg-gray-300 text-white px-3 py-1 rounded text-sm hover:bg-gray-400 ">
+                                        <Link
+                                            to="/cart"
+                                            className="bg-gray-300 text-white px-3 py-1 rounded text-sm hover:bg-gray-400"
+                                        >
                                             View Cart
-                                        </button>
+                                        </Link>
                                         <button className="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600">
                                             Checkout
                                         </button>
