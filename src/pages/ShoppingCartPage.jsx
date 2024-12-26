@@ -82,6 +82,7 @@ const ShoppingCartPage = () => {
                                                 type="checkbox"
                                                 checked={item.checked}
                                                 onChange={() => handleToggleChecked(item.product.id)}
+                                                className="cursor-pointer"
                                             />
                                         </div>
 
