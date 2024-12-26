@@ -137,7 +137,7 @@ function Header() {
                     </button>
                     <div className="relative group flex ">
                         <button className="hover:text-gray-500 relative">
-                            <ShoppingCart />
+                            <Link to="/cart"><ShoppingCart /></Link>
                             {cart.length > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full px-1">
                                     {cart.length}
