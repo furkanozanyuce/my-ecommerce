@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { removeFromCart, updateItemCount, toggleItemChecked } from "@/redux/actions/shoppingCartActions";
 import PageContent from '../layout/PageContent';
 import { toast } from "react-toastify";
+import { Trash2 } from "lucide-react";
 
 function createSlug(name) {
     return name
@@ -127,7 +128,7 @@ const ShoppingCartPage = () => {
                                                 onClick={() => handleRemoveItem(item.product.id)}
                                                 className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                                             >
-                                                Remove
+                                                <Trash2 />
                                             </button>
                                         </div>
                                     </div>
