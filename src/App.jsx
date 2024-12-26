@@ -14,6 +14,7 @@ import { fetchCategories } from './redux/actions/productActions';
 import { fetchProductList } from './redux/actions/productActions'
 import axios from 'axios'
 import ProductDetailPage from './pages/ProductDetailPage'
+import ShoppingCartPage from './pages/ShoppingCartPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -80,6 +81,9 @@ function App() {
         </Route>
         <Route path="/login">
           <LoginForm />
+        </Route>
+        <Route path="/cart">
+          <ShoppingCartPage />
         </Route>
       </Switch>
       <ToastContainer />
