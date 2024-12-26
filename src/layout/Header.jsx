@@ -4,6 +4,13 @@ import { NavLink, useHistory, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Gravatar from 'react-gravatar';
 
+function createSlug(name) {
+    return name.toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-');
+  }
+
 function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -24,6 +31,14 @@ function Header() {
     const toggleLoginMenu = () => {
         setIsLoginOpen(!isLoginOpen);
     };
+
+    function getProductDetailUrl(product) {
+        const slug = createSlug(product.name);
+        const genderParam = product.gender === 'k' ? 'kadin' : 'erkek';
+        const categoryName = 'category';
+        const categoryId = product.category_id || '0';
+        return `/shop/${genderParam}/${categoryName}/${categoryId}/${slug}/${product.id}`;
+      }
 
     return (
         <div className="px-4 font-monts">
@@ -138,20 +153,27 @@ function Header() {
                                 <>
                                     <h4 className="font-semibold mb-2">My Cart ({cart.length} items)</h4>
                                     <ul className="space-y-2 max-h-72 overflow-y-auto">
-                                        {cart.map((item, index) => (
-                                            <li key={index} className="flex items-center gap-2">
+                                        {cart.map((item, index) => {
+                                            const productDetailUrl = getProductDetailUrl(item.product);
+                                            return (
+                                            <li key={index} className="flex items-center gap-2 hover:bg-slate-100">
+                                                <Link to={productDetailUrl}>
                                                 <img
                                                     src={item.product.images[0]?.url}
                                                     alt={item.product.name}
                                                     className="w-12 h-12 object-cover rounded"
                                                 />
+                                                </Link>
                                                 <div className="flex-1">
-                                                    <p className="font-semibold text-sm">{item.product.name}</p>
+                                                <   Link to={productDetailUrl}>
+                                                        <p className="font-semibold text-sm">{item.product.name}</p>
+                                                    </Link>
                                                     <p className="text-xs text-gray-500">Count: {item.count}</p>
                                                     <p className="text-xs text-gray-500">₺{item.product.price}</p>
                                                 </div>
                                             </li>
-                                        ))}
+                                        );
+                                        })}
                                     </ul>
                                     <div className="flex justify-between mt-4">
                                         <button className="bg-gray-300 text-white px-3 py-1 rounded text-sm hover:bg-gray-400 ">
