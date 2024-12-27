@@ -15,6 +15,8 @@ import { fetchProductList } from './redux/actions/productActions'
 import axios from 'axios'
 import ProductDetailPage from './pages/ProductDetailPage'
 import ShoppingCartPage from './pages/ShoppingCartPage'
+import PrivateRoute from './components/PrivateRoute'
+import CreateOrderPage from './pages/CreateOrderPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -85,6 +87,7 @@ function App() {
         <Route path="/cart">
           <ShoppingCartPage />
         </Route>
+        <PrivateRoute path="/create-order" component={CreateOrderPage} />
       </Switch>
       <ToastContainer />
     </div>
