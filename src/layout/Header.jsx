@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Menu, Search, ShoppingCart, UserRound } from "lucide-react";
+import { Heart, LogOut, Menu, Search, ShoppingCart, UserRound } from "lucide-react";
 import { NavLink, useHistory, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Gravatar from 'react-gravatar';
@@ -23,6 +23,13 @@ function Header() {
 
     const mainPageHandle = () => {
         history.push("/");
+    }
+
+    const logOutHandle = () => {
+        localStorage.removeItem("token");
+        toast.info("Logged out!")
+        history.push("/login");
+        location.reload();
     }
 
     const toggleMobileMenu = () => {
@@ -115,18 +122,47 @@ function Header() {
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
                     <div className="flex gap-2 items-center">
                         {user && user.email ? (
-                            <Gravatar
-                                email={user.email}
-                                size={40}
-                                default="identicon"
-                                className="rounded-full cursor-pointer"
-                                onClick={toggleLoginMenu}
-                                alt="User Avatar"
-                            />
+                            <>
+                                <div className="relative group flex ">
+                                    <button className="hover:text-gray-500 relative">
+                                        <Gravatar
+                                            email={user.email}
+                                            size={40}
+                                            default="identicon"
+                                            className="rounded-full cursor-pointer"
+                                            onClick={toggleLoginMenu}
+                                            alt="User Avatar"
+                                        />
+                                    </button>
+                                    <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 
+                           transition-opacity absolute top-[33px] right-2 bg-white shadow-lg p-4 w-60 z-50 hidden md:block">
+                                        {!user ? (
+                                            <p className="text-sm text-gray-600">You need to log in</p>
+                                        ) : (
+                                            <>
+                                                <p className="hover:text-black">{user.name}</p>
+                                                <div className="flex justify-between mt-4">
+                                                    <button onClick={logOutHandle} className="flex items-center gap-4 hover:text-black">
+                                                        Log Out <LogOut />
+                                                    </button>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </>
                         ) : (
-                            <button onClick={toggleLoginMenu} className="hover:text-gray-500 font-semibold">
-                                <UserRound />
-                            </button>
+                            <>
+                                <div className="relative group flex ">
+                                    <button onClick={toggleLoginMenu} className="hover:text-gray-500 font-semibold">
+                                        <UserRound />
+                                    </button>
+                                    <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 
+                           transition-opacity absolute top-[20px] right-0 bg-white shadow-lg p-4 w-64 z-50 hidden md:block">
+                                            <p className="text-sm text-gray-600">You need to log in</p>
+                                    </div>
+                                </div>
+                            </>
                         )}
                         <div className="hidden gap-2 md:flex">
                             {user ? (
@@ -223,6 +259,9 @@ function Header() {
                 user ? (
                     <div className="flex flex-col items-center space-y-6 my-12 text-[30px] text-gray-500 md:hidden cursor-pointer">
                         <p className="hover:text-black">{user.name}</p>
+                        <button onClick={logOutHandle} className="flex items-center gap-4 hover:text-black">
+                            Log Out <LogOut />
+                        </button>
                     </div>
                 ) :
                     <div className="flex flex-col items-center space-y-6 my-12 text-[30px] text-gray-500 md:hidden">
