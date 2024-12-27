@@ -1,7 +1,20 @@
 import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_ITEM_COUNT, TOGGLE_ITEM_CHECKED } from "../actions/shoppingCartActions";
 
+function loadCartFromLocalStorage() {
+  try {
+    const serializedCart = localStorage.getItem("cart");
+    if (serializedCart === null) {
+      return []; // no cart found
+    }
+    return JSON.parse(serializedCart);
+  } catch (err) {
+    console.error("Error loading cart from localStorage", err);
+    return [];
+  }
+}
+
 const initialState = {
-  cart: [],
+  cart: loadCartFromLocalStorage(),
   payment: null,
   address: null,
 };
