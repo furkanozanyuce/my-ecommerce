@@ -5,6 +5,7 @@ import { removeFromCart, updateItemCount, toggleItemChecked } from "@/redux/acti
 import PageContent from '../layout/PageContent';
 import { toast } from "react-toastify";
 import { Trash2 } from "lucide-react";
+import { useHistory } from "react-router-dom";
 
 function createSlug(name) {
     return name
@@ -17,9 +18,13 @@ function createSlug(name) {
 const ShoppingCartPage = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.shoppingCart.cart);
+    const user = useSelector((state) => state.client.user);
+
 
     const [shippingCost, setShippingCost] = useState(29.99);
     const [discount, setDiscount] = useState(20);
+
+    const history = useHistory();
 
     const handleToggleChecked = (productId) => {
         dispatch(toggleItemChecked(productId));
@@ -48,7 +53,10 @@ const ShoppingCartPage = () => {
     const anyChecked = cart.some((item) => item.checked);
 
     const handleCreateOrder = () => {
-        toast.info("Create Order clicked (no functionality yet)");
+        if (!user) {
+        toast.info("You need to log in before you can order!");
+        }
+        history.push("/create-order")
     };
 
     function getProductDetailUrl(product) {

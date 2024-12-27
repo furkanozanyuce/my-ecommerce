@@ -3,6 +3,7 @@ import { Heart, Menu, Search, ShoppingCart, UserRound } from "lucide-react";
 import { NavLink, useHistory, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Gravatar from 'react-gravatar';
+import { toast } from "react-toastify";
 
 function createSlug(name) {
     return name.toLowerCase()
@@ -30,6 +31,13 @@ function Header() {
 
     const toggleLoginMenu = () => {
         setIsLoginOpen(!isLoginOpen);
+    };
+
+    const handleCreateOrder = () => {
+        if (!user) {
+            toast.info("You need to log in before you can order!");
+        }
+        history.push("/create-order")
     };
 
     function getProductDetailUrl(product) {
@@ -182,7 +190,7 @@ function Header() {
                                         >
                                             View Cart
                                         </Link>
-                                        <button className="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600">
+                                        <button onClick={handleCreateOrder} className="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600">
                                             Checkout
                                         </button>
                                     </div>
