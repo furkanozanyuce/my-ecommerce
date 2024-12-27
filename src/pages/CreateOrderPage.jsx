@@ -1,4 +1,3 @@
-// src/pages/CreateOrderPage.jsx
 import React, { useEffect, useState } from "react";
 import axiosInstance from "@/redux/axiosInstance";
 import { toast } from "react-toastify";
@@ -6,14 +5,12 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PageContent from "@/layout/PageContent";
 
-// Example data structure for city dropdown, or you can fetch from an API
 const cityOptions = [
-    "istanbul",
-    "ankara",
-    "izmir",
-    "bursa",
-    "antalya",
-    // ...
+    "İstanbul",
+    "Ankara",
+    ",zmir",
+    "Bursa",
+    "Antalya",
 ];
 
 function CreateOrderPage() {
@@ -23,7 +20,9 @@ function CreateOrderPage() {
     const [addresses, setAddresses] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-    // Add or edit form data
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const [formData, setFormData] = useState({
         id: null,
         title: "",
@@ -34,30 +33,52 @@ function CreateOrderPage() {
         district: "",
         neighborhood: "",
     });
-    const [isFormOpen, setIsFormOpen] = useState(false); // toggles add/edit form
+    const [isFormOpen, setIsFormOpen] = useState(false);
 
-    // On mount, fetch addresses
-    useEffect(() => {
-        if (!user) {
-            // If user is not logged in, also handle here if not using PrivateRoute
-            history.push("/login");
-            return;
-        }
-        getAddressList();
-    }, [user, history]);
-
-    // GET /user/address
     const getAddressList = async () => {
+        setLoading(true);
+        setError(null);
+
         try {
             const res = await axiosInstance.get("/user/address");
-            setAddresses(res.data); // assume res.data is the array of addresses
+            setAddresses(res.data);
         } catch (error) {
             console.error("Error fetching addresses:", error);
+            setError("Error fetching addresses");
             toast.error("Error fetching addresses");
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Handle "Add Address" button click
+    useEffect(() => {
+        if (!user) {
+            setLoading(false);
+            return;
+        }
+
+        getAddressList();
+    }, [user]);
+
+    if (loading) {
+        return (
+            <div className="p-4">
+                <p>Loading addresses...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="p-4">
+                <p>{error}</p>
+                <button onClick={getAddressList} className="bg-blue-500 text-white px-3 py-1 rounded">
+                    Retry
+                </button>
+            </div>
+        );
+    }
+
     const handleAddAddressClick = () => {
         if (isFormOpen) {
             setIsFormOpen(false);
@@ -76,12 +97,10 @@ function CreateOrderPage() {
         }
     };
 
-    // Handle form field changes
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Submit new or updated address
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.city) {
@@ -91,11 +110,9 @@ function CreateOrderPage() {
 
         try {
             if (formData.id) {
-                // PUT (update) address
                 await axiosInstance.put("/user/address", formData);
                 toast.success("Address updated!");
             } else {
-                // POST (add) address
                 await axiosInstance.post("/user/address", formData);
                 toast.success("Address added!");
             }
@@ -107,7 +124,6 @@ function CreateOrderPage() {
         }
     };
 
-    // Edit address
     const handleEdit = (addr) => {
         setFormData({
             id: addr.id,
@@ -122,7 +138,6 @@ function CreateOrderPage() {
         setIsFormOpen(true);
     };
 
-    // Delete address
     const handleDelete = async (addressId) => {
         try {
             await axiosInstance.delete(`/user/address/${addressId}`);
@@ -134,7 +149,6 @@ function CreateOrderPage() {
         }
     };
 
-    // Select address (shipping or receipt usage depends on your flow)
     const handleSelectAddress = (addressId) => {
         setSelectedAddressId(addressId);
         toast.info(`Address ${addressId} selected`);
@@ -145,7 +159,6 @@ function CreateOrderPage() {
             <div className="p-4 font-monts">
                 <h1 className="text-2xl font-bold mb-4">Create Order (Addresses)</h1>
 
-                {/* Address List */}
                 <div className="bg-white shadow p-4 rounded mb-6">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-lg font-semibold">My Addresses</h2>
@@ -207,7 +220,6 @@ function CreateOrderPage() {
                     )}
                 </div>
 
-                {/* Address Form (Add or Update) */}
                 {isFormOpen && (
                     <form
                         onSubmit={handleSubmit}
@@ -328,8 +340,6 @@ function CreateOrderPage() {
                     </form>
                 )}
 
-                {/* Step 2: Payment, shipping, etc. could go below, or in a separate route */}
-                {/* This is up to your multi-step flow design */}
             </div>
         </PageContent>
     );
