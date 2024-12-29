@@ -32,6 +32,10 @@ function Header() {
         location.reload();
     }
 
+    const ordersHandle = () => {
+        history.push("/orders");
+    }
+
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
@@ -141,7 +145,10 @@ function Header() {
                                         ) : (
                                             <>
                                                 <p className="hover:text-black">{user.name}</p>
-                                                <div className="flex justify-between mt-4">
+                                                <div className="flex flex-col gap-1 justify-between mt-4">
+                                                    <button onClick={ordersHandle} className="flex items-center gap-4 hover:text-black">
+                                                        Orders
+                                                    </button>
                                                     <button onClick={logOutHandle} className="flex items-center gap-4 hover:text-black">
                                                         Log Out <LogOut />
                                                     </button>
@@ -159,7 +166,7 @@ function Header() {
                                     </button>
                                     <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 
                            transition-opacity absolute top-[20px] right-0 bg-white shadow-lg p-4 w-64 z-50 hidden md:block">
-                                            <p className="text-sm text-gray-600">You need to log in</p>
+                                        <p className="text-sm text-gray-600">You need to log in</p>
                                     </div>
                                 </div>
                             </>
@@ -259,6 +266,9 @@ function Header() {
                 user ? (
                     <div className="flex flex-col items-center space-y-6 my-12 text-[30px] text-gray-500 md:hidden cursor-pointer">
                         <p className="hover:text-black">{user.name}</p>
+                        <button onClick={ordersHandle} className="flex items-center gap-4 hover:text-black">
+                            Orders
+                        </button>
                         <button onClick={logOutHandle} className="flex items-center gap-4 hover:text-black">
                             Log Out <LogOut />
                         </button>
