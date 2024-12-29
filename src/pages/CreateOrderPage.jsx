@@ -7,6 +7,16 @@ import axiosInstance from "@/redux/axiosInstance";
 import PageContent from "@/layout/PageContent";
 import { clearCart } from "@/redux/actions/shoppingCartActions";
 
+const cityOptions = [
+    "İstanbul",
+    "Ankara",
+    "İzmir",
+    "Bursa",
+    "Antalya",
+    "Adana",
+    "Antakya",
+];
+
 function CreateOrderPage() {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -265,7 +275,7 @@ function CreateOrderPage() {
 
     return (
         <PageContent>
-            <div className="p-4 font-monts">
+            <div className="px-4 py-6 lg:px-12 font-monts">
                 <div className="flex justify-around mb-6">
                     {steps.map((s) => (
                         <div key={s.step} className="text-center">
@@ -312,8 +322,8 @@ function CreateOrderPage() {
                                             <button
                                                 onClick={() => handleSelectAddress(addr.id)}
                                                 className={`px-3 py-1 rounded text-sm ${selectedAddressId === addr.id
-                                                        ? "bg-green-500 text-white"
-                                                        : "bg-gray-200 hover:bg-gray-300"
+                                                    ? "bg-green-500 text-white"
+                                                    : "bg-gray-200 hover:bg-gray-300"
                                                     }`}
                                             >
                                                 {selectedAddressId === addr.id ? "Selected" : "Select"}
@@ -393,14 +403,20 @@ function CreateOrderPage() {
 
                                 <div>
                                     <label className="block text-sm font-semibold">City</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="city"
                                         value={addressFormData.city}
                                         onChange={handleAddressChange}
                                         className="border w-full p-1 rounded"
                                         required
-                                    />
+                                    >
+                                        <option value="">Select city</option>
+                                        {cityOptions.map((city) => (
+                                            <option key={city} value={city}>
+                                                {city}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
 
                                 <div>
@@ -450,8 +466,8 @@ function CreateOrderPage() {
                                 onClick={() => setCurrentStep(2)}
                                 disabled={!selectedAddressId}
                                 className={`px-4 py-2 rounded ${selectedAddressId
-                                        ? "bg-blue-600 text-white hover:bg-blue-700"
-                                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                     }`}
                             >
                                 Next Step &rarr;
@@ -495,8 +511,8 @@ function CreateOrderPage() {
                                             <button
                                                 onClick={() => handleSelectCard(cd.id)}
                                                 className={`px-3 py-1 rounded text-sm ${selectedCardId === cd.id
-                                                        ? "bg-green-500 text-white"
-                                                        : "bg-gray-200 hover:bg-gray-300"
+                                                    ? "bg-green-500 text-white"
+                                                    : "bg-gray-200 hover:bg-gray-300"
                                                     }`}
                                             >
                                                 {selectedCardId === cd.id ? "Selected" : "Select"}
@@ -603,8 +619,8 @@ function CreateOrderPage() {
                                 onClick={() => setCurrentStep(3)}
                                 disabled={!selectedCardId}
                                 className={`px-4 py-2 rounded ${selectedCardId
-                                        ? "bg-blue-600 text-white hover:bg-blue-700"
-                                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                     }`}
                             >
                                 Next Step &rarr;
