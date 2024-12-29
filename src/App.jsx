@@ -16,6 +16,7 @@ import ProductDetailPage from './pages/ProductDetailPage'
 import ShoppingCartPage from './pages/ShoppingCartPage'
 import CreateOrderPage from './pages/CreateOrderPage'
 import PrivateRoute from './components/PrivateRoute'
+import OrderSuccessPage from './pages/OrderSuccessPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -105,6 +106,7 @@ function App() {
           <ShoppingCartPage />
         </Route>
         <PrivateRoute path="/create-order" component={CreateOrderPage} />
+        <PrivateRoute path="/order-success" component={OrderSuccessPage} />
       </Switch>
       <ToastContainer />
     </div>
