@@ -185,6 +185,18 @@ function CreateOrderPage() {
             toast.error("Card number must be 16 digits");
             return;
         }
+        const month = parseInt(cardFormData.expire_month, 10);
+        const year = parseInt(cardFormData.expire_year, 10);
+        const currentYear = new Date().getFullYear();
+        if (month < 1 || month > 12) {
+            toast.error("Invalid expiry month! Must be 1–12.");
+            return;
+          }
+          
+          if (year < currentYear) {
+            toast.error("Card expiry year cannot be in the past!");
+            return;
+          }
         try {
             if (cardFormData.id) {
                 await axiosInstance.put("/user/card", cardFormData);
@@ -553,9 +565,9 @@ function CreateOrderPage() {
                                     />
                                 </div>
 
-                                <div className="flex gap-2">
+                                <div className="flex gap-4">
                                     <div>
-                                        <label className="block text-sm font-semibold">Expire Month</label>
+                                        <label className="block text-sm font-semibold">Expire Month (1-12)</label>
                                         <input
                                             type="number"
                                             name="expire_month"
@@ -566,7 +578,7 @@ function CreateOrderPage() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-semibold">Expire Year</label>
+                                        <label className="block text-sm font-semibold">Expire Year (20XX)</label>
                                         <input
                                             type="number"
                                             name="expire_year"
