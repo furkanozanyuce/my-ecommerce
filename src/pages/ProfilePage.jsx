@@ -1,14 +1,12 @@
-// src/pages/ProfilePage.jsx
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PageContent from "@/layout/PageContent";
-import Gravatar from "react-gravatar"; // same library as your header
+import Gravatar from "react-gravatar";
 import { Link } from "react-router-dom";
 import axiosInstance from "@/redux/axiosInstance";
 import { LogOut } from "lucide-react";
 
-// A helper to convert role_id to a human-readable string
 function getRoleName(roleId) {
     if (roleId === "1") return "Admin";
     if (roleId === "2") return "Store";
@@ -20,7 +18,6 @@ function ProfilePage() {
     const user = useSelector((state) => state.client.user);
     const history = useHistory();
 
-    // If user not logged in, redirect or rely on PrivateRoute
     if (!user) {
         history.push("/login");
         return null;
@@ -28,6 +25,7 @@ function ProfilePage() {
 
     const [lastOrders, setLastOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [expandedOrderId, setExpandedOrderId] = useState(null);
 
     useEffect(() => {
         fetchLastOrders();
@@ -36,16 +34,14 @@ function ProfilePage() {
     const fetchLastOrders = async () => {
         setLoading(true);
         try {
-            // Fetch all orders
             const res = await axiosInstance.get("/order");
 
-            // Sort by date (latest first) and get the last 3 orders
             const sortedOrders = res.data
                 .sort(
                     (a, b) =>
                         new Date(b.order_date).getTime() - new Date(a.order_date).getTime()
                 )
-                .slice(0, 3); // Take only the last 3 orders
+                .slice(0, 3);
 
             setLastOrders(sortedOrders);
         } catch (err) {
@@ -55,6 +51,10 @@ function ProfilePage() {
         }
     };
 
+    const toggleOrderDetails = (orderId) => {
+        setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+    };
+
     const logOutHandle = () => {
         localStorage.removeItem("token");
         toast.info("Logged out!")
@@ -62,15 +62,13 @@ function ProfilePage() {
         location.reload();
     }
 
-    // user has { name, email, role_id, token } from /verify
     return (
         <PageContent>
-            <div className="px-4 py-6 lg:px-12 font-monts">
-                <div className="flex flex-col md:flex-row justify-evenly gap-4">
+            <div className="py-6 px-12 font-monts">
+                <div className="flex flex-col md:flex-row justify-evenly gap-12 md:gap-4">
                     <div>
                         <h1 className="text-2xl font-bold mb-4">My Profile</h1>
                         <div className="flex items-center gap-4 mb-6">
-                            {/* Gravatar using user.email */}
                             <Gravatar
                                 email={user.email}
                                 size={80}
@@ -83,7 +81,7 @@ function ProfilePage() {
                             </div>
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="space-y-5">
                             <p>
                                 <span className="font-semibold">Name:</span> {user.name}
                             </p>
@@ -94,13 +92,12 @@ function ProfilePage() {
                                 <span className="font-semibold">Role:</span>{" "}
                                 {getRoleName(user.role_id)}
                             </p>
-                            <button onClick={logOutHandle} className="flex font-semibold text-blue-500 items-center gap-4 hover:text-blue-800">
+                            <button onClick={logOutHandle} className="flex font-semibold text-blue-500 items-center gap-4 pt-4 md:pt-11 hover:text-blue-800">
                                 Log Out <LogOut />
                             </button>
                         </div>
                     </div>
-                    {/* Last Orders Section */}
-                    <div className="bg-white py-4 rounded min-w-[300px]">
+                    <div className="bg-white rounded min-w-[300px] max-w-[300px]">
                         <div className="flex justify-between items-center mb-3">
                             <h2 className="text-lg font-semibold">Last Orders</h2>
                             <Link to="/orders" className="text-blue-600 hover:underline">
@@ -123,6 +120,33 @@ function ProfilePage() {
                                         <p className="text-sm text-gray-600">
                                             {new Date(ord.order_date).toLocaleString()}
                                         </p>
+
+                                        <button
+                                            onClick={() => toggleOrderDetails(ord.id)}
+                                            className="text-blue-500 hover:underline mt-2"
+                                        >
+                                            {expandedOrderId === ord.id ? "Hide Details" : "See Details"}
+                                        </button>
+
+                                        {expandedOrderId === ord.id && (
+                                            <div className="mt-3 space-y-2 border-t pt-3">
+                                                {ord.products.map((product) => (
+                                                    <div key={product.id} className="flex gap-3">
+                                                        <img
+                                                            src={product.images[0]?.url}
+                                                            alt={product.name}
+                                                            className="w-16 h-16 rounded"
+                                                        />
+                                                        <div>
+                                                            <p className="font-semibold">{product.name}</p>
+                                                            <p className="text-sm text-gray-500">{product.description}</p>
+                                                            <p className="text-sm">Count: {product.count}</p>
+                                                            <p className="text-sm font-semibold">₺{product.price}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </li>
                                 ))}
                             </ul>
