@@ -1,4 +1,3 @@
-// src/pages/CreateOrderPage.jsx
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -12,20 +11,14 @@ function CreateOrderPage() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // Logged-in user & cart from Redux:
     const user = useSelector((state) => state.client.user);
     const cartItems = useSelector((state) => state.shoppingCart.cart);
 
-    // Multi-step wizard: 1=Address, 2=Payment, 3=Review/Place
     const [currentStep, setCurrentStep] = useState(1);
 
-    // Loading & error states for initial data fetch
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // ---------------------------
-    // Address States
-    // ---------------------------
     const [addresses, setAddresses] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
 
@@ -41,9 +34,6 @@ function CreateOrderPage() {
         neighborhood: "",
     });
 
-    // ---------------------------
-    // Card States
-    // ---------------------------
     const [cards, setCards] = useState([]);
     const [selectedCardId, setSelectedCardId] = useState(null);
 
@@ -56,9 +46,8 @@ function CreateOrderPage() {
         name_on_card: "",
     });
 
-    // On mount (if user is present), fetch addresses & cards
     useEffect(() => {
-        if (!user) return; // rely on PrivateRoute if needed
+        if (!user) return;
         fetchAllData();
     }, [user]);
 
@@ -75,22 +64,16 @@ function CreateOrderPage() {
         }
     };
 
-    // GET /user/address
     const getAddressList = async () => {
         const res = await axiosInstance.get("/user/address");
         setAddresses(res.data);
     };
-    // GET /user/card
     const getCardList = async () => {
         const res = await axiosInstance.get("/user/card");
         setCards(res.data);
     };
 
-    // ---------------------------
-    // Address Handlers
-    // ---------------------------
     const handleAddAddress = () => {
-        // Clear form => open
         setAddressFormData({
             id: null,
             title: "",
@@ -104,7 +87,6 @@ function CreateOrderPage() {
         setIsAddressFormOpen(true);
     };
     const handleEditAddress = (addr) => {
-        // Pre-fill form => open
         setAddressFormData({
             id: addr.id,
             title: addr.title,
@@ -137,11 +119,9 @@ function CreateOrderPage() {
         e.preventDefault();
         try {
             if (addressFormData.id) {
-                // PUT /user/address
                 await axiosInstance.put("/user/address", addressFormData);
                 toast.success("Address updated!");
             } else {
-                // POST /user/address
                 await axiosInstance.post("/user/address", addressFormData);
                 toast.success("Address added!");
             }
@@ -153,11 +133,7 @@ function CreateOrderPage() {
         }
     };
 
-    // ---------------------------
-    // Card Handlers
-    // ---------------------------
     const handleAddCard = () => {
-        // Clear form => open
         setCardFormData({
             id: null,
             card_no: "",
@@ -168,7 +144,6 @@ function CreateOrderPage() {
         setIsCardFormOpen(true);
     };
     const handleEditCard = (cd) => {
-        // Pre-fill form => open
         setCardFormData({
             id: cd.id,
             card_no: cd.card_no,
@@ -196,18 +171,15 @@ function CreateOrderPage() {
     };
     const handleCardSubmit = async (e) => {
         e.preventDefault();
-        // Basic validation
         if (!/^\d{16}$/.test(cardFormData.card_no)) {
             toast.error("Card number must be 16 digits");
             return;
         }
         try {
             if (cardFormData.id) {
-                // PUT /user/card
                 await axiosInstance.put("/user/card", cardFormData);
                 toast.success("Card updated!");
             } else {
-                // POST /user/card
                 await axiosInstance.post("/user/card", cardFormData);
                 toast.success("Card added!");
             }
@@ -219,9 +191,6 @@ function CreateOrderPage() {
         }
     };
 
-    // ---------------------------
-    // Step 3: Place Order
-    // ---------------------------
     const cartTotal = cartItems.reduce((acc, it) => acc + it.product.price * it.count, 0);
     const buildProductsPayload = () =>
         cartItems.map((item) => ({
@@ -241,7 +210,6 @@ function CreateOrderPage() {
             setCurrentStep(2);
             return;
         }
-        // find actual card object
         const chosenCard = cards.find((c) => c.id === selectedCardId);
         if (!chosenCard) {
             toast.error("Selected card not found");
@@ -269,7 +237,6 @@ function CreateOrderPage() {
         }
     };
 
-    // Loading or error
     if (loading) {
         return (
             <PageContent>
@@ -290,7 +257,6 @@ function CreateOrderPage() {
         );
     }
 
-    // Steps for the wizard top bar
     const steps = [
         { step: 1, label: "Shipping Address" },
         { step: 2, label: "Payment Method" },
@@ -300,7 +266,6 @@ function CreateOrderPage() {
     return (
         <PageContent>
             <div className="p-4 font-monts">
-                {/* Steps indicator */}
                 <div className="flex justify-around mb-6">
                     {steps.map((s) => (
                         <div key={s.step} className="text-center">
@@ -316,7 +281,6 @@ function CreateOrderPage() {
                     ))}
                 </div>
 
-                {/* STEP 1: ADDRESS */}
                 {currentStep === 1 && (
                     <div className="bg-white shadow p-4 rounded mb-6">
                         <div className="flex justify-between mb-4">
@@ -372,7 +336,6 @@ function CreateOrderPage() {
                             </ul>
                         )}
 
-                        {/* Add/Update Address Form */}
                         {isAddressFormOpen && (
                             <form onSubmit={handleAddressSubmit} className="mt-4 bg-gray-50 p-4 rounded space-y-3">
                                 <h3 className="text-md font-semibold">
@@ -482,7 +445,6 @@ function CreateOrderPage() {
                             </form>
                         )}
 
-                        {/* Next Step */}
                         <div className="text-right mt-6">
                             <button
                                 onClick={() => setCurrentStep(2)}
@@ -498,7 +460,6 @@ function CreateOrderPage() {
                     </div>
                 )}
 
-                {/* STEP 2: CARDS */}
                 {currentStep === 2 && (
                     <div className="bg-white shadow p-4 rounded mb-6">
                         <div className="flex justify-between mb-4">
@@ -558,7 +519,6 @@ function CreateOrderPage() {
                             </ul>
                         )}
 
-                        {/* Add/Update Card Form */}
                         {isCardFormOpen && (
                             <form onSubmit={handleCardSubmit} className="mt-4 bg-gray-50 p-4 rounded space-y-3">
                                 <h3 className="text-md font-semibold">
@@ -632,7 +592,6 @@ function CreateOrderPage() {
                             </form>
                         )}
 
-                        {/* Nav buttons */}
                         <div className="flex justify-between mt-6">
                             <button
                                 onClick={() => setCurrentStep(1)}
@@ -654,24 +613,20 @@ function CreateOrderPage() {
                     </div>
                 )}
 
-                {/* STEP 3: Review & Place */}
                 {currentStep === 3 && (
                     <div className="bg-white shadow p-4 rounded">
                         <h2 className="text-lg font-semibold mb-4">Review &amp; Place Order</h2>
 
-                        {/* Address summary */}
                         <div className="mb-4">
                             <h3 className="font-semibold">Selected Address ID:</h3>
                             <p>{selectedAddressId || "None"}</p>
                         </div>
 
-                        {/* Card summary */}
                         <div className="mb-4">
                             <h3 className="font-semibold">Selected Card ID:</h3>
                             <p>{selectedCardId || "None"}</p>
                         </div>
 
-                        {/* Cart items */}
                         <div className="mb-4">
                             <h3 className="font-semibold mb-2">Cart Items</h3>
                             {cartItems.length === 0 ? (
