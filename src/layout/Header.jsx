@@ -144,7 +144,7 @@ function Header() {
                                             <p className="text-sm text-gray-600">You need to log in</p>
                                         ) : (
                                             <>
-                                                <p className="hover:text-black">{user.name}</p>
+                                                <Link to="/profile" className="hover:text-black">{user.name}</Link>
                                                 <div className="flex flex-col gap-1 justify-between mt-4">
                                                     <button onClick={ordersHandle} className="flex items-center gap-4 hover:text-black">
                                                         Orders
@@ -173,7 +173,7 @@ function Header() {
                         )}
                         <div className="hidden gap-2 md:flex">
                             {user ? (
-                                <p className="font-semibold hover:text-gray-500 cursor-pointer">{user.name}</p>
+                                <Link to="/profile" className="font-semibold hover:text-gray-500 cursor-pointer">{user.name}</Link>
                             ) : (
                                 <>
                                     <Link to="/login" className="hover:text-gray-500 font-semibold">Login</Link>
@@ -265,7 +265,7 @@ function Header() {
             {isLoginOpen && (
                 user ? (
                     <div className="flex flex-col items-center space-y-6 my-12 text-[30px] text-gray-500 md:hidden cursor-pointer">
-                        <p className="hover:text-black">{user.name}</p>
+                        <Link to="/profile" className="hover:text-black">{user.name}</Link>
                         <button onClick={ordersHandle} className="flex items-center gap-4 hover:text-black">
                             Orders
                         </button>
