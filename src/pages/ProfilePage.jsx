@@ -6,6 +6,7 @@ import Gravatar from "react-gravatar";
 import { Link } from "react-router-dom";
 import axiosInstance from "@/redux/axiosInstance";
 import { LogOut } from "lucide-react";
+import { toast } from "react-toastify";
 
 function getRoleName(roleId) {
     if (roleId === "1") return "Admin";
