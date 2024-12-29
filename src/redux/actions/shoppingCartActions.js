@@ -7,6 +7,7 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const UPDATE_ITEM_COUNT = "UPDATE_ITEM_COUNT";
 export const TOGGLE_ITEM_CHECKED = "TOGGLE_ITEM_CHECKED";
+export const CLEAR_CART = "CLEAR_CART";
 
 export const addToCart = (product) => {
     return (dispatch, getState) => {
@@ -79,4 +80,8 @@ export const updateItemCount = (productId, newCount) => ({
   export const toggleItemChecked = (productId) => ({
     type: TOGGLE_ITEM_CHECKED,
     payload: productId,
+  });
+
+  export const clearCart = () => ({
+    type: CLEAR_CART,
   });

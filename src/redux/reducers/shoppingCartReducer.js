@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_ITEM_COUNT, TOGGLE_ITEM_CHECKED } from "../actions/shoppingCartActions";
+import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_ITEM_COUNT, TOGGLE_ITEM_CHECKED, CLEAR_CART } from "../actions/shoppingCartActions";
 
 function loadCartFromLocalStorage() {
   try {
@@ -78,6 +78,8 @@ const shoppingCartReducer = (state = initialState, action) => {
       });
       return { ...state, cart: updatedCart };
     }
+    case CLEAR_CART:
+      return { ...state, cart: [] };
     default:
       return state;
   }

@@ -1,29 +1,36 @@
+// src/pages/CreateOrderPage.jsx
 import React, { useEffect, useState } from "react";
-import axiosInstance from "@/redux/axiosInstance";
-import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import PageContent from "@/layout/PageContent";
+import { toast } from "react-toastify";
 
-const cityOptions = [
-    "İstanbul",
-    "Ankara",
-    ",zmir",
-    "Bursa",
-    "Antalya",
-];
+import axiosInstance from "@/redux/axiosInstance";
+import PageContent from "@/layout/PageContent";
+import { clearCart } from "@/redux/actions/shoppingCartActions";
 
 function CreateOrderPage() {
-    const user = useSelector((state) => state.client.user);
+    const dispatch = useDispatch();
     const history = useHistory();
 
+    // Logged-in user & cart from Redux:
+    const user = useSelector((state) => state.client.user);
+    const cartItems = useSelector((state) => state.shoppingCart.cart);
+
+    // Multi-step wizard: 1=Address, 2=Payment, 3=Review/Place
+    const [currentStep, setCurrentStep] = useState(1);
+
+    // Loading & error states for initial data fetch
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    // ---------------------------
+    // Address States
+    // ---------------------------
     const [addresses, setAddresses] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    const [formData, setFormData] = useState({
+    const [isAddressFormOpen, setIsAddressFormOpen] = useState(false);
+    const [addressFormData, setAddressFormData] = useState({
         id: null,
         title: "",
         name: "",
@@ -33,99 +40,72 @@ function CreateOrderPage() {
         district: "",
         neighborhood: "",
     });
-    const [isFormOpen, setIsFormOpen] = useState(false);
 
-    const getAddressList = async () => {
+    // ---------------------------
+    // Card States
+    // ---------------------------
+    const [cards, setCards] = useState([]);
+    const [selectedCardId, setSelectedCardId] = useState(null);
+
+    const [isCardFormOpen, setIsCardFormOpen] = useState(false);
+    const [cardFormData, setCardFormData] = useState({
+        id: null,
+        card_no: "",
+        expire_month: "",
+        expire_year: "",
+        name_on_card: "",
+    });
+
+    // On mount (if user is present), fetch addresses & cards
+    useEffect(() => {
+        if (!user) return; // rely on PrivateRoute if needed
+        fetchAllData();
+    }, [user]);
+
+    const fetchAllData = async () => {
         setLoading(true);
         setError(null);
-
         try {
-            const res = await axiosInstance.get("/user/address");
-            setAddresses(res.data);
-        } catch (error) {
-            console.error("Error fetching addresses:", error);
-            setError("Error fetching addresses");
-            toast.error("Error fetching addresses");
+            await Promise.all([getAddressList(), getCardList()]);
+        } catch (err) {
+            console.error("Error fetching data:", err);
+            setError("Error fetching addresses or cards.");
         } finally {
             setLoading(false);
         }
     };
 
-    useEffect(() => {
-        if (!user) {
-            setLoading(false);
-            return;
-        }
-
-        getAddressList();
-    }, [user]);
-
-    if (loading) {
-        return (
-            <div className="p-4">
-                <p>Loading addresses...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="p-4">
-                <p>{error}</p>
-                <button onClick={getAddressList} className="bg-blue-500 text-white px-3 py-1 rounded">
-                    Retry
-                </button>
-            </div>
-        );
-    }
-
-    const handleAddAddressClick = () => {
-        if (isFormOpen) {
-            setIsFormOpen(false);
-        } else {
-            setFormData({
-                id: null,
-                title: "",
-                name: "",
-                surname: "",
-                phone: "",
-                city: "",
-                district: "",
-                neighborhood: "",
-            });
-            setIsFormOpen(true);
-        }
+    // GET /user/address
+    const getAddressList = async () => {
+        const res = await axiosInstance.get("/user/address");
+        setAddresses(res.data);
+    };
+    // GET /user/card
+    const getCardList = async () => {
+        const res = await axiosInstance.get("/user/card");
+        setCards(res.data);
     };
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    // ---------------------------
+    // Address Handlers
+    // ---------------------------
+    const handleAddAddress = () => {
+        // Clear form => open
+        setAddressFormData({
+            id: null,
+            title: "",
+            name: "",
+            surname: "",
+            phone: "",
+            city: "",
+            district: "",
+            neighborhood: "",
+        });
+        setIsAddressFormOpen(true);
     };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!formData.city) {
-            toast.error("City is required");
-            return;
-        }
-
-        try {
-            if (formData.id) {
-                await axiosInstance.put("/user/address", formData);
-                toast.success("Address updated!");
-            } else {
-                await axiosInstance.post("/user/address", formData);
-                toast.success("Address added!");
-            }
-            setIsFormOpen(false);
-            getAddressList();
-        } catch (error) {
-            console.error("Error saving address:", error);
-            toast.error("Error saving address");
-        }
-    };
-
-    const handleEdit = (addr) => {
-        setFormData({
+    const handleEditAddress = (addr) => {
+        // Pre-fill form => open
+        setAddressFormData({
             id: addr.id,
             title: addr.title,
             name: addr.name,
@@ -135,211 +115,603 @@ function CreateOrderPage() {
             district: addr.district,
             neighborhood: addr.neighborhood,
         });
-        setIsFormOpen(true);
+        setIsAddressFormOpen(true);
     };
-
-    const handleDelete = async (addressId) => {
+    const handleDeleteAddress = async (addressId) => {
         try {
             await axiosInstance.delete(`/user/address/${addressId}`);
-            toast.info("Address deleted!");
+            toast.info("Address deleted");
             getAddressList();
-        } catch (error) {
-            console.error("Error deleting address:", error);
+        } catch (err) {
             toast.error("Error deleting address");
         }
     };
-
     const handleSelectAddress = (addressId) => {
         setSelectedAddressId(addressId);
-        toast.info(`Address ${addressId} selected`);
+        toast.info(`Selected address ID: ${addressId}`);
     };
+    const handleAddressChange = (e) => {
+        setAddressFormData({ ...addressFormData, [e.target.name]: e.target.value });
+    };
+    const handleAddressSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (addressFormData.id) {
+                // PUT /user/address
+                await axiosInstance.put("/user/address", addressFormData);
+                toast.success("Address updated!");
+            } else {
+                // POST /user/address
+                await axiosInstance.post("/user/address", addressFormData);
+                toast.success("Address added!");
+            }
+            setIsAddressFormOpen(false);
+            getAddressList();
+        } catch (err) {
+            toast.error("Error saving address");
+            console.error(err);
+        }
+    };
+
+    // ---------------------------
+    // Card Handlers
+    // ---------------------------
+    const handleAddCard = () => {
+        // Clear form => open
+        setCardFormData({
+            id: null,
+            card_no: "",
+            expire_month: "",
+            expire_year: "",
+            name_on_card: "",
+        });
+        setIsCardFormOpen(true);
+    };
+    const handleEditCard = (cd) => {
+        // Pre-fill form => open
+        setCardFormData({
+            id: cd.id,
+            card_no: cd.card_no,
+            expire_month: cd.expire_month,
+            expire_year: cd.expire_year,
+            name_on_card: cd.name_on_card,
+        });
+        setIsCardFormOpen(true);
+    };
+    const handleDeleteCard = async (cardId) => {
+        try {
+            await axiosInstance.delete(`/user/card/${cardId}`);
+            toast.info("Card deleted");
+            getCardList();
+        } catch (err) {
+            toast.error("Error deleting card");
+        }
+    };
+    const handleSelectCard = (cardId) => {
+        setSelectedCardId(cardId);
+        toast.info(`Selected card ID: ${cardId}`);
+    };
+    const handleCardChange = (e) => {
+        setCardFormData({ ...cardFormData, [e.target.name]: e.target.value });
+    };
+    const handleCardSubmit = async (e) => {
+        e.preventDefault();
+        // Basic validation
+        if (!/^\d{16}$/.test(cardFormData.card_no)) {
+            toast.error("Card number must be 16 digits");
+            return;
+        }
+        try {
+            if (cardFormData.id) {
+                // PUT /user/card
+                await axiosInstance.put("/user/card", cardFormData);
+                toast.success("Card updated!");
+            } else {
+                // POST /user/card
+                await axiosInstance.post("/user/card", cardFormData);
+                toast.success("Card added!");
+            }
+            setIsCardFormOpen(false);
+            getCardList();
+        } catch (err) {
+            toast.error("Error saving card");
+            console.error(err);
+        }
+    };
+
+    // ---------------------------
+    // Step 3: Place Order
+    // ---------------------------
+    const cartTotal = cartItems.reduce((acc, it) => acc + it.product.price * it.count, 0);
+    const buildProductsPayload = () =>
+        cartItems.map((item) => ({
+            product_id: item.product.id,
+            count: item.count,
+            detail: item.detail || "",
+        }));
+
+    const handlePlaceOrder = async () => {
+        if (!selectedAddressId) {
+            toast.error("Please select an address first");
+            setCurrentStep(1);
+            return;
+        }
+        if (!selectedCardId) {
+            toast.error("Please select a card first");
+            setCurrentStep(2);
+            return;
+        }
+        // find actual card object
+        const chosenCard = cards.find((c) => c.id === selectedCardId);
+        if (!chosenCard) {
+            toast.error("Selected card not found");
+            setCurrentStep(2);
+            return;
+        }
+        const payload = {
+            address_id: selectedAddressId,
+            order_date: new Date().toISOString(),
+            card_no: chosenCard.card_no,
+            card_name: chosenCard.name_on_card,
+            card_expire_month: chosenCard.expire_month,
+            card_expire_year: chosenCard.expire_year,
+            price: cartTotal,
+            products: buildProductsPayload(),
+        };
+        try {
+            await axiosInstance.post("/order", payload);
+            toast.success("Congrats! Your order has been placed.");
+            dispatch(clearCart());
+            history.push("/order-success");
+        } catch (err) {
+            toast.error("Error placing order");
+            console.error(err);
+        }
+    };
+
+    // Loading or error
+    if (loading) {
+        return (
+            <PageContent>
+                <div className="p-4">Loading address/card data...</div>
+            </PageContent>
+        );
+    }
+    if (error) {
+        return (
+            <PageContent>
+                <div className="p-4">
+                    <p>{error}</p>
+                    <button onClick={fetchAllData} className="bg-blue-500 text-white px-3 py-1 rounded">
+                        Retry
+                    </button>
+                </div>
+            </PageContent>
+        );
+    }
+
+    // Steps for the wizard top bar
+    const steps = [
+        { step: 1, label: "Shipping Address" },
+        { step: 2, label: "Payment Method" },
+        { step: 3, label: "Review & Place Order" },
+    ];
 
     return (
         <PageContent>
             <div className="p-4 font-monts">
-                <h1 className="text-2xl font-bold mb-4">Create Order (Addresses)</h1>
-
-                <div className="bg-white shadow p-4 rounded mb-6">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-semibold">My Addresses</h2>
-                        <button
-                            onClick={handleAddAddressClick}
-                            className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
-                        >
-                            Add Address
-                        </button>
-                    </div>
-
-                    {addresses.length === 0 ? (
-                        <p>No addresses found.</p>
-                    ) : (
-                        <ul className="space-y-4">
-                            {addresses.map((addr) => (
-                                <li
-                                    key={addr.id}
-                                    className="border p-4 rounded flex flex-col md:flex-row justify-between"
-                                >
-                                    <div>
-                                        <p className="font-semibold">{addr.title}</p>
-                                        <p>
-                                            {addr.name} {addr.surname}
-                                        </p>
-                                        <p>Phone: {addr.phone}</p>
-                                        <p>
-                                            {addr.city}, {addr.district}, {addr.neighborhood}
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col md:flex-row items-center gap-2 mt-2 md:mt-0">
-                                        <button
-                                            onClick={() => handleSelectAddress(addr.id)}
-                                            className={`px-3 py-1 rounded text-sm ${selectedAddressId === addr.id
-                                                ? "bg-green-500 text-white"
-                                                : "bg-gray-200 hover:bg-gray-300"
-                                                }`}
-                                        >
-                                            {selectedAddressId === addr.id
-                                                ? "Selected"
-                                                : "Select Address"}
-                                        </button>
-                                        <button
-                                            onClick={() => handleEdit(addr)}
-                                            className="bg-yellow-400 text-white px-3 py-1 rounded text-sm hover:bg-yellow-500"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(addr.id)}
-                                            className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                {/* Steps indicator */}
+                <div className="flex justify-around mb-6">
+                    {steps.map((s) => (
+                        <div key={s.step} className="text-center">
+                            <div
+                                className={`rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-2
+                  ${currentStep === s.step ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600"}
+                `}
+                            >
+                                {s.step}
+                            </div>
+                            <div className="text-sm">{s.label}</div>
+                        </div>
+                    ))}
                 </div>
 
-                {isFormOpen && (
-                    <form
-                        onSubmit={handleSubmit}
-                        className="bg-white shadow p-4 rounded mb-6 space-y-4"
-                    >
-                        <h2 className="text-lg font-semibold">
-                            {formData.id ? "Update Address" : "Add Address"}
-                        </h2>
-
-                        <div>
-                            <label className="block text-sm font-semibold">Address Title</label>
-                            <input
-                                type="text"
-                                name="title"
-                                value={formData.title}
-                                onChange={handleChange}
-                                className="border w-full p-1 rounded"
-                                required
-                            />
-                        </div>
-
-                        <div className="flex gap-4">
-                            <div className="flex-1">
-                                <label className="block text-sm font-semibold">Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="border w-full p-1 rounded"
-                                    required
-                                />
-                            </div>
-                            <div className="flex-1">
-                                <label className="block text-sm font-semibold">Surname</label>
-                                <input
-                                    type="text"
-                                    name="surname"
-                                    value={formData.surname}
-                                    onChange={handleChange}
-                                    className="border w-full p-1 rounded"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-semibold">Phone</label>
-                            <input
-                                type="tel"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                className="border w-full p-1 rounded"
-                                required
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-semibold">City (İl)</label>
-                            <select
-                                name="city"
-                                value={formData.city}
-                                onChange={handleChange}
-                                className="border w-full p-1 rounded"
-                                required
+                {/* STEP 1: ADDRESS */}
+                {currentStep === 1 && (
+                    <div className="bg-white shadow p-4 rounded mb-6">
+                        <div className="flex justify-between mb-4">
+                            <h2 className="text-lg font-semibold">My Addresses</h2>
+                            <button
+                                onClick={handleAddAddress}
+                                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                             >
-                                <option value="">Select city</option>
-                                {cityOptions.map((city) => (
-                                    <option key={city} value={city}>
-                                        {city}
-                                    </option>
+                                Add Address
+                            </button>
+                        </div>
+
+                        {addresses.length === 0 ? (
+                            <p>No addresses found.</p>
+                        ) : (
+                            <ul className="space-y-4">
+                                {addresses.map((addr) => (
+                                    <li
+                                        key={addr.id}
+                                        className="border p-4 rounded flex flex-col md:flex-row justify-between"
+                                    >
+                                        <div>
+                                            <p className="font-semibold">{addr.title}</p>
+                                            <p>{addr.name} {addr.surname}</p>
+                                            <p>Phone: {addr.phone}</p>
+                                            <p>{addr.city}, {addr.district}, {addr.neighborhood}</p>
+                                        </div>
+                                        <div className="flex flex-col md:flex-row items-center gap-2 mt-2 md:mt-0">
+                                            <button
+                                                onClick={() => handleSelectAddress(addr.id)}
+                                                className={`px-3 py-1 rounded text-sm ${selectedAddressId === addr.id
+                                                        ? "bg-green-500 text-white"
+                                                        : "bg-gray-200 hover:bg-gray-300"
+                                                    }`}
+                                            >
+                                                {selectedAddressId === addr.id ? "Selected" : "Select"}
+                                            </button>
+                                            <button
+                                                onClick={() => handleEditAddress(addr)}
+                                                className="bg-yellow-400 text-white px-3 py-1 rounded text-sm hover:bg-yellow-500"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteAddress(addr.id)}
+                                                className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </li>
                                 ))}
-                            </select>
-                        </div>
+                            </ul>
+                        )}
 
-                        <div>
-                            <label className="block text-sm font-semibold">District (İlçe)</label>
-                            <input
-                                type="text"
-                                name="district"
-                                value={formData.district}
-                                onChange={handleChange}
-                                className="border w-full p-1 rounded"
-                                required
-                            />
-                        </div>
+                        {/* Add/Update Address Form */}
+                        {isAddressFormOpen && (
+                            <form onSubmit={handleAddressSubmit} className="mt-4 bg-gray-50 p-4 rounded space-y-3">
+                                <h3 className="text-md font-semibold">
+                                    {addressFormData.id ? "Update Address" : "Add Address"}
+                                </h3>
 
-                        <div>
-                            <label className="block text-sm font-semibold">
-                                Neighborhood (Mahalle)
-                            </label>
-                            <input
-                                type="text"
-                                name="neighborhood"
-                                value={formData.neighborhood}
-                                onChange={handleChange}
-                                className="border w-full p-1 rounded"
-                                required
-                            />
-                        </div>
+                                <div>
+                                    <label className="block text-sm font-semibold">Title</label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={addressFormData.title}
+                                        onChange={handleAddressChange}
+                                        className="border w-full p-1 rounded"
+                                        required
+                                    />
+                                </div>
 
-                        <div className="flex gap-2">
+                                <div className="flex gap-2">
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-semibold">Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={addressFormData.name}
+                                            onChange={handleAddressChange}
+                                            className="border w-full p-1 rounded"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-semibold">Surname</label>
+                                        <input
+                                            type="text"
+                                            name="surname"
+                                            value={addressFormData.surname}
+                                            onChange={handleAddressChange}
+                                            className="border w-full p-1 rounded"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-semibold">Phone</label>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value={addressFormData.phone}
+                                        onChange={handleAddressChange}
+                                        className="border w-full p-1 rounded"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-semibold">City</label>
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        value={addressFormData.city}
+                                        onChange={handleAddressChange}
+                                        className="border w-full p-1 rounded"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-semibold">District</label>
+                                    <input
+                                        type="text"
+                                        name="district"
+                                        value={addressFormData.district}
+                                        onChange={handleAddressChange}
+                                        className="border w-full p-1 rounded"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-semibold">Neighborhood</label>
+                                    <input
+                                        type="text"
+                                        name="neighborhood"
+                                        value={addressFormData.neighborhood}
+                                        onChange={handleAddressChange}
+                                        className="border w-full p-1 rounded"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mt-3">
+                                    <button
+                                        type="submit"
+                                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                                    >
+                                        {addressFormData.id ? "Update" : "Add"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddressFormOpen(false)}
+                                        className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 ml-2"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+
+                        {/* Next Step */}
+                        <div className="text-right mt-6">
                             <button
-                                type="submit"
-                                className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                                onClick={() => setCurrentStep(2)}
+                                disabled={!selectedAddressId}
+                                className={`px-4 py-2 rounded ${selectedAddressId
+                                        ? "bg-blue-600 text-white hover:bg-blue-700"
+                                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    }`}
                             >
-                                {formData.id ? "Update Address" : "Add Address"}
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setIsFormOpen(false)}
-                                className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
-                            >
-                                Cancel
+                                Next Step &rarr;
                             </button>
                         </div>
-                    </form>
+                    </div>
                 )}
 
+                {/* STEP 2: CARDS */}
+                {currentStep === 2 && (
+                    <div className="bg-white shadow p-4 rounded mb-6">
+                        <div className="flex justify-between mb-4">
+                            <h2 className="text-lg font-semibold">Payment Method</h2>
+                            <button
+                                onClick={handleAddCard}
+                                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                            >
+                                Add Card
+                            </button>
+                        </div>
+
+                        {cards.length === 0 ? (
+                            <p>No cards found.</p>
+                        ) : (
+                            <ul className="space-y-4">
+                                {cards.map((cd) => (
+                                    <li
+                                        key={cd.id}
+                                        className="border p-4 rounded flex flex-col md:flex-row justify-between"
+                                    >
+                                        <div>
+                                            <p className="font-semibold">
+                                                {cd.card_no
+                                                    ? `**** **** **** ${cd.card_no.slice(-4)}`
+                                                    : "No card #"
+                                                }
+                                            </p>
+                                            <p>Expires: {cd.expire_month}/{cd.expire_year}</p>
+                                            <p>{cd.name_on_card}</p>
+                                        </div>
+                                        <div className="flex flex-col md:flex-row items-center gap-2 mt-2 md:mt-0">
+                                            <button
+                                                onClick={() => handleSelectCard(cd.id)}
+                                                className={`px-3 py-1 rounded text-sm ${selectedCardId === cd.id
+                                                        ? "bg-green-500 text-white"
+                                                        : "bg-gray-200 hover:bg-gray-300"
+                                                    }`}
+                                            >
+                                                {selectedCardId === cd.id ? "Selected" : "Select"}
+                                            </button>
+                                            <button
+                                                onClick={() => handleEditCard(cd)}
+                                                className="bg-yellow-400 text-white px-3 py-1 rounded text-sm hover:bg-yellow-500"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteCard(cd.id)}
+                                                className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        {/* Add/Update Card Form */}
+                        {isCardFormOpen && (
+                            <form onSubmit={handleCardSubmit} className="mt-4 bg-gray-50 p-4 rounded space-y-3">
+                                <h3 className="text-md font-semibold">
+                                    {cardFormData.id ? "Update Card" : "Add Card"}
+                                </h3>
+
+                                <div>
+                                    <label className="block text-sm font-semibold">Card Number</label>
+                                    <input
+                                        type="text"
+                                        name="card_no"
+                                        value={cardFormData.card_no}
+                                        onChange={handleCardChange}
+                                        className="border w-full p-1 rounded"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="flex gap-2">
+                                    <div>
+                                        <label className="block text-sm font-semibold">Expire Month</label>
+                                        <input
+                                            type="number"
+                                            name="expire_month"
+                                            value={cardFormData.expire_month}
+                                            onChange={handleCardChange}
+                                            className="border p-1 rounded w-16"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold">Expire Year</label>
+                                        <input
+                                            type="number"
+                                            name="expire_year"
+                                            value={cardFormData.expire_year}
+                                            onChange={handleCardChange}
+                                            className="border p-1 rounded w-16"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-semibold">Name on Card</label>
+                                    <input
+                                        type="text"
+                                        name="name_on_card"
+                                        value={cardFormData.name_on_card}
+                                        onChange={handleCardChange}
+                                        className="border w-full p-1 rounded"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mt-3">
+                                    <button
+                                        type="submit"
+                                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                                    >
+                                        {cardFormData.id ? "Update" : "Add"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsCardFormOpen(false)}
+                                        className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 ml-2"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+
+                        {/* Nav buttons */}
+                        <div className="flex justify-between mt-6">
+                            <button
+                                onClick={() => setCurrentStep(1)}
+                                className="px-4 py-2 rounded bg-gray-300 text-gray-700 hover:bg-gray-400"
+                            >
+                                &larr; Back
+                            </button>
+                            <button
+                                onClick={() => setCurrentStep(3)}
+                                disabled={!selectedCardId}
+                                className={`px-4 py-2 rounded ${selectedCardId
+                                        ? "bg-blue-600 text-white hover:bg-blue-700"
+                                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    }`}
+                            >
+                                Next Step &rarr;
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* STEP 3: Review & Place */}
+                {currentStep === 3 && (
+                    <div className="bg-white shadow p-4 rounded">
+                        <h2 className="text-lg font-semibold mb-4">Review &amp; Place Order</h2>
+
+                        {/* Address summary */}
+                        <div className="mb-4">
+                            <h3 className="font-semibold">Selected Address ID:</h3>
+                            <p>{selectedAddressId || "None"}</p>
+                        </div>
+
+                        {/* Card summary */}
+                        <div className="mb-4">
+                            <h3 className="font-semibold">Selected Card ID:</h3>
+                            <p>{selectedCardId || "None"}</p>
+                        </div>
+
+                        {/* Cart items */}
+                        <div className="mb-4">
+                            <h3 className="font-semibold mb-2">Cart Items</h3>
+                            {cartItems.length === 0 ? (
+                                <p>Cart is empty.</p>
+                            ) : (
+                                <ul className="space-y-2">
+                                    {cartItems.map((item, i) => (
+                                        <li key={i} className="border-b pb-2 flex gap-3">
+                                            <img src={item.product.images[0]?.url} className="w-20 h-20 object-cover rounded" />
+                                            <div>
+                                                <p>{item.product.name} x {item.count}</p>
+                                                <p className="text-sm text-gray-500">
+                                                    ₺{item.product.price} each → ₺{item.product.price * item.count}
+                                                </p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            <p className="mt-2 font-bold">
+                                Total: ₺{cartTotal}
+                            </p>
+                        </div>
+
+                        <div className="flex justify-between">
+                            <button
+                                onClick={() => setCurrentStep(2)}
+                                className="px-4 py-2 rounded bg-gray-300 text-gray-700 hover:bg-gray-400"
+                            >
+                                &larr; Back
+                            </button>
+                            <button
+                                onClick={handlePlaceOrder}
+                                className="px-4 py-2 rounded bg-orange-500 text-white hover:bg-orange-600"
+                            >
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </PageContent>
     );
