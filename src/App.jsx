@@ -19,6 +19,7 @@ import PrivateRoute from './components/PrivateRoute'
 import OrderSuccessPage from './pages/OrderSuccessPage'
 import PreviousOrdersPage from './pages/PreviousOrdersPage'
 import ProfilePage from './pages/ProfilePage'
+import TeamsPage from './pages/TeamsPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -106,6 +107,9 @@ function App() {
         </Route>
         <Route path="/cart">
           <ShoppingCartPage />
+        </Route>
+        <Route path="/teams">
+          <TeamsPage />
         </Route>
         <PrivateRoute path="/create-order" component={CreateOrderPage} />
         <PrivateRoute path="/order-success" component={OrderSuccessPage} />

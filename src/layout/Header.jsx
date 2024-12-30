@@ -119,7 +119,7 @@ function Header() {
                         </div>
                         <NavLink to="/about" activeClassName="selected" className="hover:text-black">About</NavLink>
                         <NavLink to="/blog" activeClassName="selected" className="hover:text-black">Blog</NavLink>
-                        <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
+                        <NavLink to="/teams" activeClassName="selected" className="hover:text-black">Contact</NavLink>
                         <NavLink to="/product" activeClassName="selected" className="hover:text-black">Product</NavLink>
                     </ul>
                 </nav>
