@@ -3,7 +3,7 @@ import { Facebook, Instagram, Twitter } from "lucide-react";
 function Footer() {
 
     return (
-        <div className="font-monts px-4 bg-[#FAFAFA] ">
+        <div className="font-monts px-4 lg:px-28 bg-[#FAFAFA] ">
             <div className="flex flex-col py-[40px] px-[30px]  gap-[20px] md:flex-row justify-between border-b-2">
                 <div>
                     <h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42] ml-[3px]">Bandage</h3>

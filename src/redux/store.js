@@ -17,4 +17,14 @@ const store = createStore(
   applyMiddleware(thunk, logger)
 );
 
+store.subscribe(() => {
+  const state = store.getState();
+  const cart = state.shoppingCart.cart;
+  try {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  } catch (err) {
+    console.error("Error saving cart to localStorage", err);
+  }
+});
+
 export default store;

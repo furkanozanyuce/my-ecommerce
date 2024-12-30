@@ -7,13 +7,20 @@ import SignupForm from './pages/SignupForm'
 import LoginForm from './pages/LoginForm'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './redux/actions/clientActions'
 import { fetchCategories } from './redux/actions/productActions';
-import { fetchProductList } from './redux/actions/productActions'
 import axios from 'axios'
 import ProductDetailPage from './pages/ProductDetailPage'
+import ShoppingCartPage from './pages/ShoppingCartPage'
+import CreateOrderPage from './pages/CreateOrderPage'
+import PrivateRoute from './components/PrivateRoute'
+import OrderSuccessPage from './pages/OrderSuccessPage'
+import PreviousOrdersPage from './pages/PreviousOrdersPage'
+import ProfilePage from './pages/ProfilePage'
+import TeamsPage from './pages/TeamsPage'
+import ContactPage from './pages/ContactPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -21,10 +28,17 @@ const axiosInstance = axios.create({
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.client.user);
+
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // No token => no user => done loading
+      setAuthLoading(false);
+      return;
+    }
 
     axiosInstance.defaults.headers.common['Authorization'] = token;
 
@@ -43,16 +57,26 @@ function App() {
         console.error('Token verification failed:', error);
         localStorage.removeItem('token');
         delete axiosInstance.defaults.headers.common['Authorization'];
+      } finally {
+        setAuthLoading(false);
       }
     };
 
     verifyToken();
   }, [dispatch]);
 
+
   useEffect(() => {
     dispatch(fetchCategories());
-    dispatch(fetchProductList());
   }, [dispatch]);
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p>Verifying token...</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -81,6 +105,19 @@ function App() {
         <Route path="/login">
           <LoginForm />
         </Route>
+        <Route path="/cart">
+          <ShoppingCartPage />
+        </Route>
+        <Route path="/teams">
+          <TeamsPage />
+        </Route>
+        <Route path="/contact">
+          <ContactPage />
+        </Route>
+        <PrivateRoute path="/create-order" component={CreateOrderPage} />
+        <PrivateRoute path="/order-success" component={OrderSuccessPage} />
+        <PrivateRoute path="/orders" component={PreviousOrdersPage} />
+        <PrivateRoute path="/profile" component={ProfilePage} />
       </Switch>
       <ToastContainer />
     </div>

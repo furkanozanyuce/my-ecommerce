@@ -3,7 +3,8 @@ import PageContent from "../layout/PageContent";
 import Categories from '../components/Categories';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { fetchProductList, setLimit, setOffset } from '../redux/actions/productActions';
+import { fetchProductList, setLimit, setOffset, fetchCategories } from '../redux/actions/productActions';
+import { addToCart } from '@/redux/actions/shoppingCartActions';
 
 function createSlug(name) {
   return name.toLowerCase()
@@ -15,15 +16,24 @@ function createSlug(name) {
 function ShopPage() {
   const dispatch = useDispatch();
 
-  const { productList, fetchState, total, limit, offset } = useSelector((state) => state.product);
+  const { productList, categories, fetchState, total, limit, offset } = useSelector((state) => state.product);
   const products = productList || [];
   const { gender, categoryName, categoryId } = useParams();
+
+  // Get current category from the URL parameters
+  const currentCategory = categories?.find(cat => String(cat.id) === categoryId);
+  
+  // If we're on a category page but don't have the categories loaded yet, fetch them
+  useEffect(() => {
+    if (!categories?.length) {
+      dispatch(fetchCategories());
+    }
+  }, [categories, dispatch]);
 
   const [view, setView] = useState('grid');
   const [sort, setSort] = useState('');
   const [filter, setFilter] = useState('');
   const [appliedFilter, setAppliedFilter] = useState('');
-
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -261,16 +271,20 @@ function ShopPage() {
 
   const paginationButtons = getPaginationButtons();
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <div>
       <PageContent>
-        <div className="px-4 py-6 lg:px-12 font-monts">
+        <div className="px-4 py-6 lg:px-32 font-monts">
           <Categories />
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 mt-2 space-y-4 md:space-y-0">
             <div>
               <p className="text-gray-700 text-sm">Showing {products.length} of {totalProducts} results</p>
             </div>
-            <div className="flex flex-col sm:flex-row items-center space-x-2 space-y-4 sm:space-y-0">
+            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0">
               <div className='flex items-center space-x-2'>
                 <div className="flex items-center space-x-2">
                   <button
@@ -333,14 +347,20 @@ function ShopPage() {
                 : 'space-y-6'
             }
           >
-            {products.map((product, ind) => {
-              const slug = createSlug(product.name);
-              const productUrl = `/shop/${gender || 'erkek'}/${categoryName || 'category'}/${categoryId || '0'}/${slug}/${product.id}`;
+            {products.map((product) => {
+              // Get the product's category
+              const productCategory = categories?.find(cat => String(cat.id) === String(product.category_id));
+              const productGender = productCategory?.gender === 'e' ? 'erkek' : 'kadin';
+              const productCategoryName = productCategory?.code?.split(':')[1];
+
               return (
-                <Link key={ind} to={productUrl}>
-                  <div
-                    className={`border border-gray-200 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-gray-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
-                      } text-center cursor-pointer`}
+                <div 
+                  key={product.id}
+                  className={`border border-gray-100 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-gray-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col justify-between'} text-center`}
+                >
+                  <Link 
+                    to={`/shop/${productGender}/${productCategoryName}/${product.category_id}/${createSlug(product.name)}/${product.id}`}
+                    className="cursor-pointer"
                   >
                     {product.images.map((image, index) => (
                       <img
@@ -350,14 +370,20 @@ function ShopPage() {
                         className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded`}
                       />
                     ))}
-                    <div className={`${view === 'grid' ? 'gap-1 items-center' : 'gap-2 justify-center items-start text-left'} flex flex-col`}>
+                  </Link>
+
+                  <div className={`${view === 'grid' ? 'gap-1 items-center' : 'gap-2 justify-center items-start text-left'} flex flex-col`}>
+                    <Link
+                      to={`/shop/${productGender}/${productCategoryName}/${product.category_id}/${createSlug(product.name)}/${product.id}`}
+                      className="cursor-pointer"
+                    >
                       <h3 className="text-sm font-semibold text-gray-800 mb-1">{product.name}</h3>
                       <p className="text-xs text-gray-500 mb-2">{product.description}</p>
-                      <div className="flex items-center space-x-2 mb-2">
+                      <div className={`${view === 'grid' ? 'justify-center' : ''} flex items-center space-x-2 mb-2`}>
                         <span className="text-sm text-green-600 font-semibold">₺{product.price}</span>
                         <span className="text-xs text-gray-400">Stock: {product.stock}</span>
                       </div>
-                      <div className="flex space-x-1 gap-2">
+                      <div className={`${view === 'grid' ? 'justify-center' : ''} flex space-x-1 gap-2`}>
                         <span className="text-yellow-500">
                           {"★".repeat(Math.round(product.rating))}
                           {"☆".repeat(5 - Math.round(product.rating))}
@@ -366,11 +392,17 @@ function ShopPage() {
                           {product.rating}
                         </span>
                       </div>
-                    </div>
+                    </Link>
+
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    >
+                      Add to Cart
+                    </button>
                   </div>
-                </Link>
-              );
-            })}
+                </div>
+              )})}
           </div>
 
           {totalPages > 1 && (

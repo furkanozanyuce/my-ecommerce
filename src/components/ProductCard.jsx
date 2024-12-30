@@ -69,7 +69,7 @@ const products = [
 
 const ProductCard = () => {
     return (
-      <div className="px-4 py-14 lg:px-16">
+      <div className="px-4 py-14 lg:px-28 xl:px-44">
         <h2 className="text-xl md:text-2xl font-semibold text-center mb-4">Featured Products</h2>
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">BESTSELLER PRODUCTS</h1>
         <p className="text-center text-gray-600 mb-8">Problems trying to resolve the conflict between</p>
