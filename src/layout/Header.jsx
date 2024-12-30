@@ -118,9 +118,8 @@ function Header() {
                             </div>
                         </div>
                         <NavLink to="/about" activeClassName="selected" className="hover:text-black">About</NavLink>
-                        <NavLink to="/blog" activeClassName="selected" className="hover:text-black">Blog</NavLink>
-                        <NavLink to="/teams" activeClassName="selected" className="hover:text-black">Contact</NavLink>
-                        <NavLink to="/product" activeClassName="selected" className="hover:text-black">Product</NavLink>
+                        <NavLink to="/teams" activeClassName="selected" className="hover:text-black">Team</NavLink>
+                        <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
                     </ul>
                 </nav>
                 <div className="text-[#3C403D] md:text-[#23A6F0] flex gap-[20px] items-center">
@@ -257,8 +256,8 @@ function Header() {
                 <div className="flex flex-col items-center space-y-6 my-16 text-[30px] text-gray-500 lg:hidden">
                     <NavLink exact to="/" activeClassName="selected" className="hover:text-black">Home</NavLink>
                     <NavLink to="/shop" activeClassName="selected" className="hover:text-black">Shop</NavLink>
-                    <NavLink to="/product" activeClassName="selected" className="hover:text-black">Product</NavLink>
-                    <NavLink to="/pricing" activeClassName="selected" className="hover:text-black">Pricing</NavLink>
+                    <NavLink to="/about" activeClassName="selected" className="hover:text-black">About</NavLink>
+                    <NavLink to="/teams" activeClassName="selected" className="hover:text-black">Team</NavLink>
                     <NavLink to="/contact" activeClassName="selected" className="hover:text-black">Contact</NavLink>
                 </div>
             )}
