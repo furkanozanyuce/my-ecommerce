@@ -3,7 +3,7 @@ import PageContent from "../layout/PageContent";
 import Categories from '../components/Categories';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { fetchProductList, setLimit, setOffset } from '../redux/actions/productActions';
+import { fetchProductList, setLimit, setOffset, fetchCategories } from '../redux/actions/productActions';
 import { addToCart } from '@/redux/actions/shoppingCartActions';
 
 function createSlug(name) {
@@ -16,15 +16,24 @@ function createSlug(name) {
 function ShopPage() {
   const dispatch = useDispatch();
 
-  const { productList, fetchState, total, limit, offset } = useSelector((state) => state.product);
+  const { productList, categories, fetchState, total, limit, offset } = useSelector((state) => state.product);
   const products = productList || [];
   const { gender, categoryName, categoryId } = useParams();
+
+  // Get current category from the URL parameters
+  const currentCategory = categories?.find(cat => String(cat.id) === categoryId);
+  
+  // If we're on a category page but don't have the categories loaded yet, fetch them
+  useEffect(() => {
+    if (!categories?.length) {
+      dispatch(fetchCategories());
+    }
+  }, [categories, dispatch]);
 
   const [view, setView] = useState('grid');
   const [sort, setSort] = useState('');
   const [filter, setFilter] = useState('');
   const [appliedFilter, setAppliedFilter] = useState('');
-
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -338,56 +347,63 @@ function ShopPage() {
                 : 'space-y-6'
             }
           >
-            {products.map((product, ind) => {
-              const slug = createSlug(product.name);
-              const productUrl = `/shop/${gender || 'erkek'}/${categoryName || 'category'}/${categoryId || '0'}/${slug}/${product.id}`;
+            {products.map((product) => {
+              // Get the product's category
+              const productCategory = categories?.find(cat => String(cat.id) === String(product.category_id));
+              const productGender = productCategory?.gender === 'e' ? 'erkek' : 'kadin';
+              const productCategoryName = productCategory?.code?.split(':')[1];
+
               return (
                 <div 
-                key={ind}
-                className={`border border-gray-200 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-gray-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'
-                } text-center`}
-              >
-                <Link to={productUrl} className="cursor-pointer">
-                  {product.images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image.url}
-                      alt={`Product Image ${index}`}
-                      className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded`}
-                    />
-                  ))}
-                </Link>
-
-                <div className={`${view === 'grid' ? 'gap-1 items-center' : 'gap-2 justify-center items-start text-left'} flex flex-col`}>
-                  <Link to={productUrl} className="cursor-pointer">
-                    <h3 className="text-sm font-semibold text-gray-800 mb-1">{product.name}</h3>
-                    <p className="text-xs text-gray-500 mb-2">{product.description}</p>
-                    <div className={`${view === 'grid' ? 'justify-center' : ''} flex items-center space-x-2 mb-2`}>
-                      <span className="text-sm text-green-600 font-semibold">₺{product.price}</span>
-                      <span className="text-xs text-gray-400">Stock: {product.stock}</span>
-                    </div>
-                    <div className={`${view === 'grid' ? 'justify-center' : ''} flex space-x-1 gap-2`}>
-                      <span className="text-yellow-500">
-                        {"★".repeat(Math.round(product.rating))}
-                        {"☆".repeat(5 - Math.round(product.rating))}
-                      </span>
-                      <span className='text-gray-700 font-semibold'>
-                        {product.rating}
-                      </span>
-                    </div>
+                  key={product.id}
+                  className={`border border-gray-200 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-gray-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'} text-center`}
+                >
+                  <Link 
+                    to={`/shop/${productGender}/${productCategoryName}/${product.category_id}/${createSlug(product.name)}/${product.id}`}
+                    className="cursor-pointer"
+                  >
+                    {product.images.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image.url}
+                        alt={`Product Image ${index}`}
+                        className={`${view === 'grid' ? 'mb-4' : 'w-32 h-40 object-cover'} rounded`}
+                      />
+                    ))}
                   </Link>
 
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                  >
-                    Add to Cart
-                  </button>
+                  <div className={`${view === 'grid' ? 'gap-1 items-center' : 'gap-2 justify-center items-start text-left'} flex flex-col`}>
+                    <Link
+                      to={`/shop/${productGender}/${productCategoryName}/${product.category_id}/${createSlug(product.name)}/${product.id}`}
+                      className="cursor-pointer"
+                    >
+                      <h3 className="text-sm font-semibold text-gray-800 mb-1">{product.name}</h3>
+                      <p className="text-xs text-gray-500 mb-2">{product.description}</p>
+                      <div className={`${view === 'grid' ? 'justify-center' : ''} flex items-center space-x-2 mb-2`}>
+                        <span className="text-sm text-green-600 font-semibold">₺{product.price}</span>
+                        <span className="text-xs text-gray-400">Stock: {product.stock}</span>
+                      </div>
+                      <div className={`${view === 'grid' ? 'justify-center' : ''} flex space-x-1 gap-2`}>
+                        <span className="text-yellow-500">
+                          {"★".repeat(Math.round(product.rating))}
+                          {"☆".repeat(5 - Math.round(product.rating))}
+                        </span>
+                        <span className='text-gray-700 font-semibold'>
+                          {product.rating}
+                        </span>
+                      </div>
+                    </Link>
+
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              )})}
+          </div>
 
           {totalPages > 1 && (
             <div className="flex items-center justify-center mt-8 space-x-2 text-sm">
