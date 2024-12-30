@@ -356,7 +356,7 @@ function ShopPage() {
               return (
                 <div 
                   key={product.id}
-                  className={`border border-gray-200 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-gray-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col'} text-center`}
+                  className={`border border-gray-100 rounded p-4 flex min-h-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:border-gray-500 ${view === 'list' ? 'flex-row space-x-4' : 'flex-col justify-between'} text-center`}
                 >
                   <Link 
                     to={`/shop/${productGender}/${productCategoryName}/${product.category_id}/${createSlug(product.name)}/${product.id}`}

@@ -287,7 +287,7 @@ function CreateOrderPage() {
 
     return (
         <PageContent>
-            <div className="px-4 py-6 lg:px-12 font-monts">
+            <div className="px-4 py-6 lg:px-32 font-monts">
                 <div className="flex justify-around mb-6">
                     {steps.map((s) => (
                         <div key={s.step} className="text-center">
@@ -330,7 +330,7 @@ function CreateOrderPage() {
                                             <p>Phone: {addr.phone}</p>
                                             <p>{addr.city}, {addr.district}, {addr.neighborhood}</p>
                                         </div>
-                                        <div className="flex flex-col md:flex-row items-center gap-2 mt-2 md:mt-0">
+                                        <div className="flex items-center gap-2 mt-2 md:mt-0">
                                             <button
                                                 onClick={() => handleSelectAddress(addr.id)}
                                                 className={`px-3 py-1 rounded text-sm ${selectedAddressId === addr.id
@@ -342,7 +342,7 @@ function CreateOrderPage() {
                                             </button>
                                             <button
                                                 onClick={() => handleEditAddress(addr)}
-                                                className="bg-yellow-400 text-white px-3 py-1 rounded text-sm hover:bg-yellow-500"
+                                                className="bg-orange-400 text-white px-3 py-1 rounded text-sm hover:bg-orange-500"
                                             >
                                                 Edit
                                             </button>
@@ -519,7 +519,7 @@ function CreateOrderPage() {
                                             <p>Expires: {cd.expire_month}/{cd.expire_year}</p>
                                             <p>{cd.name_on_card}</p>
                                         </div>
-                                        <div className="flex flex-col md:flex-row items-center gap-2 mt-2 md:mt-0">
+                                        <div className="flex items-center gap-2 mt-2 md:mt-0">
                                             <button
                                                 onClick={() => handleSelectCard(cd.id)}
                                                 className={`px-3 py-1 rounded text-sm ${selectedCardId === cd.id
@@ -531,7 +531,7 @@ function CreateOrderPage() {
                                             </button>
                                             <button
                                                 onClick={() => handleEditCard(cd)}
-                                                className="bg-yellow-400 text-white px-3 py-1 rounded text-sm hover:bg-yellow-500"
+                                                className="bg-orange-400 text-white px-3 py-1 rounded text-sm hover:bg-orange-500"
                                             >
                                                 Edit
                                             </button>

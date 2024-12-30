@@ -70,7 +70,7 @@ const ShoppingCartPage = () => {
 
     return (
         <PageContent>
-            <div className="px-4 py-6 lg:px-12 font-monts">
+            <div className="px-4 py-6 lg:px-32 font-monts">
                 <h1 className="text-2xl font-bold mb-4">Shopping Cart ({cart.length} Items)</h1>
 
                 {cart.length === 0 ? (
