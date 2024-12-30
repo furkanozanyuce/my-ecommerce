@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './redux/actions/clientActions'
-import { fetchCategories, fetchProductList } from './redux/actions/productActions';
+import { fetchCategories } from './redux/actions/productActions';
 import axios from 'axios'
 import ProductDetailPage from './pages/ProductDetailPage'
 import ShoppingCartPage from './pages/ShoppingCartPage'
@@ -20,6 +20,7 @@ import OrderSuccessPage from './pages/OrderSuccessPage'
 import PreviousOrdersPage from './pages/PreviousOrdersPage'
 import ProfilePage from './pages/ProfilePage'
 import TeamsPage from './pages/TeamsPage'
+import ContactPage from './pages/ContactPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -67,7 +68,6 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCategories());
-    dispatch(fetchProductList());
   }, [dispatch]);
 
   if (authLoading) {
@@ -110,6 +110,9 @@ function App() {
         </Route>
         <Route path="/teams">
           <TeamsPage />
+        </Route>
+        <Route path="/contact">
+          <ContactPage />
         </Route>
         <PrivateRoute path="/create-order" component={CreateOrderPage} />
         <PrivateRoute path="/order-success" component={OrderSuccessPage} />
