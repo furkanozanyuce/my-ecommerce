@@ -60,7 +60,7 @@ function Header() {
     }
 
     return (
-        <div className="px-4 font-monts">
+        <div className="px-4 lg:px-28 font-monts">
             <div className="flex justify-between mt-[40px] mx-[30px] mb-[25px]">
                 <div>
                     <button onClick={mainPageHandle}><h3 className="font-bold text-2xl leading-8 tracking-[0.1px] text-[#252B42]">Bandage</h3></button>

@@ -278,7 +278,7 @@ function ShopPage() {
   return (
     <div>
       <PageContent>
-        <div className="px-4 py-6 lg:px-12 font-monts">
+        <div className="px-4 py-6 lg:px-32 font-monts">
           <Categories />
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 mt-2 space-y-4 md:space-y-0">
             <div>

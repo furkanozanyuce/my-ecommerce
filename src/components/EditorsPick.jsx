@@ -9,7 +9,7 @@ const EditorsPick = () => {
   ];
 
   return (
-    <div className="px-4 py-14 lg:px-16 font-monts bg-[#FAFAFA]">
+    <div className="px-4 py-14 lg:px-28 font-monts bg-[#FAFAFA]">
       <div className="text-center mb-8">
         <h2 className="text-[24px] font-bold text-[#252B42] leading-8">
           EDITOR'S PICK
