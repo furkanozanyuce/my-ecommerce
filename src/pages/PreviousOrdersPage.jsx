@@ -72,7 +72,7 @@ function PreviousOrdersPage() {
 
   return (
     <PageContent>
-      <div className="px-4 py-6 lg:px-12 font-monts">
+      <div className="px-4 py-6 lg:px-32 font-monts">
         <h1 className="text-2xl font-bold mb-4">My Previous Orders</h1>
 
         {orders.length === 0 ? (
