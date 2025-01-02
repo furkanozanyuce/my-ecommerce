@@ -4,7 +4,7 @@ function loadCartFromLocalStorage() {
   try {
     const serializedCart = localStorage.getItem("cart");
     if (serializedCart === null) {
-      return []; // no cart found
+      return [];
     }
     return JSON.parse(serializedCart);
   } catch (err) {

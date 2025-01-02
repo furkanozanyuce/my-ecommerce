@@ -15,9 +15,7 @@ function AboutUsPage() {
   return (
     <PageContent>
       <div className="font-monts">
-        {/* Hero Section */}
         <section className="px-4 py-10 lg:py-16 lg:px-12 max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-8">
-          {/* Left Side Text */}
           <div className="lg:w-1/2 space-y-4">
             <Breadcrumb>
               <BreadcrumbList>
@@ -41,11 +39,8 @@ function AboutUsPage() {
             </button>
           </div>
 
-          {/* Right Side with Circles + Image */}
           <div className="relative lg:w-1/2 flex justify-center">
-            {/* Large Pink Circle */}
 
-            {/* Actual image */}
             <img
               src="/images/about0.png"
               alt="Woman with shopping bags"
@@ -54,9 +49,7 @@ function AboutUsPage() {
           </div>
         </section>
 
-        {/* Middle Content Section */}
         <section className="px-4 py-8 lg:px-12 max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Left Text */}
           <div className="space-y-4">
             <h3 className="text-red-500 font-semibold">Problem trying</h3>
             <h2 className="text-2xl lg:text-3xl font-bold">
@@ -69,7 +62,6 @@ function AboutUsPage() {
             </p>
           </div>
 
-          {/* Right Text */}
           <div className="space-y-4">
             <p className="text-gray-600">
               Problem trying to resolve the conflict between the two major
@@ -78,7 +70,6 @@ function AboutUsPage() {
           </div>
         </section>
 
-        {/* Counters Section */}
         <section className="px-4 py-8 lg:px-12 max-w-[1200px] mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           <div>
             <h4 className="text-3xl font-bold">15K</h4>
@@ -98,10 +89,8 @@ function AboutUsPage() {
           </div>
         </section>
 
-        {/* Video Section */}
         <section className="px-4 py-8 lg:px-12 max-w-[1200px] mx-auto">
           <div className="w-full h-[220px] sm:h-[320px] lg:h-[400px] bg-gray-200 rounded-lg relative flex items-center justify-center overflow-hidden">
-            {/* Replace with an actual <video> or clickable image */}
             <iframe
               className="absolute w-full h-full object-cover"
               width="1156"
@@ -117,7 +106,6 @@ function AboutUsPage() {
         </section>
 
         <section className="mt-12 bg-[#F8F8F8]">
-          {/* 1) Brands / Big Companies */}
           <div className="max-w-[1200px] mx-auto px-4 text-center py-10 pb-24 flex flex-col gap-4">
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
               Big Companies Are Here
@@ -127,9 +115,7 @@ function AboutUsPage() {
               realms of Classical physics: Newtonian mechanics
             </p>
 
-            {/* Brand logos - horizontally centered */}
             <div className="flex flex-wrap gap-14 justify-center items-center">
-              {/* Replace with actual brand logo URLs */}
               <img
                 src="images/about3.png"
                 className="w-20 h-auto object-contain"
@@ -157,9 +143,7 @@ function AboutUsPage() {
             </div>
           </div>
 
-          {/* 2) Split Section: Left (blue) & Right (image) */}
           <div className="grid grid-cols-1 md:grid-cols-2 w-full">
-            {/* Left side: Blue background with text + button */}
             <div className="bg-blue-500 text-white px-8 py-12 flex flex-col justify-center text-center md:text-left items-center md:items-start">
               <p className="uppercase text-sm font-semibold mb-2">
                 Work With Us
@@ -177,7 +161,6 @@ function AboutUsPage() {
               </button>
             </div>
 
-            {/* Right side: Image */}
             <div className="hidden md:block w-full h-full">
               <img
                 src="images/about2.jpg"

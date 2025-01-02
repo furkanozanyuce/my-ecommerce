@@ -44,7 +44,6 @@ function TeamsPage() {
   return (
     <PageContent>
       <div className="font-monts">
-        {/* HERO SECTION */}
         <section className="flex flex-col items-center">
           <h2 className="text-md font-bold text-gray-500 text-center pt-12 mb-6">
             WHAT WE DO
@@ -52,8 +51,6 @@ function TeamsPage() {
           <h1 className="text-3xl font-bold text-center mb-6">
             Innovation tailored for you
           </h1>
-          {/* Breadcrumb or subtext */}
-
           <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -66,10 +63,7 @@ function TeamsPage() {
           </BreadcrumbList>
         </Breadcrumb>
 
-          {/* Hero Grid of Images */}
           <section className="w-full h-auto overflow-hidden">
-            {/* By default: 1 column, everything stacks top-to-bottom 
-      On md and up: 3 columns, 2 rows, gap of 2 (or 4 on lg) */}
             <div
               className="
     grid
@@ -80,8 +74,6 @@ function TeamsPage() {
     lg:gap-4
   "
             >
-              {/* 1) Tall left image (on md: spans 2 rows, 1 col).
-        On mobile, it just sits on top in the first row. */}
               <div className="md:row-span-2 md:col-span-1">
                 <img
                   src="images/teams1.jpg"
@@ -90,8 +82,6 @@ function TeamsPage() {
                 />
               </div>
 
-              {/* Next four images. On mobile, each sits below the previous in one column.
-       On md, they occupy the right two columns in a 2×2 arrangement. */}
               <div className="max-h-[300px]">
                 <img
                   src="images/teams2.jpg"
@@ -124,7 +114,6 @@ function TeamsPage() {
           </section>
         </section>
 
-        {/* TEAM SECTION */}
         <section className="px-4 py-8 lg:py-14 lg:px-12 max-w-[1200px] mx-auto">
           <h2 className="text-2xl lg:text-3xl font-bold text-center mb-8">
             Meet Our Team
@@ -141,7 +130,6 @@ function TeamsPage() {
                   key={idx}
                   className="flex flex-col items-center text-center space-y-3 border p-4 rounded-lg transition transform hover:scale-105 hover:shadow-lg"
                 >
-                  {/* Member Photo */}
                   <img
                     src={
                       member.image ||
@@ -150,12 +138,10 @@ function TeamsPage() {
                     alt={member.name}
                     className="w-40 h-40 object-cover rounded-full mb-2"
                   />
-                  {/* Name + Role */}
                   <div>
                     <h3 className="font-semibold text-lg">{member.name}</h3>
                     <p className="text-sm text-gray-500">{member.role}</p>
                   </div>
-                  {/* Socials: LinkedIn & GitHub */}
                   <div className="flex gap-4 justify-center text-blue-600 mt-2">
                     {member.socials?.linkedin && (
                       <a
@@ -185,35 +171,28 @@ function TeamsPage() {
         </section>
         <section className="bg-white py-8 lg:py-12">
           <div className="max-w-[1200px] mx-auto px-4 text-center">
-            {/* Headline */}
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
               Start your 14 days free trial
             </h2>
 
-            {/* Subtitle */}
             <p className="text-gray-600 max-w-md mx-auto mb-6">
               Met minim Mollie non desert Alamo est sit cliquey dolor do met
               sent. RELIT official consequat.
             </p>
 
-            {/* Button */}
             <button className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 transition mb-6">
               Try it free now
             </button>
 
-            {/* Social Icons */}
             <div className="flex gap-4 justify-center text-blue-600">
-              {/* Twitter */}
               <a href="#" className="hover:text-blue-800" aria-label="Twitter">
                 <Twitter className="w-5 h-5" />
               </a>
 
-              {/* Facebook */}
               <a href="#" className="hover:text-blue-800" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
 
-              {/* Instagram */}
               <a
                 href="#"
                 className="hover:text-blue-800"
@@ -222,7 +201,6 @@ function TeamsPage() {
                 <Instagram className="w-5 h-5" />
               </a>
 
-              {/* LinkedIn */}
               <a href="#" className="hover:text-blue-800" aria-label="LinkedIn">
                 <Linkedin className="w-5 h-5" />
               </a>

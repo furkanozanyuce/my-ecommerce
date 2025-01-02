@@ -147,7 +147,6 @@ function ProductDetailPage() {
           <p className="text-gray-600">{product.description}</p>
         </div>
         <div className="flex flex-wrap gap-8 justify-center items-center pt-8">
-          {/* Replace with actual brand logo URLs */}
           <img src="/images/about3.png" className="w-20 h-auto object-contain" />
           <img src="/images/about4.png" className="w-16 h-auto object-contain" />
           <img src="/images/about5.png" className="w-20 h-auto object-contain" />

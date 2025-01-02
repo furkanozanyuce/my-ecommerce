@@ -36,7 +36,6 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      // No token => no user => done loading
       setAuthLoading(false);
       return;
     }
