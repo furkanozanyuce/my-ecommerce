@@ -14,9 +14,8 @@ function AboutUsPage() {
             <h2 className="text-3xl lg:text-4xl font-bold leading-tight">
               ABOUT US
             </h2>
-            <p className="text-gray-700 max-w-md">
-              We know how large objects will act, but things on a small scale do
-              not act that way.
+            <p className="text-gray-700 max-w-64">
+              We know how large objects will act, but things on a small scale
             </p>
             <button className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 transition">
               Get Quote Now
@@ -99,9 +98,9 @@ function AboutUsPage() {
           </div>
         </section>
 
-        <section className="mt-12">
+        <section className="mt-12 bg-[#F8F8F8]">
           {/* 1) Brands / Big Companies */}
-          <div className="max-w-[1200px] mx-auto px-4 text-center py-8">
+          <div className="max-w-[1200px] mx-auto px-4 text-center py-10 pb-24 flex flex-col gap-4">
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
               Big Companies Are Here
             </h2>
@@ -111,7 +110,7 @@ function AboutUsPage() {
             </p>
 
             {/* Brand logos - horizontally centered */}
-            <div className="flex flex-wrap gap-8 justify-center items-center">
+            <div className="flex flex-wrap gap-14 justify-center items-center">
               {/* Replace with actual brand logo URLs */}
               <img
                 src="images/about3.png"
