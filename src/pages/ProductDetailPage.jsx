@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import PageContent from "../layout/PageContent";
 import { useParams, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchProduct } from '../redux/actions/productActions';
-import { addToCart } from '@/redux/actions/shoppingCartActions';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProduct } from "../redux/actions/productActions";
+import { addToCart } from "@/redux/actions/shoppingCartActions";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 
 function ProductDetailPage() {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function ProductDetailPage() {
     dispatch(fetchProduct(productId));
   }, [dispatch, productId]);
 
-  if (fetchState === 'FETCHING') {
+  if (fetchState === "FETCHING") {
     return (
       <PageContent>
         <div className="flex justify-center items-center h-64">
@@ -33,7 +33,7 @@ function ProductDetailPage() {
     );
   }
 
-  if (fetchState === 'ERROR' || !selectedProduct) {
+  if (fetchState === "ERROR" || !selectedProduct) {
     return (
       <PageContent>
         <div className="p-4">
@@ -123,7 +123,10 @@ function ProductDetailPage() {
               </span>
             </p>
             <p className="text-gray-600 mb-4">{product.description}</p>
-            <button onClick={handleAddToCart} className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
+            <button
+              onClick={handleAddToCart}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded"
+            >
               Add to Cart
             </button>
           </div>
@@ -141,9 +144,16 @@ function ProductDetailPage() {
               Reviews (0)
             </button>
           </div>
-          <p className="text-gray-600">
-            {product.description}
-          </p>
+          <p className="text-gray-600">{product.description}</p>
+        </div>
+        <div className="flex flex-wrap gap-8 justify-center items-center pt-8">
+          {/* Replace with actual brand logo URLs */}
+          <img src="/images/about3.png" className="w-20 h-auto object-contain" />
+          <img src="/images/about4.png" className="w-16 h-auto object-contain" />
+          <img src="/images/about5.png" className="w-20 h-auto object-contain" />
+          <img src="/images/about6.png" className="w-16 h-auto object-contain" />
+          <img src="/images/about7.png" className="w-16 h-auto object-contain" />
+          <img src="/images/about8.png" className="w-16 h-auto object-contain" />
         </div>
       </div>
     </PageContent>
