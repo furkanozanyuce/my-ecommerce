@@ -1,6 +1,11 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const EditorsPick = () => {
+  const history = useHistory();
+    const handleClick = () => {
+        history.push("/shop");
+      };
   const categories = [
     { id: 1, title: "MEN", img: "/images/pick1.jpg" },
     { id: 2, title: "WOMEN", img: "/images/pick2.jpg" },
@@ -25,7 +30,7 @@ const EditorsPick = () => {
             src={categories[0].img}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
-          <button className="absolute bottom-4 left-4 bg-white text-[#252B42] font-bold text-[16px] leading-6 px-14 py-2 shadow-md group-hover:bg-[#252B42] group-hover:text-white transition-colors duration-300">
+          <button onClick={handleClick} className="absolute bottom-4 left-4 bg-white text-[#252B42] font-bold text-[16px] leading-6 px-14 py-2 shadow-md group-hover:bg-[#252B42] group-hover:text-white transition-colors duration-300">
             {categories[0].title}
           </button>
         </div>
@@ -34,7 +39,7 @@ const EditorsPick = () => {
             src={categories[1].img}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
-          <button className="absolute bottom-4 left-4 bg-white text-[#252B42] font-bold text-[16px] leading-6 px-10 py-2 shadow-md group-hover:bg-[#252B42] group-hover:text-white transition-colors duration-300">
+          <button onClick={handleClick} className="absolute bottom-4 left-4 bg-white text-[#252B42] font-bold text-[16px] leading-6 px-10 py-2 shadow-md group-hover:bg-[#252B42] group-hover:text-white transition-colors duration-300">
             {categories[1].title}
           </button>
         </div>
@@ -44,7 +49,7 @@ const EditorsPick = () => {
               src={category.img}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             />
-            <button className="absolute bottom-4 left-4 bg-white text-[#252B42] font-bold text-[16px] leading-6 px-6 py-2 shadow-md group-hover:bg-[#252B42] group-hover:text-white transition-colors duration-300">
+            <button onClick={handleClick} className="absolute bottom-4 left-4 bg-white text-[#252B42] font-bold text-[16px] leading-6 px-6 py-2 shadow-md group-hover:bg-[#252B42] group-hover:text-white transition-colors duration-300">
               {category.title}
             </button>
           </div>

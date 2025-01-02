@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button"
+import { useHistory } from "react-router-dom";
 
 function Slider({ slides }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideCount = slides.length;
+  const history = useHistory();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,6 +21,10 @@ function Slider({ slides }) {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? slideCount - 1 : prev - 1));
+  };
+
+  const handleClick = () => {
+    history.push("/shop");
   };
 
   return (
@@ -50,7 +56,7 @@ function Slider({ slides }) {
                     {slide.description}
                   </p>
                   <div className="md:flex gap-6">
-                    <Button variant="mine" size="mine">
+                    <Button onClick={handleClick} variant="mine" size="mine">
                       {slide.buttonText}
                     </Button>
                     <p className="text-2xl sm:text-4xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
