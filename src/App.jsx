@@ -21,6 +21,7 @@ import PreviousOrdersPage from './pages/PreviousOrdersPage'
 import ProfilePage from './pages/ProfilePage'
 import TeamsPage from './pages/TeamsPage'
 import ContactPage from './pages/ContactPage'
+import AboutUsPage from './pages/AboutUsPage'
 
 const axiosInstance = axios.create({
   baseURL: 'https://workintech-fe-ecommerce.onrender.com',
@@ -113,6 +114,9 @@ function App() {
         </Route>
         <Route path="/contact">
           <ContactPage />
+        </Route>
+        <Route path="/about">
+          <AboutUsPage />
         </Route>
         <PrivateRoute path="/create-order" component={CreateOrderPage} />
         <PrivateRoute path="/order-success" component={OrderSuccessPage} />
