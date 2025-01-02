@@ -97,7 +97,9 @@ function PreviousOrdersPage() {
                       <td className="px-4 py-2">
                         {new Date(order.order_date).toLocaleString()}
                       </td>
-                      <td className="px-4 py-2">₺{order.price.toFixed(2)}</td>
+                      <td className="px-4 py-2">
+                        ₺{(order.price || 0).toFixed(2)}
+                      </td>
                       <td className="px-4 py-2">
                         <button
                           onClick={() => toggleOrderDetails(order.id)}
@@ -130,9 +132,7 @@ function PreviousOrdersPage() {
                                   )}
 
                                   <div className="flex-1">
-                                    <p className="font-semibold">
-                                      {prod.name}
-                                    </p>
+                                    <p className="font-semibold">{prod.name}</p>
                                     <p className="text-sm text-gray-600">
                                       {prod.description}
                                     </p>
@@ -144,6 +144,19 @@ function PreviousOrdersPage() {
                                       x {prod.count} = ₺
                                       {(prod.price * prod.count).toFixed(2)}
                                     </p>
+                                  </div>
+                                  <div className="flex flex-col gap-2 flex-1">
+                                    <p className="font-semibold">Ödeme Bilgileri:</p>
+                                    <div>
+                                    <p>{order.card_name}</p>
+                                    <p>{order.card_no}</p>
+                                    <div className="flex gap-2">
+                                    <p>{order.card_expire_month}</p>
+                                    <p>/</p>
+                                    <p>{order.card_expire_year}</p>
+                                    </div>
+
+                                    </div>
                                   </div>
                                 </div>
                               ))}
