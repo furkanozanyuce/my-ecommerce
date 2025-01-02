@@ -17,6 +17,7 @@ function PreviousOrdersPage() {
   const history = useHistory();
 
   const [orders, setOrders] = useState([]);
+  const [userAddresses, setUserAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,6 +29,7 @@ function PreviousOrdersPage() {
       return;
     }
     fetchOrders();
+    fetchAddress();
   }, [user, history]);
 
   const fetchOrders = async () => {
@@ -39,6 +41,20 @@ function PreviousOrdersPage() {
     } catch (err) {
       console.error("Error fetching orders:", err);
       setError("Error fetching orders");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAddress = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axiosInstance.get("/user/address");
+      setUserAddresses(res.data);
+    } catch (err) {
+      console.error("Error fetching address:", err);
+      setError("Error fetching address");
     } finally {
       setLoading(false);
     }
@@ -109,6 +125,9 @@ function PreviousOrdersPage() {
             </thead>
             <tbody>
               {orders.map((order) => {
+                const address = userAddresses.find(
+                  (addr) => addr.id === order.address_id
+                );
                 const isOpen = openOrderIds.includes(order.id);
                 return (
                   <React.Fragment key={order.id}>
@@ -171,13 +190,39 @@ function PreviousOrdersPage() {
                                     </p>
                                     <div>
                                       <p>{order.card_name}</p>
-                                      <p>{order.card_no}</p>
+                                      <p>
+                                        **** **** ****{" "}
+                                        {String(order.card_no).slice(-4)}
+                                      </p>
                                       <div className="flex gap-2">
                                         <p>{order.card_expire_month}</p>
                                         <p>/</p>
                                         <p>{order.card_expire_year}</p>
                                       </div>
                                     </div>
+                                  </div>
+                                  <div className="flex flex-col gap-2 flex-1">
+                                    {address && (
+                                      <div className="flex flex-col gap-2 justify-center">
+                                        <h4 className="font-semibold mb-2">
+                                          Adres Bilgileri:
+                                        </h4>
+                                        <div>
+                                          <p className="text-gray-700">
+                                            {address.title}
+                                          </p>
+                                          <p className="text-gray-600 text-sm">
+                                            {address.neighborhood}
+                                          </p>
+                                          <p className="text-gray-600 text-sm">
+                                            {address.address}
+                                          </p>
+                                          <p className="text-gray-600 text-sm">
+                                            {address.city} / {address.district}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               ))}
