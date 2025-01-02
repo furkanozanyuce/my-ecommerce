@@ -23,7 +23,7 @@ function HomePage() {
             description: "Discover our winter collection with amazing discounts.",
             buttonText: "SHOP NOW",
             image:
-                "/images/slider1.jpg",
+                "/images/slider2.jpg",
         },
     ];
 
@@ -47,7 +47,7 @@ function HomePage() {
             buttonText: "ADD TO CARD",
             price: "$16.48",
             image:
-                "/images/slider2.jpg",
+                "/images/slider1.jpg",
         },
     ];
 

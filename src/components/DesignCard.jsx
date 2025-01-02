@@ -1,7 +1,12 @@
 import React from 'react';
 import { Button } from "@/components/ui/button"
+import { useHistory } from 'react-router-dom';
 
 const DesignCard = () => {
+    const history = useHistory();
+    const handleClick = () => {
+        history.push("/shop");
+      };
     return (
         <div className="relative w-full font-monts">
             <div className="overflow-hidden">
@@ -22,10 +27,10 @@ const DesignCard = () => {
                             We know how large objects will act, but things on a small scale.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-6">
-                            <Button variant="mine" size="mine">
+                            <Button onClick={handleClick} variant="mine" size="mine">
                                 BUY NOW
                             </Button>
-                            <Button variant="mineAlso" size="mine">
+                            <Button onClick={handleClick} variant="mineAlso" size="mine">
                                 READ MORE
                             </Button>
                         </div>

@@ -3,12 +3,21 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PageContent from "@/layout/PageContent";
 import axiosInstance from "@/redux/axiosInstance";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 function PreviousOrdersPage() {
   const user = useSelector((state) => state.client.user);
   const history = useHistory();
 
   const [orders, setOrders] = useState([]);
+  const [userAddresses, setUserAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,6 +29,7 @@ function PreviousOrdersPage() {
       return;
     }
     fetchOrders();
+    fetchAddress();
   }, [user, history]);
 
   const fetchOrders = async () => {
@@ -31,6 +41,20 @@ function PreviousOrdersPage() {
     } catch (err) {
       console.error("Error fetching orders:", err);
       setError("Error fetching orders");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAddress = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axiosInstance.get("/user/address");
+      setUserAddresses(res.data);
+    } catch (err) {
+      console.error("Error fetching address:", err);
+      setError("Error fetching address");
     } finally {
       setLoading(false);
     }
@@ -72,7 +96,19 @@ function PreviousOrdersPage() {
 
   return (
     <PageContent>
-      <div className="px-4 py-6 lg:px-12 font-monts">
+      <div className="px-4 py-6 lg:px-32 font-monts">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Orders</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <h1 className="text-2xl font-bold mb-4">My Previous Orders</h1>
 
         {orders.length === 0 ? (
@@ -89,6 +125,9 @@ function PreviousOrdersPage() {
             </thead>
             <tbody>
               {orders.map((order) => {
+                const address = userAddresses.find(
+                  (addr) => addr.id === order.address_id
+                );
                 const isOpen = openOrderIds.includes(order.id);
                 return (
                   <React.Fragment key={order.id}>
@@ -97,7 +136,9 @@ function PreviousOrdersPage() {
                       <td className="px-4 py-2">
                         {new Date(order.order_date).toLocaleString()}
                       </td>
-                      <td className="px-4 py-2">₺{order.price.toFixed(2)}</td>
+                      <td className="px-4 py-2">
+                        ₺{(order.price || 0).toFixed(2)}
+                      </td>
                       <td className="px-4 py-2">
                         <button
                           onClick={() => toggleOrderDetails(order.id)}
@@ -130,9 +171,7 @@ function PreviousOrdersPage() {
                                   )}
 
                                   <div className="flex-1">
-                                    <p className="font-semibold">
-                                      {prod.name}
-                                    </p>
+                                    <p className="font-semibold">{prod.name}</p>
                                     <p className="text-sm text-gray-600">
                                       {prod.description}
                                     </p>
@@ -144,6 +183,46 @@ function PreviousOrdersPage() {
                                       x {prod.count} = ₺
                                       {(prod.price * prod.count).toFixed(2)}
                                     </p>
+                                  </div>
+                                  <div className="flex flex-col gap-2 flex-1">
+                                    <p className="font-semibold">
+                                      Ödeme Bilgileri:
+                                    </p>
+                                    <div>
+                                      <p>{order.card_name}</p>
+                                      <p>
+                                        **** **** ****{" "}
+                                        {String(order.card_no).slice(-4)}
+                                      </p>
+                                      <div className="flex gap-2">
+                                        <p>{order.card_expire_month}</p>
+                                        <p>/</p>
+                                        <p>{order.card_expire_year}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col gap-2 flex-1">
+                                    {address && (
+                                      <div className="flex flex-col gap-2 justify-center">
+                                        <h4 className="font-semibold mb-2">
+                                          Adres Bilgileri:
+                                        </h4>
+                                        <div>
+                                          <p className="text-gray-700">
+                                            {address.title}
+                                          </p>
+                                          <p className="text-gray-600 text-sm">
+                                            {address.neighborhood}
+                                          </p>
+                                          <p className="text-gray-600 text-sm">
+                                            {address.address}
+                                          </p>
+                                          <p className="text-gray-600 text-sm">
+                                            {address.city} / {address.district}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               ))}

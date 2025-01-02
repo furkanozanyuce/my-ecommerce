@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const products = [
   {
@@ -74,7 +75,7 @@ const ProductCard = () => {
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">BESTSELLER PRODUCTS</h1>
         <p className="text-center text-gray-600 mb-8">Problems trying to resolve the conflict between</p>
   
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+        <Link to="/shop" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
           {products.map((product, index) => (
             <div 
               key={index}
@@ -106,7 +107,7 @@ const ProductCard = () => {
               </div>
             </div>
           ))}
-        </div>
+        </Link>
       </div>
     );
   };
