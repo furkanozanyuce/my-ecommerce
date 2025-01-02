@@ -32,7 +32,9 @@ import {
 function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.success("Your message has been sent successfully!");
+    toast.success("Your message has been sent successfully!", {
+      autoClose: 2000,
+    });
   };
 
   return (
@@ -251,7 +253,7 @@ function ContactPage() {
                         id="name"
                         name="name"
                         placeholder="Your Name"
-                        className="px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
                     </div>
@@ -267,7 +269,7 @@ function ContactPage() {
                         id="email"
                         name="email"
                         placeholder="you@example.com"
-                        className="w-full px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
                     </div>
@@ -283,7 +285,7 @@ function ContactPage() {
                         id="subject"
                         name="subject"
                         placeholder="Subject"
-                        className="w-full px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
                     </div>
@@ -299,7 +301,7 @@ function ContactPage() {
                         name="message"
                         rows="5"
                         placeholder="Your message..."
-                        className="w-full px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 min-w-60 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       ></textarea>
                     </div>
@@ -308,7 +310,7 @@ function ContactPage() {
                     <SheetClose asChild>
                       <button
                         onClick={handleSubmit}
-                        className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+                        className="w-full py-2 px-4 bg-[#23A6F0] text-white rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
                       >
                         Send Message
                       </button>
