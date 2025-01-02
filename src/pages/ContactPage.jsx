@@ -20,6 +20,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { toast } from "react-toastify";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 function ContactPage() {
   const handleSubmit = async (e) => {
@@ -34,6 +42,17 @@ function ContactPage() {
         <section className="max-w-[1200px] mx-auto px-4 py-10 lg:py-14 flex flex-col lg:flex-row items-center gap-10">
           {/* Left Side Text */}
           <div className="lg:w-1/2 space-y-4 text-black flex flex-col gap-2">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Contact</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
             <p className="uppercase text-sm font-semibold text-gray-500">
               Contact Us
             </p>

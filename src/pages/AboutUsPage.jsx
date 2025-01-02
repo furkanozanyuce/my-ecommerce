@@ -2,6 +2,14 @@
 
 import PageContent from "@/layout/PageContent";
 import React from "react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 function AboutUsPage() {
   return (
@@ -11,6 +19,17 @@ function AboutUsPage() {
         <section className="px-4 py-10 lg:py-16 lg:px-12 max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-8">
           {/* Left Side Text */}
           <div className="lg:w-1/2 space-y-4">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>About</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
             <h2 className="text-3xl lg:text-4xl font-bold leading-tight">
               ABOUT US
             </h2>
@@ -25,7 +44,6 @@ function AboutUsPage() {
           {/* Right Side with Circles + Image */}
           <div className="relative lg:w-1/2 flex justify-center">
             {/* Large Pink Circle */}
-            
 
             {/* Actual image */}
             <img

@@ -3,6 +3,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PageContent from "@/layout/PageContent";
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react"; // lucide-react icons
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
 
 function TeamsPage() {
   const [members, setMembers] = useState([]);
@@ -36,7 +45,7 @@ function TeamsPage() {
     <PageContent>
       <div className="font-monts">
         {/* HERO SECTION */}
-        <section className="">
+        <section className="flex flex-col items-center">
           <h2 className="text-md font-bold text-gray-500 text-center pt-12 mb-6">
             WHAT WE DO
           </h2>
@@ -44,6 +53,18 @@ function TeamsPage() {
             Innovation tailored for you
           </h1>
           {/* Breadcrumb or subtext */}
+
+          <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Team</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
 
           {/* Hero Grid of Images */}
           <section className="w-full h-auto overflow-hidden">

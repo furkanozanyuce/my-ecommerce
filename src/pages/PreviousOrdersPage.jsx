@@ -3,6 +3,14 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PageContent from "@/layout/PageContent";
 import axiosInstance from "@/redux/axiosInstance";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 function PreviousOrdersPage() {
   const user = useSelector((state) => state.client.user);
@@ -73,6 +81,18 @@ function PreviousOrdersPage() {
   return (
     <PageContent>
       <div className="px-4 py-6 lg:px-32 font-monts">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Orders</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <h1 className="text-2xl font-bold mb-4">My Previous Orders</h1>
 
         {orders.length === 0 ? (
@@ -146,16 +166,17 @@ function PreviousOrdersPage() {
                                     </p>
                                   </div>
                                   <div className="flex flex-col gap-2 flex-1">
-                                    <p className="font-semibold">Ödeme Bilgileri:</p>
+                                    <p className="font-semibold">
+                                      Ödeme Bilgileri:
+                                    </p>
                                     <div>
-                                    <p>{order.card_name}</p>
-                                    <p>{order.card_no}</p>
-                                    <div className="flex gap-2">
-                                    <p>{order.card_expire_month}</p>
-                                    <p>/</p>
-                                    <p>{order.card_expire_year}</p>
-                                    </div>
-
+                                      <p>{order.card_name}</p>
+                                      <p>{order.card_no}</p>
+                                      <div className="flex gap-2">
+                                        <p>{order.card_expire_month}</p>
+                                        <p>/</p>
+                                        <p>{order.card_expire_year}</p>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
