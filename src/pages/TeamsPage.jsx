@@ -1,4 +1,3 @@
-// src/pages/TeamsPage.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PageContent from "@/layout/PageContent";
@@ -14,32 +13,88 @@ import {
 
 
 function TeamsPage() {
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [members, setMembers] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
-  // 1) On mount, fetch the members from the provided endpoint
-  useEffect(() => {
-    fetchMembers();
-  }, []);
-
-  const fetchMembers = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get(
-        "https://68c1d169-3085-4a16-bba8-1b823fd15611.mock.pstmn.io/teams"
-      );
-      // The API returns { members: [ ... ] }
-      const data = response.data;
-      setMembers(data.members || []);
-    } catch (err) {
-      console.error("Error fetching team members:", err);
-      setError("Failed to load team data.");
-    } finally {
-      setLoading(false);
+  const members = [
+    {
+        name: "Rick Sanchez",
+        role: "Megagenius Scientist",
+        image: "https://static.tvtropes.org/pmwiki/pub/images/abcb6534_7913_4eb1_a7a5_62b081ebc628.png",
+        socials: {
+            linkedin: "#",
+            github: "#"
+        }
+    },
+    {
+        name: "Gökhan Özdemir",
+        role: "Scrum Master",
+        image: "https://www.workintech.com.tr/team/gokhanozdemir.webp",
+        socials: {
+            linkedin: "https://www.linkedin.com/in/gnozdemir/",
+            github: "https://github.com/gokhanozdemir"
+        }
+    },
+    {
+        name: "Furkan Ozan Yüce",
+        role: "Full Stack Developer",
+        image: "https://ca.slack-edge.com/T046N0ZLKU4-U07M4JJQ8MB-a6f56504a740-512",
+        socials: {
+            linkedin: "https://www.linkedin.com/in/furkan-ozan-yuce/",
+            github: "https://github.com/furkanozanyuce"
+        }
+    },
+    {
+        name: "Semih Ömer Baltacı",
+        role: "Front-End Developer",
+        image: "https://media.licdn.com/dms/image/v2/D5603AQFVccVo2MgpIg/profile-displayphoto-shrink_200_200/B56ZQKaNMLGQAY-/0/1735341430289?e=1741219200&v=beta&t=e7zJHDsZ0wCqizeIlAbrNLXhJH50Axs5ss78xA92EbE",
+        socials: {
+            linkedin: "https://www.linkedin.com/in/semih-%C3%B6mer-baltac%C4%B1-144971340/",
+            github: "https://github.com/Semih-Omer-Baltaci"
+        }
+    },
+    {
+        name: "Berk Karademir",
+        role: "Full Stack Developer",
+        image: "https://avatars.githubusercontent.com/u/182853888?v=4",
+        socials: {
+            linkedin: "https://www.linkedin.com/in/berk-karademir/",
+            github: "https://github.com/berk-karademir"
+        }
+    },
+    {
+        name: "Naim Kahyaoğlu",
+        role: "Full Stack Developer",
+        image: "https://cooltrade.vercel.app/assets/naimprofil-D6zMTQji.jpg",
+        socials: {
+            linkedin: "https://www.linkedin.com/in/naim-kahyaoglu-8a0000236/",
+            github: "https://github.com/Naim-Kahyaoglu"
+        }
     }
-  };
+]
+
+  // useEffect(() => {
+  //   fetchMembers();
+  // }, []);
+
+  // const fetchMembers = async () => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await axios.get(
+  //       "https://68c1d169-3085-4a16-bba8-1b823fd15611.mock.pstmn.io/teams"
+  //     );
+  //     // The API returns { members: [ ... ] }
+  //     const data = response.data;
+  //     setMembers(data.members || []);
+  //   } catch (err) {
+  //     console.error("Error fetching team members:", err);
+  //     setError("Failed to load team data.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <PageContent>
@@ -82,28 +137,28 @@ function TeamsPage() {
                 />
               </div>
 
-              <div className="max-h-[300px]">
+              <div className="max-h-[350px]">
                 <img
                   src="images/teams2.jpg"
                   alt="Top Right 1"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="max-h-[300px]">
+              <div className="max-h-[350px]">
                 <img
                   src="images/teams3.jpg"
                   alt="Top Right 2"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="max-h-[300px]">
+              <div className="max-h-[350px]">
                 <img
                   src="images/teams4.jpg"
                   alt="Bottom Right 1"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="max-h-[300px]">
+              <div className="max-h-[350px]">
                 <img
                   src="images/teams5.jpg"
                   alt="Bottom Right 2"
@@ -119,11 +174,11 @@ function TeamsPage() {
             Meet Our Team
           </h2>
 
-          {loading ? (
+          {/* {loading ? (
             <p className="text-center">Loading team members...</p>
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
-          ) : (
+          ) : ( */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {members.map((member, idx) => (
                 <div
@@ -167,7 +222,7 @@ function TeamsPage() {
                 </div>
               ))}
             </div>
-          )}
+          {/* )} */}
         </section>
         <section className="bg-white py-8 lg:py-12">
           <div className="max-w-[1200px] mx-auto px-4 text-center">
