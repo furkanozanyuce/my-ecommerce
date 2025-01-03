@@ -40,9 +40,7 @@ function ContactPage() {
   return (
     <PageContent>
       <div className="font-monts">
-        {/* 1) Hero Section */}
         <section className="max-w-[1200px] mx-auto px-4 py-10 lg:py-14 flex flex-col lg:flex-row items-center gap-10">
-          {/* Left Side Text */}
           <div className="lg:w-1/2 space-y-4 text-black flex flex-col gap-2">
             <Breadcrumb>
               <BreadcrumbList>
@@ -65,15 +63,12 @@ function ContactPage() {
               We know how large objects will act, but things on a small scale
             </p>
 
-            {/* Phone / Fax */}
             <div className="space-y-1 mt-4">
               <p className="font-bold text-lg">Phone: +451 215 215</p>
               <p className="font-bold text-lg">Fax: +451 215 215</p>
             </div>
 
-            {/* Social Icons */}
             <div className="flex gap-4 items-center mt-3 text-black">
-              {/* Tailwind placeholders for social icons: e.g. Twitter, Facebook, Instagram, LinkedIn */}
               <a href="#" className="hover:text-gray-700">
                 <Twitter />
               </a>
@@ -89,9 +84,7 @@ function ContactPage() {
             </div>
           </div>
 
-          {/* Right Side with image + circles behind */}
           <div className="relative lg:w-1/2 flex justify-center">
-            {/* Actual image */}
             <img
               src="/images/contact2.png"
               alt="Family with shopping bags"
@@ -100,9 +93,7 @@ function ContactPage() {
           </div>
         </section>
 
-        {/* 2) Middle Office/Support Section */}
         <section className="max-w-[1200px] mx-auto px-4 py-10 text-center space-y-6">
-          {/* Title / Subtitle */}
           <p className="uppercase text-sm font-semibold text-gray-400">
             Visit Our Office
           </p>
@@ -110,9 +101,7 @@ function ContactPage() {
             We help small businesses with big ideas
           </h2>
 
-          {/* 3 column grid for contact cards (phone / location / email) */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {/* Card 1: Phone */}
             <div className="flex flex-col items-center justify-center p-6 space-y-5 hover:shadow-lg transition">
               <Phone className="w-14 h-14 text-[#23A6F0]" />
               <div className="text-gray-600 text-sm">
@@ -216,7 +205,6 @@ function ContactPage() {
               </Sheet>
             </div>
 
-            {/* Card 2: MapPin (center) */}
             <div className="flex flex-col items-center justify-center bg-[#252B42] min-h-96 text-white p-6 space-y-5 hover:shadow-lg transition">
               <MapPin className="w-14 h-14 text-[#23A6F0]" />
               <div className="text-sm">
@@ -320,7 +308,6 @@ function ContactPage() {
               </Sheet>
             </div>
 
-            {/* Card 3: Mail */}
             <div className="flex flex-col items-center justify-center p-6 space-y-5 hover:shadow-lg transition">
               <Mail className="w-14 h-14 text-[#23A6F0]" />
               <div className="text-gray-600 text-sm">
@@ -426,7 +413,6 @@ function ContactPage() {
           </div>
         </section>
 
-        {/* 3) Bottom CTA */}
         <section className="max-w-[1200px] mx-auto px-4 py-10 text-center space-y-4">
           <div className="flex flex-col items-center space-y-4">
             <img src="/images/arrow.png" />
